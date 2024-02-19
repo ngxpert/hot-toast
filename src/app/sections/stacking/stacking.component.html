@@ -1,0 +1,69 @@
+<div class="my-14" id="stacking">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#stacking"> 🔗 </a></small>
+    Stacking
+  </h2>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    <div class="sm:col-span-1 md:col-span-1">
+      <app-button-group [buttons]="stackingButtons" [selectedValue]="stacking"></app-button-group>
+      <p class="mt-1 mb-2 text-sm text-toast-800">
+        Setting <b><code>stacking</code></b> can help achieving desired stacking for hot-toasts.
+      </p>
+      <p class="mb-2 text-sm text-toast-800">
+        Use the
+        <b><code>visibleToasts</code></b> option to control number of visible toasts, defaults to <b>5</b>. See it in action by setting value
+        in below input!
+      </p>
+      <input
+        [(ngModel)]="visibleToasts"
+        type="number"
+        name="visibleToasts"
+        id="visibleToasts"
+        class="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        placeholder="Set visibleCounts"
+      />
+      <h3 class="my-4 text-md bg-toast-100 p-4 rounded-2xl p-4">
+        💡 For better <b><code>stacking: "depth"</code></b> effect, keep size of all your toasts same!
+      </h3>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="snippet" containerClass="p-2"></app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="ml-5 mr-5 mb-4 text-md bg-toast-200 p-4 rounded-2xl p-4">
+        👉 You can also set stacking through service in your component
+      </h3>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="serviceSnippet" containerClass="p-2"></app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

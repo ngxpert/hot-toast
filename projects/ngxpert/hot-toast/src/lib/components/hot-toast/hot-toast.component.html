@@ -1,0 +1,49 @@
+<div
+  class="hot-toast-bar-base-container"
+  [ngStyle]="containerPositionStyle"
+  [ngClass]="'hot-toast-theme-' + toast.theme"
+  [style.--hot-toast-scale]="scale"
+  [style.--hot-toast-translate-y]="translateY"
+>
+  <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
+    <div
+      class="hot-toast-bar-base"
+      #hotToastBarBase
+      [ngStyle]="toastBarBaseStyles"
+      [ngClass]="toast.className"
+      [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
+      [style.--hot-toast-exit-animation-state]="isShowingAllToasts ? 'paused' : 'running'"
+      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay"
+      [attr.aria-live]="toast.ariaLive"
+      [attr.role]="toast.role"
+    >
+      <div class="hot-toast-icon" aria-hidden="true">
+        @if (toast.icon !== undefined) { @if (isIconString) {
+        <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
+        } @else {
+        <div>
+          <ng-container *dynamicView="toast.icon"></ng-container>
+        </div>
+        } } @else {
+        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
+        }
+      </div>
+
+      <div class="hot-toast-message">
+        <div>
+          <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
+        </div>
+      </div>
+
+      @if (toast.dismissible) {
+      <button
+        (click)="close()"
+        type="button"
+        class="hot-toast-close-btn"
+        aria-label="Close"
+        [ngStyle]="toast.closeStyle"
+      ></button>
+      }
+    </div>
+  </div>
+</div>

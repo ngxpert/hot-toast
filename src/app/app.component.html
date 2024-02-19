@@ -1,0 +1,117 @@
+<div class="bg-gradient-to-b from-toast-50 to-white bg-opacity-10">
+  <div class="container relative">
+    <div class="flex flex-col items-center">
+      <!-- #region intro -->
+      <img src="assets/butter-1.svg" alt="" class="absolute -left-24 md:left-24 transition-opacity duration-200" />
+      <div>
+        <img
+          src="assets/logo.svg"
+          alt=""
+          srcset=""
+          class="relative animate-slide-in transition-all duration-200 -mt-8 md:-mt-4"
+          width="125"
+        />
+      </div>
+      <div class="text-center my-12 relative duration-200">
+        <h1 class="text-3xl md:text-4xl animate-enter font-bold text-toast-900">The Best Angular Toast in Town</h1>
+        <h2 class="text-xl md:text-2xl font-bold text-toast-600 mt-2">Smoking hot Angular notifications.</h2>
+        <h4 class="text-md md:text-lg text-toast-400 mt-2">
+          Inspired from
+          <a
+            class="font-bold text-toast-400 hover:bg-gray-100 hover:text-toast-600 transform"
+            href="https://react-hot-toast.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="transition-property: background-color, color"
+            >React Hot Toast</a
+          >
+        </h4>
+      </div>
+      <!-- #endregion -->
+
+      <!-- #region quick buttons -->
+      <div class="grid md:grid-cols-3 gap-4 rounded-2xl bg-toast-200 p-4 w-full max-w-4xl">
+        <button
+          [ngClass]="[
+            'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center',
+            'py-4 px-6',
+            'active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform',
+            'focus:outline-none focus:ring-4'
+          ]"
+          style="transition-property: box-shadow, transform"
+          (click)="observe()"
+        >
+          <div>🍞</div>
+          <span class="flex-1 mr-2">Make me a toast</span>
+        </button>
+        <a
+          [href]="repoUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          [ngClass]="[
+            'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
+            'active:translate-y-0.5 active:shadow-button-active transform'
+          ]"
+          style="transition-property: box-shadow, transform"
+        >
+          <div>
+            <img src="assets/github.svg" alt="GitHub" />
+          </div>
+          <span class="flex-1 text-toast-800 text-center">Give me a ⭐</span></a
+        >
+        <a
+          href="https://github.com/ngxpert/hot-toast#installation"
+          [ngClass]="[
+            'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
+            'active:translate-y-0.5 active:shadow-button-active transform'
+          ]"
+          style="transition-property: box-shadow, transform"
+        >
+          <div>
+            <img src="assets/book.svg" alt="Book" />
+          </div>
+          <span class="flex-1 text-center">Documentation</span></a
+        >
+      </div>
+      <div class="my-2 flex items-center space-x-2">
+        <a href="#stacking">
+          <img alt="what's new: stacking" src="https://img.shields.io/badge/🌟what's new-stacking-purple?style=flat-square" />
+        </a>
+        <a href="https://www.npmjs.com/package/@ngxpert/hot-toast" target="_blank">
+          <img
+            alt="npm version"
+            src="https://img.shields.io/npm/v/@ngxpert/hot-toast?color=rgb%2872%2C%2035%2C%207%29&label=npm&style=flat-square"
+          />
+        </a>
+        <a href="https://github.com/ngxpert/hot-toast#supported-browsers" target="_blank">
+          <img alt="browser support" src="https://img.shields.io/badge/supported-browsers-f6d338?style=flat-square" />
+        </a>
+      </div>
+      <!-- #endregion -->
+
+      <!-- #region features -->
+      <app-features></app-features>
+      <!-- #endregion -->
+    </div>
+
+    <!-- #region first steps -->
+    <app-steps></app-steps>
+    <!-- #endregion -->
+
+    <!-- #region examples -->
+    <app-example></app-example>
+    <!-- #endregion -->
+
+    <app-position></app-position>
+
+    <app-stacking></app-stacking>
+
+    <app-reverse-order></app-reverse-order>
+
+    <div class="container flex justify-end -mt-24 pointer-events-none">
+      <img src="assets/butter-2.svg" class="transform translate-x-20" />
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,15 @@
+.emoji-btn-wrapper {
+  .emoji-link {
+    transition-property: transform opacity;
+    transition-timing-function: ease-in-out;
+    transition-duration: 50ms;
+  }
+  &.translate-x-link {
+    &:hover,
+    &:focus-within {
+      .emoji-link {
+        transform: translateX(-1.8rem);
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "ngxpert-hot-toast-ng-add",
+  "title": "ngxpert-hot-toast ng-add schematic",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "skipImport": {
+      "type": "boolean",
+      "description": "Skip import in root module.",
+      "default": false
+    }
+  },
+  "required": []
+}

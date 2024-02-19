@@ -1,0 +1,65 @@
+<div class="my-14" id="positions">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#positions"> 🔗 </a></small>
+    Positions
+  </h2>
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-6xl mx-auto mb-3">
+    <div class="sm:col-span-1 md:col-span-1">
+      <div class="grid grid-cols-3 bg-toast-100 rounded-xl gap-x-2 gap-y-1 p-2 md:p-4">
+        @for (pos of positionExamples; track pos) {
+        <app-emoji-button
+          [btnId]="pos.id"
+          [emoji]="pos.emoji"
+          (btnClick)="setSnippet(pos)"
+          [className]="
+            'w-full ' + (position === pos.title ? 'bg-toast-900 text-toast-100 ' : 'bg-white shadow-small-button')
+          "
+        >
+          {{ pos.title }}
+        </app-emoji-button>
+        }
+      </div>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-1">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="snippet" containerClass="p-2"></app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="sm:col-span-1 md:col-span-2 border-toast-300" />
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="ml-5 mr-5 mb-4 text-md bg-toast-200 p-4 rounded-2xl p-4">
+        👉 You can also set position through global options in
+        <b><code>forRoot()</code></b
+        >, when you import in module.
+      </h3>
+    </div>
+    <div class="sm:col-span-1 md:col-span-1">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="globalSnippet" containerClass="p-2"></app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

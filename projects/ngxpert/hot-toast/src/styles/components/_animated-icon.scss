@@ -1,0 +1,21 @@
+@keyframes hotToastEnter {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.hot-toast-animated-icon {
+  animation: var(--hot-toast-animated-icon-animation, hotToastEnter 0.3s ease-in-out forwards);
+  position: var(--hot-toast-animated-icon-position, relative);
+  transform: var(--hot-toast-animated-icon-transform, scale(0));
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: var(--hot-toast-animated-icon-reduced-motion-animation-duration, none);
+    opacity: var(--hot-toast-animated-icon-reduced-motion-opacity, 1);
+    transform: var(--hot-toast-animated-icon-reduced-motion-transform, scale(1));
+  }
+}

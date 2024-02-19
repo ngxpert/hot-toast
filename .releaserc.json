@@ -1,0 +1,32 @@
+{
+  "branches": [
+    "+([0-9])?(.{+([0-9]),x}).x",
+    "master",
+    "main",
+    "next",
+    "next-major",
+    { "name": "beta", "prerelease": true },
+    { "name": "development", "prerelease": true },
+    { "name": "alpha", "prerelease": true }
+  ],
+  "preset": "angular",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "./dist/ngxpert/hot-toast",
+        "tarballDir": "dist"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["dist/*.tgz"]
+      }
+    ],
+    "@semantic-release/git"
+  ]
+}

@@ -1,0 +1,12 @@
+.hot-toast-indicator-wrapper {
+  align-items: var(--hot-toast-indicator-wrapper-align-items, center);
+  display: var(--hot-toast-indicator-wrapper-display, flex);
+  justify-content: var(--hot-toast-indicator-wrapper-justify-content, center);
+  min-height: var(--hot-toast-indicator-wrapper-min-height, 20px);
+  min-width: var(--hot-toast-indicator-wrapper-min-width, 20px);
+  position: var(--hot-toast-indicator-wrapper-position, relative);
+}
+
+.hot-toast-status-wrapper {
+  position: var(--hot-toast-status-wrapper-position, absolute);
+}

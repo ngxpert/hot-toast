@@ -1,0 +1,41 @@
+{
+  "name": "@ngxpert/hot-toast",
+  "version": "0.0.0-development",
+  "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
+  "schematics": "./schematics/collection.json",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json && npm run build:sass",
+    "build:sass": "sass ./src/styles/styles.scss ../../../dist/ngxpert/hot-toast/src/styles/styles.css",
+    "copy:schemas": "cpx schematics/ng-add ../../../dist/ngxpert/hot-toast/",
+    "copy:collection": "cpx schematics/collection.json ../../../dist/ngxpert/hot-toast/schematics/",
+    "postbuild": "npm run copy:schemas && npm run copy:collection",
+    "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/"
+  },
+  "peerDependencies": {
+    "@angular/core": ">= 17.0.0 < 18.0.0",
+    "@ngneat/overview": "6.0.0"
+  },
+  "keywords": [
+    "angular",
+    "angular 2",
+    "hot-toast",
+    "ngneat hot-toast",
+    "ngxpert",
+    "ngxpert hot-toast"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/ngxpert/hot-toast/issue"
+  },
+  "homepage": "https://github.com/ngxpert/hot-toast#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngxpert/hot-toast"
+  },
+  "ng-add": {
+    "save": true
+  }
+}

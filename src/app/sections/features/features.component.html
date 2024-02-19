@@ -1,0 +1,8 @@
+<div class="my-12 grid gap-x-8 gap-y-5 grid-cols-2 md:grid-cols-3" id="features">
+  @for (feature of featureList; track feature) {
+  <div class="flex gap-1 items-center">
+    <img src="assets/checkmark.svg" alt="checkmark" />
+    <span class="font-bold">{{ feature }}</span>
+  </div>
+  }
+</div>

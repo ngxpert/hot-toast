@@ -1,0 +1,119 @@
+{
+  "name": "@ngxpert/hot-toast",
+  "version": "0.0.0-development",
+  "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
+  "files": [
+    "dist/ngxpert/hot-toast/**"
+  ],
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "unit": "npm run cy:open",
+    "test": "npm run ci:cy-run",
+    "lint": "ng lint",
+    "e2e": "npm run ci:cy-run",
+    "contributors:add": "all-contributors add",
+    "hooks:pre-commit": "node hooks/pre-commit.js",
+    "commit": "cz",
+    "release:first": "npm run release -- --first-release",
+    "deploy": "ng deploy --base-href=/hot-toast/",
+    "copy": "cpx README.md dist/ngxpert/hot-toast",
+    "build:lib": "ng build @ngxpert/hot-toast --configuration production && npm run copy",
+    "postbuild:lib": "npm run build --prefix ./projects/ngxpert/hot-toast",
+    "test:lib": "ng test @ngxpert/hot-toast",
+    "test:lib:headless": "cross-env CI=true npm run test:lib",
+    "ci:start-server": "serve -l 4200 -s ./dist/toast",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:firefox": "cypress run --browser firefox",
+    "cy:run:edge": "cypress run --browser edge",
+    "ci:cy-run": "start-server-and-test ci:start-server http://localhost:4200 cy:run",
+    "ci:cy-run:chrome": "start-server-and-test ci:start-server http://localhost:4200 cy:run:chrome",
+    "ci:cy-run:firefox": "start-server-and-test ci:start-server http://localhost:4200 cy:run:firefox",
+    "ci:cy-run:edge": "start-server-and-test ci:start-server http://localhost:4200 cy:run:edge",
+    "semantic-release": "semantic-release",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@angular/animations": "^17.1.3",
+    "@angular/common": "^17.1.3",
+    "@angular/compiler": "^17.1.3",
+    "@angular/core": "^17.1.3",
+    "@angular/forms": "^17.1.3",
+    "@angular/platform-browser": "^17.1.3",
+    "@angular/platform-browser-dynamic": "^17.1.3",
+    "@angular/router": "^17.1.3",
+    "@ngneat/overview": "6.0.0",
+    "prismjs": "^1.23.0",
+    "rxjs": "~6.6.0",
+    "tslib": "^2.3.1",
+    "zone.js": "~0.14.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.1.3",
+    "@angular-eslint/builder": "17.2.1",
+    "@angular-eslint/eslint-plugin": "17.2.1",
+    "@angular-eslint/eslint-plugin-template": "17.2.1",
+    "@angular-eslint/schematics": "17.2.1",
+    "@angular-eslint/template-parser": "17.2.1",
+    "@angular/cli": "^17.1.3",
+    "@angular/compiler-cli": "^17.1.3",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-angular": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "@ngneat/spectator": "^12.2.0",
+    "@ngneat/tailwind": "^7.0.3",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@tailwindcss/typography": "^0.5.8",
+    "@types/node": "^18.11.9",
+    "@types/prismjs": "^1.26.0",
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "all-contributors-cli": "^6.24.0",
+    "angular-cli-ghpages": "^2.0.0-beta.2",
+    "codelyzer": "^6.0.0",
+    "commitizen": "^4.2.4",
+    "cpx": "^1.5.0",
+    "cross-env": "^7.0.3",
+    "cypress": "^11.2.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsdoc": "39.6.4",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "git-cz": "^4.9.0",
+    "husky": "^8.0.0",
+    "jsonc-parser": "^3.2.0",
+    "lint-staged": "^13.0.4",
+    "ng-packagr": "^17.0.3",
+    "postcss": "8.4.19",
+    "prettier": "^2.8.0",
+    "semantic-release": "^19.0.5",
+    "serve": "^14.1.2",
+    "start-server-and-test": "^1.14.0",
+    "stylelint": "^14.15.0",
+    "stylelint-config-sass-guidelines": "^9.0.1",
+    "tailwindcss": "3.2.4",
+    "typescript": "~5.2.2"
+  },
+  "lint-staged": {
+    "*.{js,json,css,scss,ts,html,component.html}": [
+      "prettier --write"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngxpert/hot-toast.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

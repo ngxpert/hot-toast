@@ -1,0 +1,20 @@
+<div style="position: fixed; z-index: 9999; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none">
+  <div style="position: relative; height: 100%">
+    <div>
+      @for (toast of toasts; track trackById(i, toast); let i = $index) {
+      <hot-toast
+        [toast]="toast"
+        [offset]="calculateOffset(toast.id, toast.position)"
+        [toastRef]="toastRefs[i]"
+        [toastsAfter]="(toast.autoClose ? toasts.length : getVisibleToasts(toast.position).length) - 1 - i"
+        [defaultConfig]="defaultConfig"
+        [isShowingAllToasts]="isShowingAllToasts"
+        (showAllToasts)="showAllToasts($event)"
+        (height)="updateHeight($event, toast)"
+        (beforeClosed)="beforeClosed(toast)"
+        (afterClosed)="afterClosed($event)"
+      ></hot-toast>
+      }
+    </div>
+  </div>
+</div>

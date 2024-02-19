@@ -1,0 +1,27 @@
+@keyframes hotToastRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hot-toast-loader-icon {
+  animation: var(--hot-toast-loader-icon-animation, hotToastRotate 1s linear infinite);
+  border: var(--hot-toast-loader-icon-border, 2px solid);
+  border-bottom-color: var(--hot-toast-loader-icon-border-color, #e0e0e0);
+  border-left-color: var(--hot-toast-loader-icon-border-color, #e0e0e0);
+  border-radius: var(--hot-toast-loader-icon-border-radius, 100%);
+  border-right-color: var(--hot-toast-loader-icon-border-right-color, #616161);
+  border-top-color: var(--hot-toast-loader-icon-border-color, #e0e0e0);
+  box-sizing: var(--hot-toast-loader-icon-box-sizing, border-box);
+  height: var(--hot-toast-loader-icon-height, 18px);
+  padding-top: var(--hot-toast-loader-icon-padding-top, 2px);
+  width: var(--hot-toast-loader-icon-width, 18px);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: var(--hot-toast-loader-icon-reduced-motion-animation-duration, 5s);
+  }
+}

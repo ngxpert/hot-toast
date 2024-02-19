@@ -1,0 +1,92 @@
+{
+  "projectName": "hot-toast",
+  "projectOwner": "ngxpert",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "shhdharmen",
+      "name": "Dharmen Shah",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6831283?v=4",
+      "profile": "https://github.com/shhdharmen",
+      "contributions": [
+        "code",
+        "content",
+        "design",
+        "doc",
+        "example"
+      ]
+    },
+    {
+      "login": "NetanelBasal",
+      "name": "Netanel Basal",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/6745730?v=4",
+      "profile": "https://www.netbasal.com/",
+      "contributions": [
+        "bug",
+        "business",
+        "ideas",
+        "maintenance",
+        "mentoring",
+        "projectManagement",
+        "research",
+        "review"
+      ]
+    },
+    {
+      "login": "timolins",
+      "name": "Timo Lins",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1440854?v=4",
+      "profile": "https://timo.sh/",
+      "contributions": [
+        "design",
+        "ideas"
+      ]
+    },
+    {
+      "login": "patdx",
+      "name": "Patrick Miller",
+      "avatar_url": "https://avatars.githubusercontent.com/u/353863?v=4",
+      "profile": "https://github.com/patdx",
+      "contributions": [
+        "maintenance",
+        "platform"
+      ]
+    },
+    {
+      "login": "ritox842",
+      "name": "Gili Yaniv",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7280441?v=4",
+      "profile": "https://github.com/ritox842",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "arturovt",
+      "name": "Artur Androsovych",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7337691?v=4",
+      "profile": "https://medium.com/@overthesanity",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
+      "login": "luishcastroc",
+      "name": "Luis Castro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13698269?v=4",
+      "profile": "https://github.com/luishcastroc",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true
+}
