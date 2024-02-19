@@ -38,6 +38,8 @@
   </tbody>
 </table>
 
+### For older Angular versions, keep using [@ngneat/hot-toast from npm](https://www.npmjs.com/package/@ngneat/hot-toast).
+
 ## Features
 
 - 🔥 **Hot by default**
