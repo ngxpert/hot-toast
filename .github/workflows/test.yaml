@@ -3,10 +3,10 @@ name: Test, Build and Publish a beta version
 on:
   push:
     branches-ignore:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
