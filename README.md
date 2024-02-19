@@ -292,33 +292,6 @@ Focus is not, and should not be, moved to the hot-toast element. Moving the focu
 
 Hot-toasts that have an [action available](https://ngxpert.github.io/hot-toast/#template) should be set `autoClose: false`, as to accommodate screen-reader users that want to navigate to the hot-toast element to activate the action.
 
-## Breaking Changes
-
-### [2.0.2 -> 3.0.0](./CHANGELOG.md#300-2021-06-07)
-
-- Content inside `.hot-toast-message` were wrapped into `dynamic-content`, now they are wrapped into `div` > `dynamic-view`
-- Use optional chaining while access `toastRef` in template. E.g. `toastRef?.data`
-- Add `@Optional()` decorator in components' constructor while injecting tokens which are used by toast's injector
-
-### [4.1.0 -> 5.0.0](./CHANGELOG.md#500-2023-01-06)
-
-For this version you will also need to import the styles from the library like this if you're not using NgAdd
-
-
-
-### [6.1.0 -> 7.0.0](./CHANGELOG.md#700-2024-02-12)
-
-`HotToastModule` removed from exports starting v7 release. Update your module to follow this example:
-
-```typescript
-import { providerHotToastConfig } from '@ngxpert/hot-toast';
-
-@NgModule({
-  providers: [provideHotToastConfig()],
-})
-class AppModule {}
-```
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
