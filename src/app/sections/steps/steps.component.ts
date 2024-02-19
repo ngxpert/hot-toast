@@ -15,8 +15,7 @@ export class StepsComponent implements OnInit {
       title: 'Install package',
       subTitle: '',
       code: `
-  ng add @ngxpert/hot-toast
-  # Or with npm
+  # With npm
   npm install @ngneat/overview@6.0.0 @ngxpert/hot-toast
   # Or with yarn
   yarn add @ngneat/overview@6.0.0 @ngxpert/hot-toast`,
