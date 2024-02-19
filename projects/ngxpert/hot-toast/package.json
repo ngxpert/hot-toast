@@ -2,13 +2,9 @@
   "name": "@ngxpert/hot-toast",
   "version": "0.0.0-development",
   "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
-  "schematics": "./schematics/collection.json",
   "scripts": {
-    "build": "tsc -p tsconfig.schematics.json && npm run build:sass",
+    "build": "npm run build:sass",
     "build:sass": "sass ./src/styles/styles.scss ../../../dist/ngxpert/hot-toast/src/styles/styles.css",
-    "copy:schemas": "cpx schematics/ng-add ../../../dist/ngxpert/hot-toast/",
-    "copy:collection": "cpx schematics/collection.json ../../../dist/ngxpert/hot-toast/schematics/",
-    "postbuild": "npm run copy:schemas && npm run copy:collection",
     "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/"
   },
   "peerDependencies": {
