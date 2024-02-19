@@ -17,10 +17,6 @@
 
 > Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
 
-<p align="center">
- <img src="./assets/demo.gif?raw=true">
-</p>
-
 ## Compatibility with Angular Versions
 
 <table>
