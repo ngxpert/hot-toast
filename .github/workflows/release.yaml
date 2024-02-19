@@ -18,7 +18,7 @@ jobs:
 
       - name: NPM install, build, release and deploy
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm ci
