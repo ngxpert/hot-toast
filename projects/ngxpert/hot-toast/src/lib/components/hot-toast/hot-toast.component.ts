@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -22,25 +23,28 @@ import {
   ENTER_ANIMATION_DURATION,
   EXIT_ANIMATION_DURATION,
   HOT_TOAST_DEPTH_SCALE,
+  HOT_TOAST_MARGIN,
 } from '../../constants';
 import { HotToastRef } from '../../hot-toast-ref';
-import { CreateHotToastRef, HotToastClose, Toast, ToastConfig } from '../../hot-toast.model';
+import { CreateHotToastRef, HotToastClose, Toast, ToastConfig, ToastPosition } from '../../hot-toast.model';
 import { animate } from '../../utils';
 import { IndicatorComponent } from '../indicator/indicator.component';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
+import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-group-item.component';
 
 @Component({
   selector: 'hot-toast',
   templateUrl: 'hot-toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent],
+  imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   @Input() toast: Toast<unknown>;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
   @Input() toastRef: CreateHotToastRef<unknown>;
+
   private _toastsAfter = 0;
   get toastsAfter() {
     return this._toastsAfter;
@@ -62,6 +66,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
       }
     }
   }
+
   @Input() isShowingAllToasts = false;
 
   @Output() height = new EventEmitter<number>();
@@ -78,7 +83,12 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   private unlisteners: VoidFunction[] = [];
   private softClosed = false;
 
-  constructor(private injector: Injector, private renderer: Renderer2, private ngZone: NgZone) {}
+  constructor(
+    private injector: Injector,
+    private renderer: Renderer2,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   get toastBarBaseHeight() {
     return this.toastBarBase.nativeElement.offsetHeight;
@@ -142,6 +152,20 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   get isIconString() {
     return typeof this.toast.icon === 'string';
+  }
+
+  get childGroupToasts() {
+    return this.toast.group.children.map((t) => t.options) ?? [];
+  }
+  set childGroupToasts(value) {
+    this.toast.group.children = value.map((t) => ({ options: t })) ?? [];
+  }
+
+  get childGroupToastRefs() {
+    return this.toastRef.groupRefs ?? [];
+  }
+  set childGroupToastRefs(value) {
+    this.toastRef.groupRefs = value;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -255,6 +279,42 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     const toastAttributes: Record<string, string> = this.toast.attributes;
     for (const [key, value] of Object.entries(toastAttributes)) {
       this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
+    }
+  }
+
+  getVisibleToasts(position: ToastPosition) {
+    return this.childGroupToasts.filter((t) => t.visible && t.position === position);
+  }
+
+  calculateOffset(toastId: string, position: ToastPosition) {
+    const visibleToasts = this.getVisibleToasts(position);
+    const index = visibleToasts.findIndex((toast) => toast.id === toastId);
+    const offset =
+      index !== -1
+        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
+              ? 0
+              : acc + (t.height || 0) + HOT_TOAST_MARGIN;
+          }, 0)
+        : 0;
+    return offset;
+  }
+
+  updateHeight(height: number, toast: Toast<unknown>) {
+    toast.height = height;
+    this.cdr.detectChanges();
+  }
+
+  beforeClosedGroupItem(toast: Toast<unknown>) {
+    toast.visible = false;
+  }
+
+  afterClosedGroupItem(closeToast: HotToastClose) {
+    const toastIndex = this.childGroupToasts.findIndex((t) => t.id === closeToast.id);
+    if (toastIndex > -1) {
+      this.childGroupToasts = this.childGroupToasts.filter((t) => t.id !== closeToast.id);
+      this.childGroupToastRefs = this.childGroupToastRefs.filter((t) => t.getToast().id !== closeToast.id);
+      this.cdr.detectChanges();
     }
   }
 }

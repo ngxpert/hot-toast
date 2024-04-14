@@ -2,7 +2,7 @@
   class="hot-toast-bar-base-container"
   [ngStyle]="containerPositionStyle"
   [ngClass]="'hot-toast-theme-' + toast.theme"
-  [style.--hot-toast-scale]="scale"
+  [style.--hot-toast-scale]="1"
   [style.--hot-toast-translate-y]="translateY"
 >
   <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
@@ -28,30 +28,6 @@
         <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
         }
       </div>
-
-      <div class="hot-toast-message">
-        <div>
-          <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
-        </div>
-      </div>
     </div>
-
-    @if (toast.group?.children) {
-    <div role="list" class="hot-toast-bar-base-group">
-      @for (item of childGroupToasts; track $index) {
-      <hot-toast-group-item
-        [toast]="item"
-        [offset]="calculateOffset(item.id, item.position)"
-        [toastRef]="toastRef.groupRefs[$index]"
-        [toastsAfter]="(item.autoClose ? childGroupToasts.length : getVisibleToasts(item.position).length) - 1 - $index"
-        [defaultConfig]="defaultConfig"
-        [isShowingAllToasts]="isShowingAllToasts"
-        (height)="updateHeight($event, item)"
-        (beforeClosed)="beforeClosedGroupItem(item)"
-        (afterClosed)="afterClosedGroupItem($event)"
-      ></hot-toast-group-item>
-      }
-    </div>
-    }
   </div>
 </div>

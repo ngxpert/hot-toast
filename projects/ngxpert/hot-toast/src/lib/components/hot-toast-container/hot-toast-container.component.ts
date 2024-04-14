@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
 import { HotToastComponent } from '../hot-toast/hot-toast.component';
 import { HOT_TOAST_DEPTH_SCALE, HOT_TOAST_DEPTH_SCALE_ADD, HOT_TOAST_MARGIN } from '../../constants';
+import { HotToastService } from '../../hot-toast.service';
 
 @Component({
   selector: 'hot-toast-container',
@@ -36,7 +37,7 @@ export class HotToastContainerComponent {
 
   private onClosed$ = this._onClosed.asObservable();
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private toastService: HotToastService) {}
 
   trackById(index: number, toast: Toast<unknown>) {
     return toast.id;
@@ -45,6 +46,7 @@ export class HotToastContainerComponent {
   getVisibleToasts(position: ToastPosition) {
     return this.toasts.filter((t) => t.visible && t.position === position);
   }
+  
   calculateOffset(toastId: string, position: ToastPosition) {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
@@ -87,6 +89,22 @@ export class HotToastContainerComponent {
 
     this.cdr.detectChanges();
 
+    const groupRefs: CreateHotToastRef<unknown>[] = [];
+
+    if (toast.group) {
+      if (toast.group.children) {
+        const items = toast.group.children;
+        groupRefs.push(
+          ...items.map((item) => {
+            item.options.group = { parent: ref };
+            return this.toastService.show(item.options.message, item.options);
+          })
+        );
+      } else if (toast.group.parent) {
+        // TODO
+      }
+    }
+
     return {
       dispose: () => {
         this.closeToast(toast.id);
@@ -101,6 +119,7 @@ export class HotToastContainerComponent {
         this.cdr.detectChanges();
       },
       afterClosed: this.getAfterClosed(toast),
+      groupRefs,
     };
   }
 

@@ -1,6 +1,7 @@
 import { Component, Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
+import { HotToastRef } from './hot-toast-ref';
 
 export type ToastStacking = 'vertical' | 'depth';
 
@@ -201,6 +202,8 @@ export interface Toast<DataType> {
    * @memberof Toast
    */
   data?: DataType;
+
+  group?: { children?: { options: Toast<unknown> }[], parent?: CreateHotToastRef<unknown> };
 }
 
 export type ToastOptions<DataType> = Partial<
@@ -223,6 +226,7 @@ export type ToastOptions<DataType> = Partial<
     | 'injector'
     | 'data'
     | 'attributes'
+    | 'group'
   >
 >;
 
@@ -271,12 +275,14 @@ export interface HotToastRefProps<DataType> {
   updateToast: (options: UpdateToastOptions<DataType>) => void;
   /** Observable for notifying the user that the toast has been closed. */
   afterClosed: Observable<HotToastClose>;
+  afterGroupItemClosed?: Observable<HotToastClose>;
   /**Closes the toast */
   close: (closeData?: { dismissedByAction: boolean }) => void;
   /**
    * @since 2.0.0
    */
   data: DataType;
+  groupRefs: CreateHotToastRef<unknown>[];
 }
 
 /** Event that is emitted when a snack bar is dismissed. */
@@ -318,7 +324,7 @@ export class ToastPersistConfig {
 
 export type AddToastRef<DataType> = Pick<
   HotToastRefProps<DataType>,
-  'afterClosed' | 'dispose' | 'updateMessage' | 'updateToast'
+  'afterClosed' | 'dispose' | 'updateMessage' | 'updateToast' | 'groupRefs'
 >;
 
 export type CreateHotToastRef<DataType> = Omit<Omit<HotToastRefProps<DataType>, 'appendTo'>, 'dispose'>;

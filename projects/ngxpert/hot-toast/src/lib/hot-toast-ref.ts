@@ -1,14 +1,15 @@
 import { Content } from '@ngneat/overview';
-import { Observable, race, Subject } from 'rxjs';
+import { defer, Observable, race, Subject } from 'rxjs';
 
 // This should be a `type` import since it causes `ng-packagr` compilation to fail because of a cyclic dependency.
 import type { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps, DefaultDataType } from './hot-toast.model';
+import { HotToastClose, Toast, UpdateToastOptions, HotToastRefProps, DefaultDataType, CreateHotToastRef } from './hot-toast.model';
 
 export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps<DataType> {
   updateMessage: (message: Content) => void;
   updateToast: (options: UpdateToastOptions<DataType>) => void;
   afterClosed: Observable<HotToastClose>;
+  groupRefs: CreateHotToastRef<unknown>[] = [];
 
   private _dispose: () => void;
 
@@ -33,16 +34,18 @@ export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps
     return this.toast;
   }
 
-  /**Used for internal purpose
+  /**
+   * Used for internal purpose
    * Attach ToastRef to container
    */
   appendTo(container: HotToastContainerComponent) {
-    const { dispose, updateMessage, updateToast, afterClosed } = container.addToast(this);
+    const { dispose, updateMessage, updateToast, afterClosed, groupRefs } = container.addToast(this);
 
     this.dispose = dispose;
     this.updateMessage = updateMessage;
     this.updateToast = updateToast;
     this.afterClosed = race(this._onClosed.asObservable(), afterClosed);
+    this.groupRefs = groupRefs;
     return this;
   }
 
