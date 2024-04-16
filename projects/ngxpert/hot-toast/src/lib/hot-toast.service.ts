@@ -74,7 +74,7 @@ export class HotToastService implements HotToastServiceMethods {
   ): CreateHotToastRef<DataType | unknown> {
     const toast = this.createToast<DataType>({
       message: message || this._defaultGlobalConfig.blank.content,
-      type: (options as { type: ToastType }).type ?? 'blank',
+      type: (options as { type: ToastType })?.type ?? 'blank',
       options: {
         ...this._defaultGlobalConfig,
         ...options,
