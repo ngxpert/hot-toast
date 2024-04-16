@@ -204,13 +204,13 @@ export interface Toast<DataType> {
   /**
    * Allows you to pass data for your component/template
    *
-   * @since 2.0.0
    * @type {DataType}
    * @memberof Toast
    */
   data?: DataType;
 
   /**
+   * Allows you to set group options
    * @since 1.1.0
    */
   group?: {
@@ -319,9 +319,6 @@ export interface HotToastRefProps<DataType> {
   /**Closes the toast */
   close: (closeData?: { dismissedByAction: boolean }) => void;
 
-  /**
-   * @since 2.0.0
-   */
   data: DataType;
 
   /**
