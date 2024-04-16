@@ -1,3 +1,13 @@
 @use './styles/tailwind-utils.css';
 @use './styles/main.css';
 @use '../projects/ngxpert/hot-toast/src/styles/styles.scss';
+@use "./styles/grouping.css";
+
+.copy-to-clipboard-button {
+    position: absolute;
+    color: white;
+    top: 8px;
+    right: var(--clipboard-right, -28px);
+    font-size: larger;
+    transition: right 230ms ease-in-out;
+}

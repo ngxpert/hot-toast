@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   ElementRef,
   EventEmitter,
   Injector,
@@ -19,14 +20,9 @@ import {
 import { CommonModule } from '@angular/common';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
 
-import {
-  ENTER_ANIMATION_DURATION,
-  EXIT_ANIMATION_DURATION,
-  HOT_TOAST_DEPTH_SCALE,
-  HOT_TOAST_MARGIN,
-} from '../../constants';
+import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION, HOT_TOAST_DEPTH_SCALE } from '../../constants';
 import { HotToastRef } from '../../hot-toast-ref';
-import { CreateHotToastRef, HotToastClose, Toast, ToastConfig, ToastPosition } from '../../hot-toast.model';
+import { CreateHotToastRef, HotToastClose, HotToastGroupEvent, Toast, ToastConfig } from '../../hot-toast.model';
 import { animate } from '../../utils';
 import { IndicatorComponent } from '../indicator/indicator.component';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -39,7 +35,7 @@ import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-gr
   standalone: true,
   imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
 })
-export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
   @Input() toast: Toast<unknown>;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
@@ -73,6 +69,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   @Output() beforeClosed = new EventEmitter();
   @Output() afterClosed = new EventEmitter<HotToastClose>();
   @Output() showAllToasts = new EventEmitter<boolean>();
+  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
@@ -82,6 +79,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   private unlisteners: VoidFunction[] = [];
   private softClosed = false;
+  private groupRefs: CreateHotToastRef<unknown>[] = [];
 
   constructor(
     private injector: Injector,
@@ -154,25 +152,47 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     return typeof this.toast.icon === 'string';
   }
 
-  get childGroupToasts() {
-    return this.toast.group.children.map((t) => t.options) ?? [];
+  get groupChildrenToastRefs() {
+    return this.groupRefs;
   }
-  set childGroupToasts(value) {
-    this.toast.group.children = value.map((t) => ({ options: t })) ?? [];
+  set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
+    this.groupRefs = value;
+
+    // maybe below will prevent execution in ngDoCheck?
+    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
-  get childGroupToastRefs() {
-    return this.toastRef.groupRefs ?? [];
+  get groupChildrenToasts() {
+    return this.groupChildrenToastRefs.map((ref) => ref.getToast());
   }
-  set childGroupToastRefs(value) {
-    this.toastRef.groupRefs = value;
+
+  get groupHeight() {
+    return this.visibleToasts
+      .slice(-this.defaultConfig.visibleToasts)
+      .map((t) => t.height)
+      .reduce((prev, curr) => prev + curr, 0);
+  }
+
+  get isExpanded() {
+    return this.toastRef.groupExpanded;
+  }
+
+  get visibleToasts() {
+    return this.groupChildrenToasts.filter((t) => t.visible);
+  }
+
+  ngDoCheck() {
+    if (this.toastRef.groupRefs.length !== this.groupRefs.length) {
+      this.groupRefs = this.toastRef.groupRefs.slice();
+      this.cdr.detectChanges();
+
+      this.emiHeightWithGroup(this.isExpanded);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.toast && !changes.toast.firstChange && changes.toast.currentValue?.message) {
-      requestAnimationFrame(() => {
-        this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
-      });
+      this, this.emiHeightWithGroup(this.isExpanded);
     }
   }
 
@@ -282,19 +302,15 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     }
   }
 
-  getVisibleToasts(position: ToastPosition) {
-    return this.childGroupToasts.filter((t) => t.visible && t.position === position);
-  }
-
-  calculateOffset(toastId: string, position: ToastPosition) {
-    const visibleToasts = this.getVisibleToasts(position);
+  calculateOffset(toastId: string) {
+    const visibleToasts = this.visibleToasts;
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
         ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
             return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
               ? 0
-              : acc + (t.height || 0) + HOT_TOAST_MARGIN;
+              : acc + (t.height || 0);
           }, 0)
         : 0;
     return offset;
@@ -307,14 +323,41 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   beforeClosedGroupItem(toast: Toast<unknown>) {
     toast.visible = false;
+    this.cdr.detectChanges();
+    if (this.visibleToasts.length === 0 && this.isExpanded) {
+      this.toggleToastGroup();
+    } else {
+      this.emiHeightWithGroup(this.isExpanded);
+    }
   }
 
   afterClosedGroupItem(closeToast: HotToastClose) {
-    const toastIndex = this.childGroupToasts.findIndex((t) => t.id === closeToast.id);
+    const toastIndex = this.groupChildrenToasts.findIndex((t) => t.id === closeToast.id);
     if (toastIndex > -1) {
-      this.childGroupToasts = this.childGroupToasts.filter((t) => t.id !== closeToast.id);
-      this.childGroupToastRefs = this.childGroupToastRefs.filter((t) => t.getToast().id !== closeToast.id);
+      this.groupChildrenToastRefs = this.groupChildrenToastRefs.filter((t) => t.getToast().id !== closeToast.id);
       this.cdr.detectChanges();
+    }
+  }
+
+  toggleToastGroup() {
+    const event = this.isExpanded ? 'collapse' : 'expand';
+    this.toggleGroup.emit({
+      byAction: true,
+      event,
+      id: this.toast.id,
+    });
+    this.emiHeightWithGroup(event === 'expand');
+  }
+
+  private emiHeightWithGroup(isExpanded: boolean) {
+    if (isExpanded) {
+      requestAnimationFrame(() => {
+        this.height.emit(this.toastBarBase.nativeElement.offsetHeight + this.groupHeight);
+      });
+    } else {
+      requestAnimationFrame(() => {
+        this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
+      });
     }
   }
 }

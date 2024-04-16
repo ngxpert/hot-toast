@@ -63,13 +63,23 @@ export class HotToastService implements HotToastServiceMethods {
    *
    * @param message The message to show in the hot-toast.
    * @param [options] Additional configuration options for the hot-toast.
+   * @param skipAttachToParent Only for internal usage. Setting this to true will not attach toast to it's parent.
    * @returns
    * @memberof HotToastService
    */
-  show<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.blank.content, 'blank', {
-      ...this._defaultGlobalConfig,
-      ...options,
+  show<DataType>(
+    message?: Content,
+    options?: ToastOptions<DataType>,
+    skipAttachToParent?: boolean
+  ): CreateHotToastRef<DataType | unknown> {
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.blank.content,
+      type: (options as { type: ToastType }).type ?? 'blank',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...options,
+      },
+      skipAttachToParent,
     });
 
     return toast;
@@ -84,10 +94,14 @@ export class HotToastService implements HotToastServiceMethods {
    * @memberof HotToastService
    */
   error<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.error.content, 'error', {
-      ...this._defaultGlobalConfig,
-      ...this._defaultGlobalConfig?.error,
-      ...options,
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.error.content,
+      type: 'error',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...this._defaultGlobalConfig?.error,
+        ...options,
+      },
     });
 
     return toast;
@@ -102,10 +116,14 @@ export class HotToastService implements HotToastServiceMethods {
    * @memberof HotToastService
    */
   success<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.success.content, 'success', {
-      ...this._defaultGlobalConfig,
-      ...this._defaultGlobalConfig?.success,
-      ...options,
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.success.content,
+      type: 'success',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...this._defaultGlobalConfig?.success,
+        ...options,
+      },
     });
 
     return toast;
@@ -120,10 +138,14 @@ export class HotToastService implements HotToastServiceMethods {
    * @memberof HotToastService
    */
   loading<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.loading.content, 'loading', {
-      ...this._defaultGlobalConfig,
-      ...this._defaultGlobalConfig?.loading,
-      ...options,
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.loading.content,
+      type: 'loading',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...this._defaultGlobalConfig?.loading,
+        ...options,
+      },
     });
 
     return toast;
@@ -138,10 +160,14 @@ export class HotToastService implements HotToastServiceMethods {
    * @memberof HotToastService
    */
   warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.warning.content, 'warning', {
-      ...this._defaultGlobalConfig,
-      ...this._defaultGlobalConfig?.warning,
-      ...options,
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.warning.content,
+      type: 'warning',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...this._defaultGlobalConfig?.warning,
+        ...options,
+      },
     });
 
     return toast;
@@ -157,10 +183,14 @@ export class HotToastService implements HotToastServiceMethods {
    * @since 3.3.0
    */
   info<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown> {
-    const toast = this.createToast<DataType>(message || this._defaultGlobalConfig.info.content, 'info', {
-      ...this._defaultGlobalConfig,
-      ...this._defaultGlobalConfig?.info,
-      ...options,
+    const toast = this.createToast<DataType>({
+      message: message || this._defaultGlobalConfig.info.content,
+      type: 'info',
+      options: {
+        ...this._defaultGlobalConfig,
+        ...this._defaultGlobalConfig?.info,
+        ...options,
+      },
     });
 
     return toast;
@@ -275,7 +305,7 @@ export class HotToastService implements HotToastServiceMethods {
         };
         toastRef.updateToast(updatedOptions);
       } else {
-        this.createToast<DataType, T>(content, type, options);
+        this.createToast<DataType, T>({ message: content, type, options });
       }
       return toastRef;
     } catch (error) {
@@ -283,12 +313,19 @@ export class HotToastService implements HotToastServiceMethods {
     }
   }
 
-  private createToast<DataType, T = unknown>(
-    message: Content,
-    type: ToastType,
-    options?: DefaultToastOptions,
-    observableMessages?: ObservableMessages<T, DataType>
-  ): CreateHotToastRef<DataType | unknown> {
+  private createToast<DataType, T = unknown>({
+    message,
+    type,
+    options,
+    observableMessages,
+    skipAttachToParent,
+  }: {
+    message: Content;
+    type: ToastType;
+    options?: DefaultToastOptions;
+    observableMessages?: ObservableMessages<T, DataType>;
+    skipAttachToParent?: boolean;
+  }): CreateHotToastRef<DataType | unknown> {
     if (!this._isInitialized) {
       this._isInitialized = true;
       this.init();
@@ -314,7 +351,7 @@ export class HotToastService implements HotToastServiceMethods {
         ...options,
       };
 
-      return new HotToastRef<DataType | unknown>(toast).appendTo(this._componentRef.ref.instance);
+      return new HotToastRef<DataType | unknown>(toast).appendTo(this._componentRef.ref.instance, skipAttachToParent);
     }
   }
 

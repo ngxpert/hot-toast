@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { Component, Inject, Injector, OnInit, Optional, ViewChild } from '@angular/core';
-import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
+import { CreateHotToastRef, HotToastClose, HotToastRef, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
@@ -10,28 +10,22 @@ import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji
 
 export const EXAMPLE_EVENTS_DURATION = 5000;
 
-interface Example {
+export interface Example {
   id: string;
   title: string;
   subtitle?: string;
   action: () => void;
   emoji: string;
-  snippet: { typescript: string; html?: string };
-  activeSnippet: 'typescript' | 'html';
+  snippet: { typescript: string; html?: string; scss?: string; css?: string };
+  activeSnippet: 'typescript' | 'html' | 'scss' | 'css';
 }
 
 @Component({
-    selector: 'app-example',
-    templateUrl: './example.component.html',
-    styleUrls: ['./example.component.scss'],
-    standalone: true,
-    imports: [
-        EmojiButtonComponent,
-        NgClass,
-        CodeComponent,
-        JsonPipe,
-        HtmlPipe,
-    ],
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+  standalone: true,
+  imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
 })
 export class ExampleComponent implements OnInit {
   @ViewChild('success') successTemplate;
@@ -47,8 +41,6 @@ export class ExampleComponent implements OnInit {
     { label: 'TypeScript', value: 'typescript' },
     { label: 'HTML', value: 'html' },
   ];
-
-  readonly exampleLink = 'https://github.com/ngxpert/hot-toast/tree/master/src/app/sections/example';
 
   constructor(private toast: HotToastService, private parent: Injector) {}
 
@@ -623,16 +615,16 @@ export class ExampleComponent implements OnInit {
 }
 
 @Component({
-    selector: 'app-dummy',
-    template: 'Hi 👋 from the component!',
-    standalone: true,
+  selector: 'app-dummy',
+  template: 'Hi 👋 from the component!',
+  standalone: true,
 })
 export class DummyComponent {}
 
 @Component({
-    selector: 'app-injector',
-    template: '{{ message }}',
-    standalone: true,
+  selector: 'app-injector',
+  template: '{{ message }}',
+  standalone: true,
 })
 export class InjectorComponent {
   constructor(@Optional() @Inject('MESSAGE') public message: string) {}
@@ -643,9 +635,9 @@ interface DataType {
 }
 
 @Component({
-    selector: 'app-data',
-    template: '{{ toastRef.data.fact }}',
-    standalone: true,
+  selector: 'app-data',
+  template: '{{ toastRef.data.fact }}',
+  standalone: true,
 })
 export class DataComponent {
   constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}

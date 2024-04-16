@@ -12,4 +12,5 @@ export class EmojiButtonComponent {
   @Input() btnId: string;
   @Output() btnClick = new EventEmitter();
   @Input() showLink = false;
+  @Input() disabled = false;
 }

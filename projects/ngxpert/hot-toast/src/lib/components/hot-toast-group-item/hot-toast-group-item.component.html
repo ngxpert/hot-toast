@@ -2,7 +2,7 @@
   class="hot-toast-bar-base-container"
   [ngStyle]="containerPositionStyle"
   [ngClass]="'hot-toast-theme-' + toast.theme"
-  [style.--hot-toast-scale]="1"
+  [style.--hot-toast-scale]="scale"
   [style.--hot-toast-translate-y]="translateY"
 >
   <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
@@ -28,6 +28,18 @@
         <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
         }
       </div>
+      <div class="hot-toast-message">
+        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
+      </div>
+      @if (toast.dismissible) {
+      <button
+        (click)="close()"
+        type="button"
+        class="hot-toast-close-btn"
+        aria-label="Close"
+        [ngStyle]="toast.closeStyle"
+      ></button>
+      }
     </div>
   </div>
 </div>

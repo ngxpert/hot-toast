@@ -8,9 +8,11 @@ import {
   UpdateToastOptions,
   AddToastRef,
   CreateHotToastRef,
+  HotToastGroupEvent,
+  HotToastGroupChild,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Content } from '@ngneat/overview';
 import { HotToastComponent } from '../hot-toast/hot-toast.component';
 import { HOT_TOAST_DEPTH_SCALE, HOT_TOAST_DEPTH_SCALE_ADD, HOT_TOAST_MARGIN } from '../../constants';
@@ -35,7 +37,15 @@ export class HotToastContainerComponent {
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
 
+  /** Subject for notifying the user that the toast has been expanded or collapsed. */
+  private _onGroupToggle = new Subject<HotToastGroupEvent>();
+
+  /** Subject for notifying the user that the group refs have been attached to toast. */
+  private _onGroupRefAttached = new Subject<{ groupRefs: CreateHotToastRef<unknown>[]; id: string }>();
+
   private onClosed$ = this._onClosed.asObservable();
+  private onGroupToggle$ = this._onGroupToggle.asObservable();
+  private onGroupRefAttached$ = this._onGroupRefAttached.asObservable();
 
   constructor(private cdr: ChangeDetectorRef, private toastService: HotToastService) {}
 
@@ -44,9 +54,13 @@ export class HotToastContainerComponent {
   }
 
   getVisibleToasts(position: ToastPosition) {
-    return this.toasts.filter((t) => t.visible && t.position === position);
+    return this.toasts.filter((t) => t.group?.parent === undefined && t.visible && t.position === position);
   }
-  
+
+  get unGroupedToasts() {
+    return this.toasts.filter((t) => t.group?.parent === undefined);
+  }
+
   calculateOffset(toastId: string, position: ToastPosition) {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
@@ -71,14 +85,14 @@ export class HotToastContainerComponent {
     this.cdr.detectChanges();
   }
 
-  addToast<DataType>(ref: HotToastRef): AddToastRef<DataType> {
+  addToast<DataType>(ref: HotToastRef<DataType>, skipAttachToParent?: boolean): AddToastRef<DataType> {
     this.toastRefs.push(ref);
 
     const toast = ref.getToast();
 
     this.toasts.push(ref.getToast());
 
-    if (this.defaultConfig.visibleToasts !== 0 && this.toasts.length > this.defaultConfig.visibleToasts) {
+    if (this.defaultConfig.visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig.visibleToasts) {
       const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig.visibleToasts);
       closeToasts.forEach((t) => {
         if (t.autoClose) {
@@ -89,21 +103,7 @@ export class HotToastContainerComponent {
 
     this.cdr.detectChanges();
 
-    const groupRefs: CreateHotToastRef<unknown>[] = [];
-
-    if (toast.group) {
-      if (toast.group.children) {
-        const items = toast.group.children;
-        groupRefs.push(
-          ...items.map((item) => {
-            item.options.group = { parent: ref };
-            return this.toastService.show(item.options.message, item.options);
-          })
-        );
-      } else if (toast.group.parent) {
-        // TODO
-      }
-    }
+    this.attachGroupRefs<DataType>(toast, ref, skipAttachToParent);
 
     return {
       dispose: () => {
@@ -119,8 +119,71 @@ export class HotToastContainerComponent {
         this.cdr.detectChanges();
       },
       afterClosed: this.getAfterClosed(toast),
-      groupRefs,
+      afterGroupToggled: this.getAfterGroupToggled(toast),
+      afterGroupRefsAttached: this.getAfterGroupRefsAttached(toast).pipe(map((v) => v.groupRefs)),
     };
+  }
+
+  private async attachGroupRefs<DataType>(
+    toast: Toast<DataType>,
+    ref: HotToastRef<DataType>,
+    skipAttachToParent?: boolean
+  ) {
+    let groupRefs: CreateHotToastRef<unknown>[] = [];
+
+    if (toast.group) {
+      if (toast.group.children) {
+        groupRefs = await this.createGroupRefs(toast, ref);
+        const toastIndex = this.toastRefs.findIndex((t) => t.getToast().id === toast.id);
+
+        if (toastIndex > -1) {
+          (this.toastRefs[toastIndex] as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = groupRefs;
+
+          this.cdr.detectChanges();
+          this._onGroupRefAttached.next({ groupRefs, id: toast.id });
+        }
+      } else if (toast.group.parent && !skipAttachToParent) {
+        const parentToastRef = toast.group.parent;
+        const parentToast = parentToastRef.getToast();
+
+        const parentToastRefIndex = this.toastRefs.findIndex((t) => t.getToast().id === parentToast.id);
+        const parentToastIndex = this.toasts.findIndex((t) => t.id === parentToast.id);
+
+        if (parentToastRefIndex > -1 && parentToastIndex > -1) {
+          this.toastRefs[parentToastRefIndex].groupRefs.push(ref);
+
+          const existingGroup = this.toasts[parentToastRefIndex].group ?? {};
+          const existingChildren = this.toasts[parentToastRefIndex].group?.children ?? [];
+
+          existingChildren.push({ options: { ...toast, type: toast.type, message: toast.message } });
+          existingGroup.children = existingChildren;
+
+          this.toasts[parentToastRefIndex].group = { ...existingGroup };
+
+          this.cdr.detectChanges();
+
+          this._onGroupRefAttached.next({ groupRefs, id: parentToast.id });
+        }
+      }
+    }
+  }
+
+  private createGroupRefs<DataType>(toast: Toast<DataType>, ref: HotToastRef<DataType>) {
+    const skipAttachToParent = true;
+    return new Promise<CreateHotToastRef<unknown>[]>((resolve) => {
+      const items = toast.group.children;
+      const allPromises: Promise<CreateHotToastRef<unknown>>[] = items.map((item) => {
+        return new Promise((innerResolve) => {
+          item.options.group = { parent: ref };
+          // We need to give a tick's delay so that IDs are generated properly
+          setTimeout(() => {
+            const itemRef = this.toastService.show(item.options.message, item.options, skipAttachToParent);
+            innerResolve(itemRef);
+          });
+        });
+      });
+      Promise.all(allPromises).then((refs) => resolve(refs));
+    });
   }
 
   closeToast(id?: string) {
@@ -148,6 +211,15 @@ export class HotToastContainerComponent {
     }
   }
 
+  toggleGroup(groupEvent: HotToastGroupEvent) {
+    const toastIndex = this.toastRefs.findIndex((t) => t.getToast().id === groupEvent.id);
+    if (toastIndex > -1) {
+      this._onGroupToggle.next(groupEvent);
+      (this.toastRefs[toastIndex] as { groupExpanded: boolean }).groupExpanded = groupEvent.event === 'expand';
+      this.cdr.detectChanges();
+    }
+  }
+
   hasToast(id: string) {
     return this.toasts.findIndex((t) => t.id === id) > -1;
   }
@@ -158,6 +230,14 @@ export class HotToastContainerComponent {
 
   private getAfterClosed(toast: Toast<unknown>) {
     return this.onClosed$.pipe(filter((v) => v.id === toast.id));
+  }
+
+  private getAfterGroupToggled(toast: Toast<unknown>) {
+    return this.onGroupToggle$.pipe(filter((v) => v.id === toast.id));
+  }
+
+  private getAfterGroupRefsAttached(toast: Toast<unknown>) {
+    return this.onGroupRefAttached$.pipe(filter((v) => v.id === toast.id));
   }
 
   private updateToasts(toast: Toast<unknown>, options?: UpdateToastOptions<unknown>) {

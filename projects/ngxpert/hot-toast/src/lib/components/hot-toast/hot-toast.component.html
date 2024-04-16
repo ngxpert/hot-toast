@@ -5,7 +5,12 @@
   [style.--hot-toast-scale]="scale"
   [style.--hot-toast-translate-y]="translateY"
 >
-  <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
+  <div
+    class="hot-toast-bar-base-wrapper"
+    [class.expanded]="isExpanded"
+    (mouseenter)="handleMouseEnter()"
+    (mouseleave)="handleMouseLeave()"
+  >
     <div
       class="hot-toast-bar-base"
       #hotToastBarBase
@@ -30,20 +35,41 @@
       </div>
 
       <div class="hot-toast-message">
-        <div>
-          <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
-        </div>
+        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
       </div>
+
+      @if (toast.group?.expandAndCollapsible && toast.group?.children && visibleToasts.length > 0) {
+      <button
+        (click)="toggleToastGroup()"
+        type="button"
+        class="hot-toast-group-btn"
+        [class.expanded]="isExpanded"
+        [attr.aria-label]="isExpanded ? 'Collapse' : 'Expand'"
+        [ngStyle]="toast.group.btnStyle"
+      ></button>
+      } @if (toast.dismissible) {
+      <button
+        (click)="close()"
+        type="button"
+        class="hot-toast-close-btn"
+        aria-label="Close"
+        [ngStyle]="toast.closeStyle"
+      ></button>
+      }
     </div>
 
-    @if (toast.group?.children) {
-    <div role="list" class="hot-toast-bar-base-group">
-      @for (item of childGroupToasts; track $index) {
+    <div
+      role="list"
+      class="hot-toast-bar-base-group"
+      [ngClass]="toast.group?.className"
+      [style.--hot-toast-group-height]="groupHeight + 'px'"
+    >
+      @for (item of groupChildrenToasts; track item.id) {
       <hot-toast-group-item
         [toast]="item"
-        [offset]="calculateOffset(item.id, item.position)"
+        [offset]="calculateOffset(item.id)"
         [toastRef]="toastRef.groupRefs[$index]"
-        [toastsAfter]="(item.autoClose ? childGroupToasts.length : getVisibleToasts(item.position).length) - 1 - $index"
+        [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
         [defaultConfig]="defaultConfig"
         [isShowingAllToasts]="isShowingAllToasts"
         (height)="updateHeight($event, item)"
@@ -52,6 +78,5 @@
       ></hot-toast-group-item>
       }
     </div>
-    }
   </div>
 </div>

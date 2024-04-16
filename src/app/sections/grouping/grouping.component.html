@@ -1,0 +1,111 @@
+<div class="my-14" id="grpuping">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#grouping"> 🔗 </a></small>
+    Grouping
+  </h2>
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    @for (example of examples; track example) {
+    <div class="col-span-1">
+      @if (example.id === "grouping-post") { @if (parentRef) {
+      <p class="mb-1 text-sm text-toast-800">Parent toast is opened!</p>
+      <app-emoji-button emoji="➕" (btnClick)="addNotification()"> Add notification </app-emoji-button>
+      } @else {
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
+        {{ example.title }}
+      </app-emoji-button>
+      } } @else {
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
+        {{ example.title }}
+      </app-emoji-button>
+      } @if (example.subtitle) {
+      <p class="mt-1 text-sm text-toast-800" [innerHTML]="example.subtitle | html"></p>
+      }
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            @for (language of snippetLanguages; track language) { @if (example.snippet[language.value]) {
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+              [ngClass]="[
+                example.activeSnippet === language.value ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
+              ]"
+              (click)="example.activeSnippet = language.value"
+            >
+              {{ language.label }}
+            </button>
+            } }
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+    }
+  </section>
+</div>
+<ng-template #groupTemplate let-toastRef>
+  <div class="flex gap-x-2 w-full h-[56px] items-center">
+    <div
+      class="bg-slate-100 rounded transition-all ease-in-out duration-[230ms] flex items-center justify-center text-xl"
+      [ngClass]="{ 'w-10 h-10': toastRef.groupExpanded, 'w-14 h-14': !toastRef.groupExpanded }"
+    >
+      <span
+        class="transition-all ease-in-out duration-[230ms] drop-shadow-md"
+        [ngClass]="{ 'scale-1': toastRef.groupExpanded, 'scale-125': !toastRef.groupExpanded }"
+      >
+        @if (visibleToasts(toastRef.groupRefs) === 0) { 🔕 } @else {
+        <span class="bell-animation"> 🔔 </span>
+        }
+      </span>
+    </div>
+    <div>
+      <div
+        class="font-medium transition-all ease-in-out duration-[230ms]"
+        [ngClass]="{
+          'scale-125': !toastRef.groupExpanded,
+          'scale-1 pl-0': toastRef.groupExpanded,
+          'pl-[22px]': !toastRef.groupExpanded && visibleToasts(toastRef.groupRefs) !== 0,
+          'pl-[14px]': !toastRef.groupExpanded && visibleToasts(toastRef.groupRefs) === 0
+        }"
+      >
+        @if (visibleToasts(toastRef.groupRefs) === 0) { No } @else {
+        {{ visibleToasts(toastRef.groupRefs) }}
+        } New Activities
+      </div>
+      <div
+        class="text-gray-500 transition-all ease-in-out duration-[230ms]"
+        [ngClass]="{ 'scale-90 ml-[-10px]': toastRef.groupExpanded, 'ml-0': !toastRef.groupExpanded }"
+      >
+        @if (visibleToasts(toastRef.groupRefs) === 0) { You're all caught up! } @else { What's happening around you! }
+      </div>
+    </div>
+    @if (visibleToasts(toastRef.groupRefs) > 0) {
+    <button
+      (click)="toastRef.toggleGroup()"
+      class="ml-auto self-center hot-toast-group-btn"
+      [class.expanded]="toastRef.groupExpanded"
+      [attr.aria-label]="toastRef.groupExpanded ? 'Collapse' : 'Expand'"
+    ></button>
+    }
+  </div>
+</ng-template>
+<ng-template #groupItemTemplate let-toastRef>
+  <div class="flex gap-x-2 w-full">
+    <div class="bg-slate-100 rounded w-10 h-10 flex items-center justify-center text-xl">
+      <span class="drop-shadow-md">
+        {{ toastRef.data.icon }}
+      </span>
+    </div>
+    <div>
+      {{ toastRef.data.title }}
+      <div class="text-sm text-gray-500">{{ toastRef.data.subTitle }}</div>
+    </div>
+    <div class="text-xs text-gray-500 ml-auto">
+      {{ toastRef.data.time }}
+    </div>
+  </div>
+</ng-template>

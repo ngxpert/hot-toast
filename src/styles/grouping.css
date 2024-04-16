@@ -1,0 +1,7 @@
+.hot-toast-custom-class {
+  --hot-toast-width: 390px;
+  --hot-toast-max-width: var(--hot-toast-width);
+  --hot-toast-message-justify-content: start;
+  --hot-toast-message-margin: 4px 0;
+  --hot-toast-group-btn-align-self: center;
+}
