@@ -54,11 +54,13 @@ export class HotToastContainerComponent {
   }
 
   getVisibleToasts(position: ToastPosition) {
-    return this.toasts.filter((t) => t.group?.parent === undefined && t.visible && t.position === position);
+    return this.unGroupedToasts.filter((t) => t.visible && t.position === position);
   }
 
   get unGroupedToasts() {
-    return this.toasts.filter((t) => t.group?.parent === undefined);
+    return this.toasts.filter(
+      (t) => t.group?.parent === undefined || t.group?.children === undefined || t.group?.children.length === 0
+    );
   }
 
   calculateOffset(toastId: string, position: ToastPosition) {

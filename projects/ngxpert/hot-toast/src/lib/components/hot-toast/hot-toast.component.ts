@@ -76,6 +76,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   isManualClose = false;
   context: Record<string, any>;
   toastComponentInjector: Injector;
+  isExpanded = false;
 
   private unlisteners: VoidFunction[] = [];
   private softClosed = false;
@@ -173,10 +174,6 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
       .reduce((prev, curr) => prev + curr, 0);
   }
 
-  get isExpanded() {
-    return this.toastRef.groupExpanded;
-  }
-
   get visibleToasts() {
     return this.groupChildrenToasts.filter((t) => t.visible);
   }
@@ -184,6 +181,12 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   ngDoCheck() {
     if (this.toastRef.groupRefs.length !== this.groupRefs.length) {
       this.groupRefs = this.toastRef.groupRefs.slice();
+      this.cdr.detectChanges();
+
+      this.emiHeightWithGroup(this.isExpanded);
+    }
+    if (this.toastRef.groupExpanded !== this.isExpanded) {
+      this.isExpanded = this.toastRef.groupExpanded;
       this.cdr.detectChanges();
 
       this.emiHeightWithGroup(this.isExpanded);
@@ -253,7 +256,12 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
     animate(nativeElement, exitAnimation);
     this.softClosed = true;
+    
+    if (this.isExpanded) {
+      this.toggleToastGroup();
+    }
   }
+
   softOpen() {
     const softEnterAnimation = `hotToastEnterSoftAnimation${
       top ? 'Negative' : 'Positive'
