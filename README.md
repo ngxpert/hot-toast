@@ -31,7 +31,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
   <tbody>
     <tr>
       <td>
-        1.x
+        1.x, 2.x
       </td>
       <td>
         >= 17
@@ -296,6 +296,12 @@ Hot-toast messages are announced via an `aria-live` region. By default, the `pol
 Focus is not, and should not be, moved to the hot-toast element. Moving the focus would be disruptive to a user in the middle of a workflow. It is recommended that, for any action offered in the hot-toast, the application offers the user an alternative way to perform the action. Alternative interactions are typically keyboard shortcuts or menu options. When the action is performed in this way, the hot-toast should be dismissed.
 
 Hot-toasts that have an [action available](https://ngxpert.github.io/hot-toast/#template) should be set `autoClose: false`, as to accommodate screen-reader users that want to navigate to the hot-toast element to activate the action.
+
+## Breaking Changes
+
+### v1 to v2
+
+The `<div>` surrounding `<ng-container>` is removed from `.hot-toast-message` to better and easy structure of layout. User may need to check their templates after updating to v2.
 
 ## Contributors ✨
 

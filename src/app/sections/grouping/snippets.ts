@@ -192,7 +192,8 @@ export const preGroupingCSS = `
 
 .bell-animation {
   animation-duration: 1s;
-  animation-iteration-count: var(--ring-bell);
+  animation-iteration-count: 1;
+  animation-delay: 300ms;
   animation-name: bell-keyframes;
   display: inline-block;
   transform-origin: top center;
