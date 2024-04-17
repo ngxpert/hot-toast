@@ -2,66 +2,66 @@ const childNotifications = `
 readonly commonOptions: ToastOptions&lt;unknown> = { autoClose: false };
 
 readonly childNotifications = (ngTemplateGroupItem: Content): HotToastGroupChild[] => [
-{
+  {
     options: {
-    message: ngTemplateGroupItem,
-    data: {
+      message: ngTemplateGroupItem,
+      data: {
         title: 'New Message!',
         subTitle: 'Sarah sent you a message.',
         time: 'Just Now',
         icon: '🗨️',
+      },
+      ...this.commonOptions,
     },
-    ...this.commonOptions,
-    },
-},
-{
+  },
+  {
     options: {
-    message: ngTemplateGroupItem,
-    data: {
+      message: ngTemplateGroupItem,
+      data: {
         title: 'Level Up!',
         subTitle: "You've unlocked a new achievement.",
         time: '2 min ago',
         icon: '✅',
+      },
+      ...this.commonOptions,
     },
-    ...this.commonOptions,
-    },
-},
-{
+  },
+  {
     options: {
-    message: ngTemplateGroupItem,
-    data: {
+      message: ngTemplateGroupItem,
+      data: {
         title: 'Reminder: Meeting Today',
         subTitle: 'Your team meeting starts in 30 minutes.',
         time: '1 hours ago',
         icon: '⏰',
+      },
+      ...this.commonOptions,
     },
-    ...this.commonOptions,
-    },
-},
-{
+  },
+  {
     options: {
-    message: ngTemplateGroupItem,
-    data: {
+      message: ngTemplateGroupItem,
+      data: {
         title: 'Special Offer!',
         subTitle: 'Save 20% off on subscription upgrade.',
         time: '12 hours ago',
         icon: '🏷️',
+      },
+      ...this.commonOptions,
     },
-    ...this.commonOptions,
-    },
-},
-{
+  },
+  {
     options: {
-    message: ngTemplateGroupItem,
-    data: {
+      message: ngTemplateGroupItem,
+      data: {
         title: 'Task Assigned',
         subTitle: 'A new task is awaiting your action.',
         time: 'Yesterday',
         icon: '✔️',
+      },
+      ...this.commonOptions,
     },
-    ...this.commonOptions,
-    },
-},
+  },
 ];`;
 
 export const preGroupingTS = `
@@ -126,12 +126,14 @@ export const preGroupingHTML = `
         @if (visibleToasts(toastRef.groupRefs) === 0) { You're all caught up! } @else { What's happening around you! }
       &lt;/div>
     &lt;/div>
+    @if (visibleToasts(toastRef.groupRefs) > 0) {
     &lt;button
       (click)="toastRef.toggleGroup()"
       class="ml-auto self-center hot-toast-group-btn"
       [class.expanded]="toastRef.groupExpanded"
       [attr.aria-label]="toastRef.groupExpanded ? 'Collapse' : 'Expand'"
     >&lt;/button>
+    }
   &lt;/div>
 &lt;/ng-template>
 &lt;ng-template #groupItemTemplate let-toastRef>
