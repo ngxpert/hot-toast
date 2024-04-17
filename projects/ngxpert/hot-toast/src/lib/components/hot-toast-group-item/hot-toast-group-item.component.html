@@ -5,12 +5,7 @@
   [style.--hot-toast-scale]="scale"
   [style.--hot-toast-translate-y]="translateY"
 >
-  <div
-    class="hot-toast-bar-base-wrapper"
-    [class.expanded]="isExpanded"
-    (mouseenter)="handleMouseEnter()"
-    (mouseleave)="handleMouseLeave()"
-  >
+  <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
     <div
       class="hot-toast-bar-base"
       #hotToastBarBase
@@ -33,21 +28,10 @@
         <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
         }
       </div>
-
       <div class="hot-toast-message">
         <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
       </div>
-
-      @if (toast.group?.expandAndCollapsible && toast.group?.children && visibleToasts.length > 0) {
-      <button
-        (click)="toggleToastGroup()"
-        type="button"
-        class="hot-toast-group-btn"
-        [class.expanded]="isExpanded"
-        [attr.aria-label]="isExpanded ? 'Collapse' : 'Expand'"
-        [ngStyle]="toast.group.btnStyle"
-      ></button>
-      } @if (toast.dismissible) {
+      @if (toast.dismissible) {
       <button
         (click)="close()"
         type="button"
@@ -55,27 +39,6 @@
         aria-label="Close"
         [ngStyle]="toast.closeStyle"
       ></button>
-      }
-    </div>
-
-    <div
-      role="list"
-      class="hot-toast-bar-base-group"
-      [ngClass]="toast.group?.className"
-      [style.--hot-toast-group-height]="groupHeight + 'px'"
-    >
-      @for (item of groupChildrenToasts; track item.id) {
-      <hot-toast-group-item
-        [toast]="item"
-        [offset]="calculateOffset(item.id)"
-        [toastRef]="toastRef.groupRefs[$index]"
-        [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
-        [defaultConfig]="defaultConfig"
-        [isShowingAllToasts]="isShowingAllToasts"
-        (height)="updateHeight($event, item)"
-        (beforeClosed)="beforeClosedGroupItem(item)"
-        (afterClosed)="afterClosedGroupItem($event)"
-      ></hot-toast-group-item>
       }
     </div>
   </div>

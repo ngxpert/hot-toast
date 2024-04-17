@@ -1,6 +1,7 @@
 import { Component, Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
+import { HotToastRef } from './hot-toast-ref';
 
 export type ToastStacking = 'vertical' | 'depth';
 
@@ -83,6 +84,13 @@ export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunct
 export type ToastRole = 'status' | 'alert';
 
 export type ToastAriaLive = 'assertive' | 'off' | 'polite';
+
+export interface HotToastGroupChild {
+  options: ToastOptions<unknown> & {
+    type?: ToastType;
+    message: Content;
+  };
+}
 
 export interface Toast<DataType> {
   type: ToastType;
@@ -196,11 +204,40 @@ export interface Toast<DataType> {
   /**
    * Allows you to pass data for your component/template
    *
-   * @since 2.0.0
    * @type {DataType}
    * @memberof Toast
    */
   data?: DataType;
+
+  /**
+   * Allows you to set group options
+   * @since 1.1.0
+   */
+  group?: {
+    /**
+     * Show group expand/collapse button in hot-toast
+     *
+     * @default false
+     */
+    expandAndCollapsible?: boolean;
+
+    /**Extra styles to apply for expand/collapse button */
+    btnStyle?: any;
+
+    /**Extra CSS classes to be added to the hot toast container. */
+    className?: string;
+
+    /**
+     * Child items to render as grouped
+     */
+    children?: HotToastGroupChild[];
+
+    /**
+     * Parent toast ref to be passed with newly created toast,
+     * and if it needs to grouped under an existing toast
+     */
+    parent?: CreateHotToastRef<unknown>;
+  };
 }
 
 export type ToastOptions<DataType> = Partial<
@@ -223,6 +260,7 @@ export type ToastOptions<DataType> = Partial<
     | 'injector'
     | 'data'
     | 'attributes'
+    | 'group'
   >
 >;
 
@@ -271,19 +309,50 @@ export interface HotToastRefProps<DataType> {
   updateToast: (options: UpdateToastOptions<DataType>) => void;
   /** Observable for notifying the user that the toast has been closed. */
   afterClosed: Observable<HotToastClose>;
+
+  /** Observable for notifying the user that the group has been toggled. */
+  afterGroupToggled: Observable<HotToastGroupEvent>;
+
+  /** Observable for notifying the user that all the toastRefs for groups has been attached. */
+  afterGroupRefsAttached: Observable<CreateHotToastRef<unknown>[]>;
+
   /**Closes the toast */
   close: (closeData?: { dismissedByAction: boolean }) => void;
-  /**
-   * @since 2.0.0
-   */
+
   data: DataType;
+
+  /**
+   * List of group toast refs
+   * @since 1.1.0
+   */
+  readonly groupRefs: CreateHotToastRef<unknown>[];
+
+  /**
+   * Whether group panel is expanded
+   * @since 1.1.0
+   */
+  readonly groupExpanded: boolean;
+
+  /**
+   * Expand or collapse group
+   * @since 1.1.0
+   */
+  toggleGroup: (eventData?: { byAction: boolean }) => void;
 }
 
-/** Event that is emitted when a snack bar is dismissed. */
+/** Event that is emitted when a toast is dismissed. */
 export interface HotToastClose {
-  /** Whether the snack bar was dismissed using the action button. */
+  /** Whether the toast was dismissed using the action button. */
   dismissedByAction: boolean;
   id: string;
+}
+
+/** Event that is emitted when a toast is expanded or collapsed. */
+export interface HotToastGroupEvent {
+  /** Whether the toast was expanded or collapsed using the action button. */
+  byAction: boolean;
+  id: string;
+  event: 'collapse' | 'expand';
 }
 
 export class ToastPersistConfig {
@@ -318,7 +387,7 @@ export class ToastPersistConfig {
 
 export type AddToastRef<DataType> = Pick<
   HotToastRefProps<DataType>,
-  'afterClosed' | 'dispose' | 'updateMessage' | 'updateToast'
+  'afterClosed' | 'dispose' | 'updateMessage' | 'updateToast' | 'afterGroupToggled' | 'afterGroupRefsAttached'
 >;
 
 export type CreateHotToastRef<DataType> = Omit<Omit<HotToastRefProps<DataType>, 'appendTo'>, 'dispose'>;

@@ -3,16 +3,6 @@
     <small class="text-sm opacity-25 hover:opacity-100"><a href="#examples"> 🔗 </a></small>
     Examples
   </h2>
-  <h3 class="ml-5 mr-5 mb-4 bg-toast-200 p-4 rounded-2xl p-4">
-    ℹ All the examples are available on
-    <a
-      [href]="exampleLink"
-      target="_blank"
-      class="text-toast-600 hover:bg-gray-100 hover:text-toast-800 transform"
-      style="transition-property: background-color, color"
-      >GitHub</a
-    >.
-  </h3>
 </div>
 <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
   @for (example of examples; track example) {
@@ -53,11 +43,15 @@
 <ng-template #success><b>Settings saved!</b></ng-template>
 <ng-template #error><b>Could not save.</b></ng-template>
 <ng-template #template let-toastRef>
-  Custom and&nbsp;<b>bold</b>&nbsp;
-  <button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+  <div>
+    Custom and&nbsp;<b>bold</b>&nbsp;
+    <button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+  </div>
 </ng-template>
 <ng-template #templateContext let-toastRef>
-  Custom and&nbsp;<b>bold</b> with data: <code class="bg-toast-200">{{ toastRef?.data | json }}</code
-  ><br /><button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+  <div>
+    Custom and&nbsp;<b>bold</b> with data: <code class="bg-toast-200">{{ toastRef?.data | json }}</code
+    ><br /><button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
+  </div>
 </ng-template>
 <div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>
