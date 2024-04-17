@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { NgClass } from '@angular/common';
+// import { Dialog } from '@angular/cdk/dialog';
+
 import { REPO_URL } from './core/constants';
 import { FooterComponent } from './sections/footer/footer.component';
 import { ReverseOrderComponent } from './sections/reverse-order/reverse-order.component';
@@ -10,9 +13,9 @@ import { PositionComponent } from './sections/position/position.component';
 import { ExampleComponent } from './sections/example/example.component';
 import { StepsComponent } from './sections/steps/steps.component';
 import { FeaturesComponent } from './sections/features/features.component';
-import { NgClass } from '@angular/common';
 import { GroupingComponent } from './sections/grouping/grouping.component';
 import { EmojiButtonComponent } from './shared/components/emoji-button/emoji-button.component';
+// import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,149 +32,55 @@ import { EmojiButtonComponent } from './shared/components/emoji-button/emoji-but
     ReverseOrderComponent,
     FooterComponent,
     EmojiButtonComponent,
+    // JumpToDialogComponent,
   ],
 })
 export class AppComponent {
   readonly repoUrl = REPO_URL;
-  readonly jumpSections: { href: string; emoji: string; label: string }[] = [
-    {
-      href: '#info',
-      emoji: 'ℹ️',
-      label: 'Info',
-    },
-    {
-      href: '#success',
-      emoji: '✅',
-      label: 'Success',
-    },
-    {
-      href: '#warning',
-      emoji: '⚠️',
-      label: 'Warning',
-    },
-    {
-      href: '#error',
-      emoji: '❌',
-      label: 'Error',
-    },
-    {
-      href: '#loader',
-      emoji: '🔄️',
-      label: 'Loader',
-    },
-    {
-      href: '#observe',
-      emoji: '⏳',
-      label: 'Observe',
-    },
-    {
-      href: '#multi',
-      emoji: '↕️',
-      label: 'Multi Line',
-    },
-    {
-      href: '#emoji',
-      emoji: '👏',
-      label: 'Emoji',
-    },
-    {
-      href: '#snackbar',
-      emoji: '🌞',
-      label: 'Snackbar',
-    },
-    {
-      href: '#dismissible',
-      emoji: '❎',
-      label: 'dismissible',
-    },
-    {
-      href: '#events',
-      emoji: '🔂',
-      label: 'Events',
-    },
-    {
-      href: '#themed',
-      emoji: '🎨',
-      label: 'Themed',
-    },
-    {
-      href: '#toast-ref',
-      emoji: '🕵️',
-      label: 'Close manually',
-    },
-    {
-      href: '#toast-ref-msg',
-      emoji: '🕵️',
-      label: 'Update message',
-    },
-    {
-      href: '#only-one-at-a-time',
-      emoji: '☝️',
-      label: 'One at a Time',
-    },
-    {
-      href: '#persistent',
-      emoji: '🔢',
-      label: 'Persistent',
-    },
-    {
-      href: '#html',
-      emoji: '🔠',
-      label: 'HTML',
-    },
-    {
-      href: '#template',
-      emoji: '🔩',
-      label: 'Template',
-    },
-    {
-      href: '#template-data',
-      emoji: '🎫',
-      label: 'Template Data',
-    },
-    {
-      href: '#component',
-      emoji: '🆕',
-      label: 'Component',
-    },
-    {
-      href: '#injector',
-      emoji: '💉',
-      label: 'Injector',
-    },
-    {
-      href: '#component-data',
-      emoji: '💾',
-      label: 'Component Data',
-    },
-    {
-      href: '#positions',
-      emoji: '🅿️',
-      label: 'Positions',
-    },
-    {
-      href: '#stacking',
-      emoji: '🪜',
-      label: 'Stacking',
-    },
-    {
-      href: '#grouping-pre',
-      emoji: '🔔',
-      label: 'Pre Grouped',
-    },
-    {
-      href: '#grouping-post',
-      emoji: '🔔',
-      label: 'Post Grouped',
-    },
-    {
-      href: '#order',
-      emoji: '🔀',
-      label: 'Order',
-    },
-  ];
+  isDialogOpen = false;
 
-  constructor(private toast: HotToastService) {}
+  constructor(private toast: HotToastService) // private dialog: Dialog
+  {}
+
+  // keyDownListener(ev: KeyboardEvent) {
+  //   const key = ev.key;
+  //   const element = document.querySelector('[data-keyboard-key="' + key.toUpperCase() + '"]');
+  //   element.classList.add('active');
+  // }
+
+  // keyUpListener(ev: KeyboardEvent) {
+  //   const key = ev.key;
+  //   const element = document.querySelector('[data-keyboard-key="' + key.toUpperCase() + '"]');
+  //   element.classList.remove('active');
+  //   if (key === '/') {
+  //     ev.preventDefault();
+  //     this.openDialog();
+  //   }
+  // }
+
+  // ngOnInit() {
+  //   document.addEventListener('keyup', this.keyUpListener);
+  //   document.addEventListener('keydown', this.keyDownListener);
+  // }
+
+  // ngOnDestroy() {
+  //   document.removeEventListener('keyup', this.keyUpListener);
+  //   document.removeEventListener('keydown', this.keyDownListener);
+  // }
+
+  // openDialog() {
+  //   if (!this.isDialogOpen) {
+  //     this.isDialogOpen = true;
+
+  //     const dialogRef = this.dialog.open<string>(JumpToDialogComponent, {
+  //       width: '350px',
+  //     });
+
+  //     dialogRef.closed.subscribe((result) => {
+  //       this.isDialogOpen = false;
+  //     });
+  //   }
+  // }
 
   observe() {
     const promise = new Promise((res, rej) => {
