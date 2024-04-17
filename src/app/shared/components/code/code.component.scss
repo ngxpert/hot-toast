@@ -1,0 +1,12 @@
+:host > div {
+  position: relative;
+  overflow-x: hidden;
+  &:hover {
+    --clipboard-right: 16px;
+  }
+}
+
+pre {
+  max-height: 300px;
+  overflow-y: auto;
+}

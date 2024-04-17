@@ -1,7 +1,8 @@
 @if (type !== 'blank') {
 <div class="hot-toast-indicator-wrapper">
+  @if (type === 'loading') {
   <hot-toast-loader [theme]="theme"></hot-toast-loader>
-  @if (type !== 'loading') {
+  } @if (type !== 'loading') {
   <div class="hot-toast-status-wrapper">
     <div>
       @switch (type) { @case ('error') {
