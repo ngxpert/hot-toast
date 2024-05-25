@@ -11,6 +11,8 @@ import {
   Renderer2,
   SimpleChanges,
   ViewChild,
+  computed,
+  input,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -29,21 +31,13 @@ import { animate } from '../../utils';
   imports: [NgClass, NgStyle, AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
 export class HotToastGroupItemComponent {
-  @Input() toast: Toast<unknown>;
-  @Input() offset = 0;
-  @Input() defaultConfig: ToastConfig;
-  @Input() toastRef: CreateHotToastRef<unknown>;
+  toast = input.required<Toast<unknown>>();
+  offset = input.required<number>();
+  defaultConfig = input.required<ToastConfig>();
+  isShowingAllToasts = input.required<boolean>();
+  toastRef = input.required<CreateHotToastRef<unknown>>();
+  toastsAfter = input.required<number>();
 
-  private _toastsAfter = 0;
-  get toastsAfter() {
-    return this._toastsAfter;
-  }
-  @Input()
-  set toastsAfter(value) {
-    this._toastsAfter = value;
-  }
-
-  @Input() isShowingAllToasts = false;
 
   @Output() height = new EventEmitter<number>();
   @Output() beforeClosed = new EventEmitter();
@@ -71,33 +65,25 @@ export class HotToastGroupItemComponent {
     return this.toastBarBase.nativeElement.offsetHeight;
   }
 
-  get scale() {
-    return this.defaultConfig.stacking !== 'vertical' && !this.isShowingAllToasts
-      ? this.toastsAfter * -HOT_TOAST_DEPTH_SCALE + 1
-      : 1;
-  }
+  scale = computed(()=> this.defaultConfig().stacking !== 'vertical' && !this.isShowingAllToasts() ?
+   this.toastsAfter() * -HOT_TOAST_DEPTH_SCALE + 1 : 1);
 
-  get translateY() {
-    return this.offset * (this.top ? 1 : -1) + 'px';
-  }
 
-  get exitAnimationDelay() {
-    return this.toast.duration + 'ms';
-  }
+  translateY = computed(()=> this.offset() * (this.top() ? 1 : -1) + 'px');
 
-  get top() {
-    return this.toast.position.includes('top');
-  }
+  exitAnimationDelay = computed(() => this.toast().duration + 'ms');
 
-  get containerPositionStyle() {
-    const verticalStyle = this.top ? { top: 0 } : { bottom: 0 };
+  top = computed(() => this.toast().position.includes('top'));
+
+  containerPositionStyle = computed(() => {
+    const verticalStyle = this.top() ? { top: 0 } : { bottom: 0 };
     const transform = `translateY(var(--hot-toast-translate-y)) scale(var(--hot-toast-scale))`;
 
-    const horizontalStyle = this.toast.position.includes('left')
+    const horizontalStyle = this.toast().position.includes('left')
       ? {
           left: 0,
         }
-      : this.toast.position.includes('right')
+      : this.toast().position.includes('right')
       ? {
           right: 0,
         }
@@ -111,31 +97,29 @@ export class HotToastGroupItemComponent {
       ...verticalStyle,
       ...horizontalStyle,
     };
-  }
+  })
 
-  get toastBarBaseStyles() {
+  toastBarBaseStyles = computed(() => {
     const enterAnimation = `hotToastEnterAnimation${
-      this.top ? 'Negative' : 'Positive'
+      this.top() ? 'Negative' : 'Positive'
     } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
     const exitAnimation = `hotToastExitAnimation${
-      this.top ? 'Negative' : 'Positive'
+      this.top() ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) var(--hot-toast-exit-animation-delay) var(--hot-toast-exit-animation-state)`;
 
-    const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
+    const animation = this.toast().autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
 
-    return { ...this.toast.style, animation };
-  }
+    return { ...this.toast().style, animation };
+  })
 
-  get isIconString() {
-    return typeof this.toast.icon === 'string';
-  }
+  isIconString = computed(() => typeof this.toast().icon === 'string');
 
   get groupChildrenToastRefs() {
-    return this.toastRef.groupRefs;
+    return this.toastRef().groupRefs;
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
-    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
+    (this.toastRef() as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
   get groupChildrenToasts() {
@@ -146,9 +130,9 @@ export class HotToastGroupItemComponent {
     return this.visibleToasts.map((t) => t.height).reduce((prev, curr) => prev + curr, 0);
   }
 
-  get isExpanded() {
-    return this.toastRef.groupExpanded;
-  }
+
+  isExpanded = computed(() => this.toastRef().groupExpanded);
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.toast && !changes.toast.firstChange && changes.toast.currentValue?.message) {
@@ -158,19 +142,22 @@ export class HotToastGroupItemComponent {
     }
   }
 
+  isTempRef = computed(() => isTemplateRef(this.toast().message));
+  isCompRef = computed(() => isComponent(this.toast().message));
+
   ngOnInit() {
-    if (isTemplateRef(this.toast.message)) {
-      this.context = { $implicit: this.toastRef };
+    if (this.isTempRef()) {
+      this.context = { $implicit: this.toastRef() };
     }
-    if (isComponent(this.toast.message)) {
+    if (this.isCompRef()) {
       this.toastComponentInjector = Injector.create({
         providers: [
           {
             provide: HotToastRef,
-            useValue: this.toastRef,
+            useValue: this.toastRef(),
           },
         ],
-        parent: this.toast.injector || this.injector,
+        parent: this.toast().injector || this.injector,
       });
     }
   }
@@ -197,7 +184,9 @@ export class HotToastGroupItemComponent {
         }),
         this.renderer.listen(nativeElement, 'animationend', (event: AnimationEvent) => {
           if (this.isExitAnimation(event)) {
-            this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id }));
+            this.ngZone.run(() =>
+              this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast().id })
+            );
           }
         })
       );
@@ -208,7 +197,7 @@ export class HotToastGroupItemComponent {
 
   softClose() {
     const exitAnimation = `hotToastExitSoftAnimation${
-      this.top ? 'Negative' : 'Positive'
+      this.top() ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
 
     const nativeElement = this.toastBarBase.nativeElement;
@@ -231,7 +220,7 @@ export class HotToastGroupItemComponent {
     this.isManualClose = true;
 
     const exitAnimation = `hotToastExitAnimation${
-      this.top ? 'Negative' : 'Positive'
+      this.top() ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
 
     const nativeElement = this.toastBarBase.nativeElement;
@@ -258,7 +247,7 @@ export class HotToastGroupItemComponent {
   }
 
   private setToastAttributes() {
-    const toastAttributes: Record<string, string> = this.toast.attributes;
+    const toastAttributes: Record<string, string> = this.toast().attributes;
     for (const [key, value] of Object.entries(toastAttributes)) {
       this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
     }

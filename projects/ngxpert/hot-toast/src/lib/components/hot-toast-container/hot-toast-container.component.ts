@@ -190,7 +190,14 @@ export class HotToastContainerComponent {
 
   closeToast(id?: string) {
     if (id) {
-      const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
+      const comp = this.hotToastComponentList.find((item) => {
+        // Type guard to check if Toast has an 'id' property
+        if ('id' in item.toast) {
+          return item.toast.id === id;
+        } else {
+          return false;
+        }
+      });
       if (comp) {
         comp.close();
       }
