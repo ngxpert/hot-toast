@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IconTheme, ToastType } from '../../hot-toast.model';
 import { LoaderComponent } from './icons/loader/loader.component';
@@ -15,6 +15,6 @@ import { InfoComponent } from './icons/info/info.component';
   imports: [LoaderComponent, ErrorComponent, CheckMarkComponent, WarningComponent, InfoComponent],
 })
 export class IndicatorComponent {
-  @Input() theme: IconTheme;
-  @Input() type: ToastType;
+  theme = input<IconTheme>();
+  type = input<ToastType>();
 }
