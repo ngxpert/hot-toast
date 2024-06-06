@@ -26,8 +26,13 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/assets"],
-            "styles": ["src/styles.scss", "node_modules/prismjs/themes/prism-okaidia.min.css"],
+            "assets": [
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/prismjs/themes/prism-okaidia.min.css"
+            ],
             "scripts": [],
             "allowedCommonJsDependencies": [
               "prismjs"
@@ -87,7 +92,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
           }
         },
         "e2e": {
@@ -128,7 +136,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/ngxpert/hot-toast/**/*.ts", "projects/ngxpert/hot-toast/**/*.html"]
+            "lintFilePatterns": [
+              "projects/ngxpert/hot-toast/**/*.ts",
+              "projects/ngxpert/hot-toast/**/*.html"
+            ]
           }
         }
       }

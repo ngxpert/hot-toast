@@ -287,7 +287,7 @@ export class HotToastService implements HotToastServiceMethods {
     try {
       let content: Content | ValueOrFunction<Content, T> = null;
       let options: ToastOptions<DataType | unknown> = {};
-      ({ content, options } = this.getContentAndOptions<any, DataType>(
+      ({ content, options } = this.getContentAndOptions<unknown, DataType>(
         type,
         messages[type] || (this._defaultGlobalConfig[type] ? this._defaultGlobalConfig[type].content : '')
       ));
@@ -421,7 +421,7 @@ export class HotToastService implements HotToastServiceMethods {
     let content: Content | ValueOrFunction<Content, T> = null;
     let options: ToastOptions<DataType | unknown> = {};
 
-    ({ content, options } = this.getContentAndOptions<any, DataType>('loading', messages));
+    ({ content, options } = this.getContentAndOptions<unknown, DataType>('loading', messages));
 
     return this.loading(content as Content, options);
   }

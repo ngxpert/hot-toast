@@ -1,22 +1,14 @@
 {
   "extends": "../../../.eslintrc.json",
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": [
+    "!**/*"
+  ],
   "overrides": [
     {
-      "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["projects/ngxpert/hot-toast/tsconfig.lib.json"],
-        "createDefaultProgram": true
-      },
+      "files": [
+        "*.ts"
+      ],
       "rules": {
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "hot-toast",
-            "style": "kebab-case"
-          }
-        ],
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -25,16 +17,20 @@
             "style": "camelCase"
           }
         ],
-        "no-underscore-dangle": [
+        "@angular-eslint/component-selector": [
           "error",
           {
-            "allowAfterThis": true
+            "type": "element",
+            "prefix": "hot-toast",
+            "style": "kebab-case"
           }
         ]
       }
     },
     {
-      "files": ["*.html"],
+      "files": [
+        "*.html"
+      ],
       "rules": {}
     }
   ]

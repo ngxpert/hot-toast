@@ -74,7 +74,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
   toastComponentInjector: Injector;
   isExpanded = false;
 
