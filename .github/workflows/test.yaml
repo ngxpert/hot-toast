@@ -39,8 +39,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm run lint
+          npm run lint -- @ngxpert/hot-toast
+          npm run build:lib
           npm run build
           npm run test
-          npm run build:lib
           npx semantic-release --debug
