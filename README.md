@@ -311,6 +311,10 @@ Hot-toasts that have an [action available](https://ngxpert.github.io/hot-toast/#
 
 The `<div>` surrounding `<ng-container>` is removed from `.hot-toast-message` to better and easy structure of layout. User may need to check their templates after updating to v2.
 
+### v2 to v3
+
+None
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
