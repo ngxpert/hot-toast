@@ -1,3 +1,10 @@
+## [2.0.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v2.0.0...v2.0.1-beta.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* fixes for angular v18 ([6d351e9](https://github.com/ngxpert/hot-toast/commit/6d351e95cb17c57af30c84b19b85b1901ee9c7c6)), closes [#10](https://github.com/ngxpert/hot-toast/issues/10)
+
 # [2.0.0](https://github.com/ngxpert/hot-toast/compare/v1.0.0...v2.0.0) (2024-04-17)
 
 
