@@ -15,24 +15,28 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/toast",
+            "outputPath": {
+              "base": "dist/toast"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": ["src/assets"],
             "styles": ["src/styles.scss", "node_modules/prismjs/themes/prism-okaidia.min.css"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["prismjs"]
+            "allowedCommonJsDependencies": [
+              "prismjs"
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -49,8 +53,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",

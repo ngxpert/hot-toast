@@ -25,4 +25,4 @@ jobs:
           npm run build -- --base-href "/hot-toast/"
           npm run build:lib
           npx semantic-release
-          npx angular-cli-ghpages --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com --dir=dist/toast
+          npx angular-cli-ghpages --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com --dir=dist/toast/browser
