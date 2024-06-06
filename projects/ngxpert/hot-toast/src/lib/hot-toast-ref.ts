@@ -1,5 +1,5 @@
 import { Content } from '@ngneat/overview';
-import { defer, Observable, race, Subject } from 'rxjs';
+import { Observable, race, Subject } from 'rxjs';
 
 // This should be a `type` import since it causes `ng-packagr` compilation to fail because of a cyclic dependency.
 import type { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';

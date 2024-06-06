@@ -34,7 +34,15 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         1.x, 2.x
       </td>
       <td>
-        >= 17
+        >= 17 < 18
+      </td>
+    </tr>
+    <tr>
+      <td>
+        3.x
+      </td>
+      <td>
+        >= 18
       </td>
     </tr>
   </tbody>
@@ -302,6 +310,10 @@ Hot-toasts that have an [action available](https://ngxpert.github.io/hot-toast/#
 ### v1 to v2
 
 The `<div>` surrounding `<ng-container>` is removed from `.hot-toast-message` to better and easy structure of layout. User may need to check their templates after updating to v2.
+
+### v2 to v3
+
+None
 
 ## Contributors ✨
 

@@ -10,7 +10,7 @@ import {
   Output,
   Renderer2,
   SimpleChanges,
-  ViewChild,
+  ViewChild, OnChanges, OnInit, AfterViewInit, OnDestroy,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -28,7 +28,7 @@ import { animate } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, NgStyle, AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
-export class HotToastGroupItemComponent {
+export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() toast: Toast<unknown>;
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
@@ -54,7 +54,7 @@ export class HotToastGroupItemComponent {
   @ViewChild('hotToastBarBase') protected toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
-  context: Record<string, any>;
+  context: Record<string, unknown>;
   toastComponentInjector: Injector;
 
   private unlisteners: VoidFunction[] = [];
