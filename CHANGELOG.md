@@ -1,3 +1,15 @@
+# [3.0.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v2.0.1-beta.1...v3.0.0-beta.1) (2024-06-06)
+
+
+### Features
+
+* trigger breaking change release ([d4a681f](https://github.com/ngxpert/hot-toast/commit/d4a681f6e7f86e8f8019ef8371d81be451e9524f)), closes [#10](https://github.com/ngxpert/hot-toast/issues/10)
+
+
+### BREAKING CHANGES
+
+* Angular has been updated to version 18
+
 ## [2.0.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v2.0.0...v2.0.1-beta.1) (2024-06-06)
 
 
