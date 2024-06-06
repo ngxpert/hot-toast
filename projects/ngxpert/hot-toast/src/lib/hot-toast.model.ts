@@ -1,7 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
-import { HotToastRef } from './hot-toast-ref';
 
 export type ToastStacking = 'vertical' | 'depth';
 
@@ -32,13 +31,13 @@ export class ToastConfig implements DefaultToastOptions {
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';
   className: string;
-  closeStyle: any;
+  closeStyle: Record<string, string>;
   dismissible: boolean;
   autoClose = true;
   duration: number;
   icon: Content;
   iconTheme: IconTheme;
-  style: any;
+  style: Record<string, string>;
   theme: ToastTheme = 'toast';
   attributes: Record<string, string> = {};
 
@@ -68,6 +67,7 @@ const isFunction = <TValue, TArg>(
   valOrFunction: ValueOrFunction<TValue, TArg>
 ): valOrFunction is ValueFunction<TValue, TArg> => typeof valOrFunction === 'function';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isAngularComponent = (arg: any): boolean => {
   return (
     typeof arg === 'function' && arg.decorators && arg.decorators.some((decorator) => decorator.type === Component)
@@ -145,7 +145,7 @@ export interface Toast<DataType> {
   autoClose?: boolean;
 
   /**Extra styles to apply for hot-toast */
-  style?: any;
+  style?: Record<string, string>;
 
   /**Extra CSS classes to be added to the hot toast container. */
   className?: string;
@@ -171,7 +171,7 @@ export interface Toast<DataType> {
   position?: ToastPosition;
 
   /**Extra styles to apply for close button */
-  closeStyle?: any;
+  closeStyle?: Record<string, string>;
 
   createdAt: number;
   visible: boolean;
@@ -222,7 +222,7 @@ export interface Toast<DataType> {
     expandAndCollapsible?: boolean;
 
     /**Extra styles to apply for expand/collapse button */
-    btnStyle?: any;
+    btnStyle?: Record<string, string>;
 
     /**Extra CSS classes to be added to the hot toast container. */
     className?: string;
@@ -279,7 +279,7 @@ export type ObservableSuccessOrError<T, DataType> = {
 export type ObservableMessages<T, DataType> = {
   loading?: Content | ObservableLoading<DataType>;
   success?: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
-  error?: ValueOrFunction<Content, any> | ObservableSuccessOrError<any, DataType>;
+  error?: ValueOrFunction<Content, unknown> | ObservableSuccessOrError<unknown, DataType>;
 };
 
 export interface HotToastServiceMethods {
@@ -392,4 +392,4 @@ export type AddToastRef<DataType> = Pick<
 
 export type CreateHotToastRef<DataType> = Omit<Omit<HotToastRefProps<DataType>, 'appendTo'>, 'dispose'>;
 
-export type DefaultDataType = Record<string, any>;
+export type DefaultDataType = Record<string, unknown>;

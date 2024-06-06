@@ -9,7 +9,6 @@ import {
   AddToastRef,
   CreateHotToastRef,
   HotToastGroupEvent,
-  HotToastGroupChild,
 } from '../../hot-toast.model';
 import { HotToastRef } from '../../hot-toast-ref';
 import { filter, map } from 'rxjs/operators';
