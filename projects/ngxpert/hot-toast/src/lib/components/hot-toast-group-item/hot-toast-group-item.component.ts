@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -51,7 +50,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   @Output() showAllToasts = new EventEmitter<boolean>();
   @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
 
-  @ViewChild('hotToastBarBase') protected toastBarBase: ElementRef<HTMLElement>;
+  @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
   context: Record<string, unknown>;
@@ -64,7 +63,6 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     protected injector: Injector,
     protected renderer: Renderer2,
     protected ngZone: NgZone,
-    protected cdr: ChangeDetectorRef
   ) {}
 
   get toastBarBaseHeight() {
@@ -213,7 +211,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, exitAnimation);
+    animate(this.renderer, nativeElement, exitAnimation);
     this.softClosed = true;
   }
   softOpen() {
@@ -223,7 +221,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, softEnterAnimation);
+    animate(this.renderer, nativeElement, softEnterAnimation);
     this.softClosed = false;
   }
 
@@ -236,7 +234,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, exitAnimation);
+    animate(this.renderer, nativeElement, exitAnimation);
   }
 
   handleMouseEnter() {

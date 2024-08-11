@@ -66,24 +66,24 @@ export class HotToastContainerComponent {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
-      index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-            const toastsAfter = visibleToasts.length - 1 - i;
-            return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
-              ? 0
-              : acc +
-                  (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
-                    ? t.height || 0
-                    : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
-                  HOT_TOAST_MARGIN;
-          }, 0)
-        : 0;
+    index !== -1
+    ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+      const toastsAfter = visibleToasts.length - 1 - i;
+      return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
+      ? 0
+      : acc +
+      (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
+        ? t.height || 0
+        : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
+        HOT_TOAST_MARGIN;
+      }, 0)
+      : 0;
     return offset;
   }
 
   updateHeight(height: number, toast: Toast<unknown>) {
     toast.height = height;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   addToast<DataType>(ref: HotToastRef<DataType>, skipAttachToParent?: boolean): AddToastRef<DataType> {
@@ -102,7 +102,7 @@ export class HotToastContainerComponent {
       });
     }
 
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
 
     this.attachGroupRefs<DataType>(toast, ref, skipAttachToParent);
 
@@ -113,11 +113,11 @@ export class HotToastContainerComponent {
       updateMessage: (message: Content) => {
         toast.message = message;
         this.updateToasts(toast);
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       updateToast: (options: UpdateToastOptions<DataType>) => {
         this.updateToasts(toast, options);
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       afterClosed: this.getAfterClosed(toast),
       afterGroupToggled: this.getAfterGroupToggled(toast),
@@ -140,7 +140,7 @@ export class HotToastContainerComponent {
         if (toastIndex > -1) {
           (this.toastRefs[toastIndex] as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = groupRefs;
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
           this._onGroupRefAttached.next({ groupRefs, id: toast.id });
         }
       } else if (toast.group.parent && !skipAttachToParent) {
@@ -161,7 +161,7 @@ export class HotToastContainerComponent {
 
           this.toasts[parentToastRefIndex].group = { ...existingGroup };
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
 
           this._onGroupRefAttached.next({ groupRefs, id: parentToast.id });
         }
@@ -208,7 +208,7 @@ export class HotToastContainerComponent {
       this._onClosed.next(closeToast);
       this.toasts = this.toasts.filter((t) => t.id !== closeToast.id);
       this.toastRefs = this.toastRefs.filter((t) => t.getToast().id !== closeToast.id);
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }
   }
 
@@ -217,7 +217,7 @@ export class HotToastContainerComponent {
     if (toastIndex > -1) {
       this._onGroupToggle.next(groupEvent);
       (this.toastRefs[toastIndex] as { groupExpanded: boolean }).groupExpanded = groupEvent.event === 'expand';
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }
   }
 

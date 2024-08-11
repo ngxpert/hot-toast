@@ -71,7 +71,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   @Output() showAllToasts = new EventEmitter<boolean>();
   @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
 
-  @ViewChild('hotToastBarBase') private toastBarBase: ElementRef<HTMLElement>;
+  @ViewChild('hotToastBarBase', { static: true }) private toastBarBase: ElementRef<HTMLElement>;
 
   isManualClose = false;
   context: Record<string, unknown>;
@@ -181,13 +181,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   ngDoCheck() {
     if (this.toastRef.groupRefs.length !== this.groupRefs.length) {
       this.groupRefs = this.toastRef.groupRefs.slice();
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
 
       this.emiHeightWithGroup(this.isExpanded);
     }
     if (this.toastRef.groupExpanded !== this.isExpanded) {
       this.isExpanded = this.toastRef.groupExpanded;
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
 
       this.emiHeightWithGroup(this.isExpanded);
     }
@@ -254,9 +254,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, exitAnimation);
+    animate(this.renderer, nativeElement, exitAnimation);
     this.softClosed = true;
-    
+
     if (this.isExpanded) {
       this.toggleToastGroup();
     }
@@ -269,7 +269,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, softEnterAnimation);
+    animate(this.renderer, nativeElement, softEnterAnimation);
     this.softClosed = false;
   }
 
@@ -282,7 +282,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
     const nativeElement = this.toastBarBase.nativeElement;
 
-    animate(nativeElement, exitAnimation);
+    animate(this.renderer, nativeElement, exitAnimation);
   }
 
   handleMouseEnter() {
@@ -326,12 +326,12 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   updateHeight(height: number, toast: Toast<unknown>) {
     toast.height = height;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   beforeClosedGroupItem(toast: Toast<unknown>) {
     toast.visible = false;
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
     if (this.visibleToasts.length === 0 && this.isExpanded) {
       this.toggleToastGroup();
     } else {
@@ -343,7 +343,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     const toastIndex = this.groupChildrenToasts.findIndex((t) => t.id === closeToast.id);
     if (toastIndex > -1) {
       this.groupChildrenToastRefs = this.groupChildrenToastRefs.filter((t) => t.getToast().id !== closeToast.id);
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }
   }
 

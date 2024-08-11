@@ -1,3 +1,5 @@
-export const animate = (element: HTMLElement, value: string) => {
-  element.style.animation = value;
+import { Renderer2 } from '@angular/core';
+
+export const animate = (renderer: Renderer2, element: HTMLElement, animation: string) => {
+  renderer.setStyle(element, 'animation', animation);
 };
