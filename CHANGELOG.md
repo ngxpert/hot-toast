@@ -1,3 +1,10 @@
+## [3.0.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.0.0...v3.0.1-beta.1) (2024-08-25)
+
+
+### Bug Fixes
+
+* fixed toast message not being removed automatically and minor changeDetection changes ([aceb7ae](https://github.com/ngxpert/hot-toast/commit/aceb7aea12fc02a8bf5e878d03f7be88947c5154)), closes [#16](https://github.com/ngxpert/hot-toast/issues/16)
+
 # [3.0.0](https://github.com/ngxpert/hot-toast/compare/v2.0.0...v3.0.0) (2024-06-06)
 
 
