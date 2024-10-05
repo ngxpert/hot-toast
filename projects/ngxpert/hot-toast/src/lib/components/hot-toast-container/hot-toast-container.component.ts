@@ -192,14 +192,17 @@ export class HotToastContainerComponent {
       const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
       if (comp) {
         comp.close();
+        this.cdr.markForCheck();
       }
     } else {
       this.hotToastComponentList.forEach((comp) => comp.close());
+      this.cdr.markForCheck();
     }
   }
 
   beforeClosed(toast: Toast<unknown>) {
     toast.visible = false;
+    this.cdr.markForCheck();
   }
 
   afterClosed(closeToast: HotToastClose) {
@@ -243,5 +246,6 @@ export class HotToastContainerComponent {
 
   private updateToasts(toast: Toast<unknown>, options?: UpdateToastOptions<unknown>) {
     this.toasts = this.toasts.map((t) => ({ ...t, ...(t.id === toast.id && { ...toast, ...options }) }));
+    this.cdr.markForCheck();
   }
 }

@@ -9,7 +9,13 @@ import {
   Output,
   Renderer2,
   SimpleChanges,
-  ViewChild, OnChanges, OnInit, AfterViewInit, OnDestroy,
+  ViewChild,
+  OnChanges,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+  signal,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -28,7 +34,20 @@ import { animate } from '../../utils';
   imports: [NgClass, NgStyle, AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
 export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
-  @Input() toast: Toast<unknown>;
+  private _toast: Toast<unknown>;
+  @Input()
+  set toast(value: Toast<unknown>) {
+    this._toast = value;
+    const top = value.position.includes('top');
+    const enterAnimation = `hotToastEnterAnimation${
+      top ? 'Negative' : 'Positive'
+    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+
+    this.toastBarBaseStylesSignal.set({ ...value.style, animation: enterAnimation });
+  }
+  get toast() {
+    return this._toast;
+  }
   @Input() offset = 0;
   @Input() defaultConfig: ToastConfig;
   @Input() toastRef: CreateHotToastRef<unknown>;
@@ -55,6 +74,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   isManualClose = false;
   context: Record<string, unknown>;
   toastComponentInjector: Injector;
+  toastBarBaseStylesSignal = signal({});
 
   private unlisteners: VoidFunction[] = [];
   protected softClosed = false;
@@ -63,6 +83,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     protected injector: Injector,
     protected renderer: Renderer2,
     protected ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get toastBarBaseHeight() {
@@ -111,20 +132,6 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     };
   }
 
-  get toastBarBaseStyles() {
-    const enterAnimation = `hotToastEnterAnimation${
-      this.top ? 'Negative' : 'Positive'
-    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
-
-    const exitAnimation = `hotToastExitAnimation${
-      this.top ? 'Negative' : 'Positive'
-    } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) var(--hot-toast-exit-animation-delay) var(--hot-toast-exit-animation-state)`;
-
-    const animation = this.toast.autoClose ? `${enterAnimation}, ${exitAnimation}` : enterAnimation;
-
-    return { ...this.toast.style, animation };
-  }
-
   get isIconString() {
     return typeof this.toast.icon === 'string';
   }
@@ -171,16 +178,8 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
         parent: this.toast.injector || this.injector,
       });
     }
-  }
 
-  ngAfterViewInit() {
     const nativeElement = this.toastBarBase.nativeElement;
-    // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
-    // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
-    requestAnimationFrame(() => {
-      this.height.emit(nativeElement.offsetHeight);
-    });
-
     // Caretaker note: `animationstart` and `animationend` events are event tasks that trigger change detection.
     // We'd want to trigger the change detection only if it's an exit animation.
     this.ngZone.runOutsideAngular(() => {
@@ -190,15 +189,38 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
         // with callback that capture `this`.
         this.renderer.listen(nativeElement, 'animationstart', (event: AnimationEvent) => {
           if (this.isExitAnimation(event)) {
-            this.ngZone.run(() => this.beforeClosed.emit());
+            this.ngZone.run(() => {
+              this.renderer.setStyle(nativeElement, 'pointer-events', 'none');
+              this.renderer.setStyle(nativeElement.parentElement, 'pointer-events', 'none');
+              this.beforeClosed.emit();
+            });
           }
         }),
         this.renderer.listen(nativeElement, 'animationend', (event: AnimationEvent) => {
+          if (this.isEnterAnimation(event)) {
+            this.ngZone.run(() => {
+              if (this.toast.autoClose) {
+                const exitAnimation = `hotToastExitAnimation${
+                  this.top ? 'Negative' : 'Positive'
+                } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1) var(--hot-toast-exit-animation-delay) var(--hot-toast-exit-animation-state)`;
+                this.toastBarBaseStylesSignal.set({ ...this.toast.style, animation: exitAnimation });
+              }
+            });
+          }
           if (this.isExitAnimation(event)) {
             this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id }));
           }
         })
       );
+    });
+  }
+
+  ngAfterViewInit() {
+    const nativeElement = this.toastBarBase.nativeElement;
+    // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
+    // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
+    requestAnimationFrame(() => {
+      this.height.emit(nativeElement.offsetHeight);
     });
 
     this.setToastAttributes();
@@ -227,14 +249,12 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   close() {
     this.isManualClose = true;
+    this.cdr.markForCheck();
 
     const exitAnimation = `hotToastExitAnimation${
       this.top ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
-
-    const nativeElement = this.toastBarBase.nativeElement;
-
-    animate(this.renderer, nativeElement, exitAnimation);
+    this.toastBarBaseStylesSignal.set({ ...this.toast.style, animation: exitAnimation });
   }
 
   handleMouseEnter() {
@@ -253,6 +273,10 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   private isExitAnimation(ev: AnimationEvent) {
     return ev.animationName.includes('hotToastExitAnimation');
+  }
+
+  private isEnterAnimation(ev: AnimationEvent) {
+    return ev.animationName.includes('hotToastEnterAnimation');
   }
 
   private setToastAttributes() {
