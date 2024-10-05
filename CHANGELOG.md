@@ -1,3 +1,10 @@
+## [3.0.2](https://github.com/ngxpert/hot-toast/compare/v3.0.1...v3.0.2) (2024-10-05)
+
+
+### Bug Fixes
+
+* add exit animation once enter animation is done ([48c7600](https://github.com/ngxpert/hot-toast/commit/48c7600e6c1fe496bc74a16b900e7e35365bbf92)), closes [#21](https://github.com/ngxpert/hot-toast/issues/21)
+
 ## [3.0.2-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.0.1...v3.0.2-beta.1) (2024-10-05)
 
 
