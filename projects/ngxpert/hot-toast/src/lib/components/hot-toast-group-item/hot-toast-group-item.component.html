@@ -9,7 +9,7 @@
     <div
       class="hot-toast-bar-base"
       #hotToastBarBase
-      [ngStyle]="toastBarBaseStyles"
+      [ngStyle]="toastBarBaseStylesSignal()"
       [ngClass]="toast.className"
       [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts ? 'paused' : 'running'"
