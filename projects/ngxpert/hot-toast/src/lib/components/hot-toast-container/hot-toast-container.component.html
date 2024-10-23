@@ -7,7 +7,7 @@
         [offset]="calculateOffset(toast.id, toast.position)"
         [toastRef]="toastRefs[i]"
         [toastsAfter]="(toast.autoClose ? toasts.length : getVisibleToasts(toast.position).length) - 1 - i"
-        [defaultConfig]="defaultConfig"
+        [defaultConfig]="defaultConfig()"
         [isShowingAllToasts]="isShowingAllToasts"
         (showAllToasts)="showAllToasts($event)"
         (height)="updateHeight($event, toast)"

@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   NgZone,
-  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -16,6 +14,8 @@ import {
   OnDestroy,
   signal,
   ChangeDetectorRef,
+  input,
+  output,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -48,9 +48,9 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   get toast() {
     return this._toast;
   }
-  @Input() offset = 0;
-  @Input() defaultConfig: ToastConfig;
-  @Input() toastRef: CreateHotToastRef<unknown>;
+  offset = input(0);
+  defaultConfig = input<ToastConfig>();
+  toastRef = input<CreateHotToastRef<unknown>>();
 
   private _toastsAfter = 0;
   get toastsAfter() {
@@ -61,13 +61,13 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     this._toastsAfter = value;
   }
 
-  @Input() isShowingAllToasts = false;
+  isShowingAllToasts = input(false);
 
-  @Output() height = new EventEmitter<number>();
-  @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter<HotToastClose>();
-  @Output() showAllToasts = new EventEmitter<boolean>();
-  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
+  height = output<number>();
+  beforeClosed = output();
+  afterClosed = output<HotToastClose>();
+  showAllToasts = output<boolean>();
+  toggleGroup = output<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase: ElementRef<HTMLElement>;
 
@@ -91,13 +91,13 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get scale() {
-    return this.defaultConfig.stacking !== 'vertical' && !this.isShowingAllToasts
+    return this.defaultConfig().stacking !== 'vertical' && !this.isShowingAllToasts()
       ? this.toastsAfter * -HOT_TOAST_DEPTH_SCALE + 1
       : 1;
   }
 
   get translateY() {
-    return this.offset * (this.top ? 1 : -1) + 'px';
+    return this.offset() * (this.top ? 1 : -1) + 'px';
   }
 
   get exitAnimationDelay() {
@@ -137,10 +137,10 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get groupChildrenToastRefs() {
-    return this.toastRef.groupRefs;
+    return this.toastRef().groupRefs;
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
-    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
+    (this.toastRef() as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
   get groupChildrenToasts() {
@@ -152,7 +152,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get isExpanded() {
-    return this.toastRef.groupExpanded;
+    return this.toastRef().groupExpanded;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -165,14 +165,14 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
-      this.context = { $implicit: this.toastRef };
+      this.context = { $implicit: this.toastRef() };
     }
     if (isComponent(this.toast.message)) {
       this.toastComponentInjector = Injector.create({
         providers: [
           {
             provide: HotToastRef,
-            useValue: this.toastRef,
+            useValue: this.toastRef(),
           },
         ],
         parent: this.toast.injector || this.injector,

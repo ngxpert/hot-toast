@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, QueryList, ViewChildren, input } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   HotToastClose,
@@ -25,7 +25,7 @@ import { HotToastService } from '../../hot-toast.service';
   imports: [HotToastComponent],
 })
 export class HotToastContainerComponent {
-  @Input() defaultConfig: ToastConfig;
+  defaultConfig = input<ToastConfig>();
 
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
 
@@ -66,18 +66,19 @@ export class HotToastContainerComponent {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
-    index !== -1
-    ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-      const toastsAfter = visibleToasts.length - 1 - i;
-      return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
-      ? 0
-      : acc +
-      (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
-        ? t.height || 0
-        : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
-        HOT_TOAST_MARGIN;
-      }, 0)
-      : 0;
+      index !== -1
+        ? visibleToasts.slice(...(this.defaultConfig().reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            const toastsAfter = visibleToasts.length - 1 - i;
+            return this.defaultConfig().visibleToasts !== 0 &&
+              i < visibleToasts.length - this.defaultConfig().visibleToasts
+              ? 0
+              : acc +
+                  (this.defaultConfig().stacking === 'vertical' || this.isShowingAllToasts
+                    ? t.height || 0
+                    : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
+                  HOT_TOAST_MARGIN;
+          }, 0)
+        : 0;
     return offset;
   }
 
@@ -93,8 +94,8 @@ export class HotToastContainerComponent {
 
     this.toasts.push(ref.getToast());
 
-    if (this.defaultConfig.visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig.visibleToasts) {
-      const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig.visibleToasts);
+    if (this.defaultConfig().visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig().visibleToasts) {
+      const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig().visibleToasts);
       closeToasts.forEach((t) => {
         if (t.autoClose) {
           this.closeToast(t.id);

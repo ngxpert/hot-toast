@@ -1,16 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
-    selector: 'app-emoji-button',
-    templateUrl: './emoji-button.component.html',
-    styleUrls: ['./emoji-button.component.scss'],
-    standalone: true,
+  selector: 'app-emoji-button',
+  templateUrl: './emoji-button.component.html',
+  styleUrls: ['./emoji-button.component.scss'],
+  standalone: true,
 })
 export class EmojiButtonComponent {
-  @Input() emoji: string;
-  @Input() className: string;
-  @Input() btnId: string;
-  @Output() btnClick = new EventEmitter();
-  @Input() showLink = false;
-  @Input() disabled = false;
+  emoji = input<string>();
+  className = input<string>();
+  btnId = input<string>();
+  btnClick = output();
+  showLink = input(false);
+  disabled = input(false);
 }

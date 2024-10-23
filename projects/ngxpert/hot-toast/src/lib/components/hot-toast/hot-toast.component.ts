@@ -5,18 +5,18 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   signal,
   SimpleChanges,
   ViewChild,
+  input,
+  output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
@@ -51,9 +51,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   get toast() {
     return this._toast;
   }
-  @Input() offset = 0;
-  @Input() defaultConfig: ToastConfig;
-  @Input() toastRef: CreateHotToastRef<unknown>;
+  offset = input(0);
+  defaultConfig = input<ToastConfig>();
+  toastRef = input<CreateHotToastRef<unknown>>();
 
   private _toastsAfter = 0;
   get toastsAfter() {
@@ -62,13 +62,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   @Input()
   set toastsAfter(value) {
     this._toastsAfter = value;
-    if (this.defaultConfig?.visibleToasts > 0) {
+    if (this.defaultConfig()?.visibleToasts > 0) {
       if (this.toast.autoClose) {
         // if (value >= this.defaultConfig?.visibleToasts) {
         //   this.close();
         // }
       } else {
-        if (value >= this.defaultConfig?.visibleToasts) {
+        if (value >= this.defaultConfig()?.visibleToasts) {
           this.softClose();
         } else if (this.softClosed) {
           this.softOpen();
@@ -77,13 +77,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     }
   }
 
-  @Input() isShowingAllToasts = false;
+  isShowingAllToasts = input(false);
 
-  @Output() height = new EventEmitter<number>();
-  @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter<HotToastClose>();
-  @Output() showAllToasts = new EventEmitter<boolean>();
-  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
+  height = output<number>();
+  beforeClosed = output();
+  afterClosed = output<HotToastClose>();
+  showAllToasts = output<boolean>();
+  toggleGroup = output<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase', { static: true }) private toastBarBase: ElementRef<HTMLElement>;
 
@@ -109,13 +109,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   }
 
   get scale() {
-    return this.defaultConfig.stacking !== 'vertical' && !this.isShowingAllToasts
+    return this.defaultConfig().stacking !== 'vertical' && !this.isShowingAllToasts()
       ? this.toastsAfter * -HOT_TOAST_DEPTH_SCALE + 1
       : 1;
   }
 
   get translateY() {
-    return this.offset * (this.top ? 1 : -1) + 'px';
+    return this.offset() * (this.top ? 1 : -1) + 'px';
   }
 
   get exitAnimationDelay() {
@@ -161,7 +161,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     this.groupRefs = value;
 
     // maybe below will prevent execution in ngDoCheck?
-    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
+    (this.toastRef() as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
   get groupChildrenToasts() {
@@ -170,7 +170,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   get groupHeight() {
     return this.visibleToasts
-      .slice(-this.defaultConfig.visibleToasts)
+      .slice(-this.defaultConfig().visibleToasts)
       .map((t) => t.height)
       .reduce((prev, curr) => prev + curr, 0);
   }
@@ -180,14 +180,14 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   }
 
   ngDoCheck() {
-    if (this.toastRef.groupRefs.length !== this.groupRefs.length) {
-      this.groupRefs = this.toastRef.groupRefs.slice();
+    if (this.toastRef().groupRefs.length !== this.groupRefs.length) {
+      this.groupRefs = this.toastRef().groupRefs.slice();
       this.cdr.markForCheck();
 
       this.emiHeightWithGroup(this.isExpanded);
     }
-    if (this.toastRef.groupExpanded !== this.isExpanded) {
-      this.isExpanded = this.toastRef.groupExpanded;
+    if (this.toastRef().groupExpanded !== this.isExpanded) {
+      this.isExpanded = this.toastRef().groupExpanded;
       this.cdr.markForCheck();
 
       this.emiHeightWithGroup(this.isExpanded);
@@ -202,14 +202,14 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
-      this.context = { $implicit: this.toastRef };
+      this.context = { $implicit: this.toastRef() };
     }
     if (isComponent(this.toast.message)) {
       this.toastComponentInjector = Injector.create({
         providers: [
           {
             provide: HotToastRef,
-            useValue: this.toastRef,
+            useValue: this.toastRef(),
           },
         ],
         parent: this.toast.injector || this.injector,
@@ -334,8 +334,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-            return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
+        ? visibleToasts.slice(...(this.defaultConfig().reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            return this.defaultConfig().visibleToasts !== 0 &&
+              i < visibleToasts.length - this.defaultConfig().visibleToasts
               ? 0
               : acc + (t.height || 0);
           }, 0)

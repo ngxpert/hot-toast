@@ -1,7 +1,7 @@
-<div class="relative emoji-btn-wrapper" [class.translate-x-link]="btnId && showLink">
+<div class="relative emoji-btn-wrapper" [class.translate-x-link]="btnId() && showLink()">
   <small class="text-sm opacity-25 hover:opacity-100 absolute top-2 emoji-link px-2"
-    >@if (btnId && showLink) {
-    <a [href]="'#' + btnId">🔗</a>
+    >@if (btnId() && showLink()) {
+    <a [href]="'#' + btnId()">🔗</a>
     }</small
   >
   <button
@@ -10,11 +10,11 @@
       className
     }}"
     (click)="btnClick.emit()"
-    [id]="btnId"
-    [disabled]="disabled"
+    [id]="btnId()"
+    [disabled]="disabled()"
   >
     <span>
-      {{ emoji }}
+      {{ emoji() }}
     </span>
     <div class="flex-1 px-3">
       <ng-content></ng-content>
