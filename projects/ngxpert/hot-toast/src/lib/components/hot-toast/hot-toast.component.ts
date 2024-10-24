@@ -74,18 +74,18 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
         } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
       this.toastBarBaseStylesSignal.set({ ...this.toast().style, animation: enterAnimation });
-      this.groupChildrenToastRefs = this.toastRef().groupRefs.slice();
     });
 
     effect(() => {
-      const value = this.toastsAfter()
-      if (this.defaultConfig()?.visibleToasts > 0) {
+      const toastsAfter = this.toastsAfter()
+      const defaultConfig  = this.defaultConfig();
+      if (defaultConfig?.visibleToasts > 0) {
         if (this.toast().autoClose) {
           // if (value >= this.defaultConfig?.visibleToasts) {
           //   this.close();
           // }
         } else {
-          if (value >= this.defaultConfig()?.visibleToasts) {
+          if (toastsAfter >= defaultConfig?.visibleToasts) {
             this.softClose();
           } else if (this.softClosed) {
             this.softOpen();
