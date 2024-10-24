@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { IconTheme } from '../../../../hot-toast.model';
@@ -11,5 +11,5 @@ import { IconTheme } from '../../../../hot-toast.model';
   imports: [CommonModule],
 })
 export class LoaderComponent {
-  @Input() theme: IconTheme;
+  theme = input<IconTheme>();
 }

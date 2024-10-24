@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input, QueryList, ViewChildren } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, QueryList, ViewChildren, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   HotToastClose,
@@ -66,18 +66,19 @@ export class HotToastContainerComponent {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
-    index !== -1
-    ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-      const toastsAfter = visibleToasts.length - 1 - i;
-      return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
-      ? 0
-      : acc +
-      (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
-        ? t.height || 0
-        : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
-        HOT_TOAST_MARGIN;
-      }, 0)
-      : 0;
+      index !== -1
+        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            const toastsAfter = visibleToasts.length - 1 - i;
+            return this.defaultConfig.visibleToasts !== 0 &&
+              i < visibleToasts.length - this.defaultConfig.visibleToasts
+              ? 0
+              : acc +
+                  (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
+                    ? t.height || 0
+                    : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
+                  HOT_TOAST_MARGIN;
+          }, 0)
+        : 0;
     return offset;
   }
 
@@ -189,7 +190,7 @@ export class HotToastContainerComponent {
 
   closeToast(id?: string) {
     if (id) {
-      const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
+      const comp = this.hotToastComponentList.find((item) => item.toast().id === id);
       if (comp) {
         comp.close();
         this.cdr.markForCheck();

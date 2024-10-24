@@ -1,25 +1,25 @@
-@if (type !== 'blank') {
+@if (type() !== 'blank') {
 <div class="hot-toast-indicator-wrapper">
-  @if (type === 'loading') {
-  <hot-toast-loader [theme]="theme"></hot-toast-loader>
-  } @if (type !== 'loading') {
+  @if (type() === 'loading') {
+  <hot-toast-loader [theme]="theme()"></hot-toast-loader>
+  } @if (type() !== 'loading') {
   <div class="hot-toast-status-wrapper">
     <div>
-      @switch (type) { @case ('error') {
+      @switch (type()) { @case ('error') {
       <div>
-        <hot-toast-error [theme]="theme"></hot-toast-error>
+        <hot-toast-error [theme]="theme()"></hot-toast-error>
       </div>
       } @case ('success') {
       <div>
-        <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
+        <hot-toast-checkmark [theme]="theme()"></hot-toast-checkmark>
       </div>
       } @case ('warning') {
       <div>
-        <hot-toast-warning [theme]="theme"></hot-toast-warning>
+        <hot-toast-warning [theme]="theme()"></hot-toast-warning>
       </div>
       } @case ('info') {
       <div>
-        <hot-toast-info [theme]="theme"></hot-toast-info>
+        <hot-toast-info [theme]="theme()"></hot-toast-info>
       </div>
       } }
     </div>

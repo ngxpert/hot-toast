@@ -1,5 +1,5 @@
-<div [ngClass]="containerClass">
-  <pre class="language-{{ language }}" data-prismjs-copy="📋" data-prismjs-copy-success="✅">
-    <code class="language-{{ language }}" #code [innerHTML]="snippet"> </code>
+<div [ngClass]="containerClass()">
+  <pre class="language-{{ language() }}" data-prismjs-copy="📋" data-prismjs-copy-success="✅">
+    <code class="language-{{ language() }}" #code [innerHTML]="snippet()"> </code>
   </pre>
 </div>
