@@ -190,7 +190,7 @@ export class HotToastContainerComponent {
 
   closeToast(id?: string) {
     if (id) {
-      const comp = this.hotToastComponentList.find((item) => item.toast.id === id);
+      const comp = this.hotToastComponentList.find((item) => item.toast().id === id);
       if (comp) {
         comp.close();
         this.cdr.markForCheck();
