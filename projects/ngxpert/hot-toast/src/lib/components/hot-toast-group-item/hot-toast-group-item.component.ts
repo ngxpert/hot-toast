@@ -64,10 +64,11 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   ) {
 
     effect(() => {
-      const top = this.toast().position.includes('top');
+      const {position,style} = this.toast();
+      const top = position.includes('top');
       const enterAnimation = `hotToastEnterAnimation${top ? 'Negative' : 'Positive'
         } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
-      this.toastBarBaseStylesSignal.set({ ...this.toast().style, animation: enterAnimation });
+      this.toastBarBaseStylesSignal.set({ ...style, animation: enterAnimation });
     });
   }
 

@@ -17,6 +17,7 @@ import {
   input,
   output,
   effect,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
@@ -69,18 +70,20 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     private cdr: ChangeDetectorRef
   ) {
     effect(() => {
-      const top = this.toast().position.includes('top');
+      const {position,style} = this.toast();
+      const top = position.includes('top');
       const enterAnimation = `hotToastEnterAnimation${top ? 'Negative' : 'Positive'
         } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
-      this.toastBarBaseStylesSignal.set({ ...this.toast().style, animation: enterAnimation });
+      this.toastBarBaseStylesSignal.set({ ...style, animation: enterAnimation });
     });
 
     effect(() => {
       const toastsAfter = this.toastsAfter()
-      const defaultConfig  = this.defaultConfig();
+      const defaultConfig = untracked(this.defaultConfig);
+      const toast = untracked(this.toast);
       if (defaultConfig?.visibleToasts > 0) {
-        if (this.toast().autoClose) {
+        if (toast.autoClose) {
           // if (value >= this.defaultConfig?.visibleToasts) {
           //   this.close();
           // }
