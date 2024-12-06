@@ -338,6 +338,7 @@ export interface HotToastRefProps<DataType> {
    * @since 1.1.0
    */
   toggleGroup: (eventData?: { byAction: boolean }) => void;
+  show: () => void;
 }
 
 /** Event that is emitted when a toast is dismissed. */
