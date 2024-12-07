@@ -90,7 +90,9 @@ const parentRef = parentBuilder.create();
 // Once all refs are attached, show the parent toast
 parentRef.afterGroupRefsAttached.subscribe(() => {
   parentRef.show();
-});`;
+});
+
+${childNotifications}`;
 
 export const preGroupingHTML = `
 &lt;ng-template #groupTemplate let-toastRef>
