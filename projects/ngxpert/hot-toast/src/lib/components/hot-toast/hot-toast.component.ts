@@ -155,7 +155,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   }
 
   get groupChildrenToastRefs() {
-    return this.groupRefs;
+    return this.groupRefs.filter((ref) => !!ref);
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
     this.groupRefs = value;

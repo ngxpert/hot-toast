@@ -31,7 +31,7 @@ export class GroupingComponent implements OnInit {
     { label: 'HTML', value: 'html' },
     { label: 'CSS', value: 'css' },
   ];
-  readonly commonOptions: ToastOptions<unknown> = { autoClose: false };
+  readonly commonOptions: ToastOptions<unknown> = { autoClose: false, dismissible: true };
   readonly childNotifications = (ngTemplateGroupItem: Content): HotToastGroupChild[] => [
     {
       options: {
@@ -132,6 +132,7 @@ export class GroupingComponent implements OnInit {
           this.parentRef = this.toast.show(this.ngTemplateGroup, {
             position: 'top-right',
             autoClose: false,
+            dismissible: true,
             className: 'hot-toast-custom-class',
             group: {
               className: 'hot-toast-custom-class',
@@ -176,6 +177,39 @@ export class GroupingComponent implements OnInit {
 
     // Add children to parent
     children.forEach((child) => parentBuilder.addChild(child));
+
+    // Create the toast with all children (but don't show yet)
+    const parentRef = parentBuilder.create();
+
+    // Once all refs are attached, show the parent toast
+    parentRef.afterGroupRefsAttached.subscribe(() => {
+      parentRef.show();
+    });
+  }
+
+  // Hidden method for testing dismissible toasts
+  showDismissibleToasts() {
+    // Create parent toast first but don't show it
+    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup, this.toast).setOptions({
+      position: 'top-right',
+      autoClose: false,
+      dismissible: true,
+      className: 'hot-toast-custom-class',
+      group: {
+        className: 'hot-toast-custom-class',
+      },
+    });
+
+    // Create child toasts with dismissible option
+    const childrenWithDismissible = this.childNotifications(this.ngTemplateGroupItem).map((child) => {
+      return new HotToastBuilder(child.options.message, this.toast).setOptions({
+        ...child.options,
+        dismissible: true,
+      });
+    });
+
+    // Add children to parent
+    childrenWithDismissible.forEach((child) => parentBuilder.addChild(child));
 
     // Create the toast with all children (but don't show yet)
     const parentRef = parentBuilder.create();
