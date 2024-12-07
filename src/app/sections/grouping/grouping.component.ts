@@ -7,6 +7,7 @@ import { CodeComponent } from 'src/app/shared/components/code/code.component';
 import { HtmlPipe } from 'src/app/shared/pipes/html.pipe';
 import { NgClass } from '@angular/common';
 import { preGroupingTS, preGroupingHTML, preGroupingCSS, postGroupingTS } from './snippets';
+import { HotToastBuilder } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-grouping',
@@ -30,7 +31,7 @@ export class GroupingComponent implements OnInit {
     { label: 'HTML', value: 'html' },
     { label: 'CSS', value: 'css' },
   ];
-  readonly commonOptions: ToastOptions<unknown> = { autoClose: false };
+  readonly commonOptions: ToastOptions<unknown> = { autoClose: false, dismissible: true };
   readonly childNotifications = (ngTemplateGroupItem: Content): HotToastGroupChild[] => [
     {
       options: {
@@ -99,9 +100,9 @@ export class GroupingComponent implements OnInit {
       {
         id: 'grouping-pre',
         title: 'Show Pre-Grouped Notifications',
-        subtitle: `<p class="mb-2">If you need to group toasts, you can use <b><code>group.children</code></b> option. This is useful if you want to show for example notifications as grouped items.</p>
+        subtitle: `<p class="mb-2">You can create grouped toasts using the builder pattern. First create the parent and child toasts, then connect them using <b><code>addChild()</code></b>.</p>
         <p class="text-md bg-toast-200 p-4 rounded-2xl p-4">
-        👉 You can access children group toast references using <b><code>toastRef.groupsRefs</code></b>
+        👉 Create toasts with <b><code>create()</code></b> and show them after all refs are attached using <b><code>afterGroupRefsAttached</code></b>
       </p>
           `,
         emoji: '🔔',
@@ -112,15 +113,7 @@ export class GroupingComponent implements OnInit {
           css: preGroupingCSS,
         },
         action: () => {
-          this.toast.show(this.ngTemplateGroup, {
-            position: 'top-right',
-            autoClose: false,
-            className: 'hot-toast-custom-class',
-            group: {
-              className: 'hot-toast-custom-class',
-              children: this.childNotifications(this.ngTemplateGroupItem),
-            },
-          });
+          this.showPreGroupedNotifications();
         },
       },
       {
@@ -139,6 +132,7 @@ export class GroupingComponent implements OnInit {
           this.parentRef = this.toast.show(this.ngTemplateGroup, {
             position: 'top-right',
             autoClose: false,
+            dismissible: true,
             className: 'hot-toast-custom-class',
             group: {
               className: 'hot-toast-custom-class',
@@ -163,5 +157,66 @@ export class GroupingComponent implements OnInit {
 
   click(e: Example) {
     e.action();
+  }
+
+  showPreGroupedNotifications() {
+    // Create parent toast first but don't show it
+    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup, this.toast).setOptions({
+      position: 'top-right',
+      autoClose: false,
+      className: 'hot-toast-custom-class',
+      group: {
+        className: 'hot-toast-custom-class',
+      },
+    });
+
+    // Create child toasts
+    const children = this.childNotifications(this.ngTemplateGroupItem).map((child) => {
+      return new HotToastBuilder(child.options.message, this.toast).setOptions(child.options);
+    });
+
+    // Add children to parent
+    children.forEach((child) => parentBuilder.addChild(child));
+
+    // Create the toast with all children (but don't show yet)
+    const parentRef = parentBuilder.create();
+
+    // Once all refs are attached, show the parent toast
+    parentRef.afterGroupRefsAttached.subscribe(() => {
+      parentRef.show();
+    });
+  }
+
+  // Hidden method for testing dismissible toasts
+  showDismissibleToasts() {
+    // Create parent toast first but don't show it
+    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup, this.toast).setOptions({
+      position: 'top-right',
+      autoClose: false,
+      dismissible: true,
+      className: 'hot-toast-custom-class',
+      group: {
+        className: 'hot-toast-custom-class',
+      },
+    });
+
+    // Create child toasts with dismissible option
+    const childrenWithDismissible = this.childNotifications(this.ngTemplateGroupItem).map((child) => {
+      return new HotToastBuilder(child.options.message, this.toast).setOptions({
+        ...child.options,
+        dismissible: true,
+      });
+    });
+
+    // Add children to parent
+    childrenWithDismissible.forEach((child) => parentBuilder.addChild(child));
+
+    // Create the toast with all children (but don't show yet)
+    const parentRef = parentBuilder.create();
+
+    // Once all refs are attached, show the parent toast
+    parentRef.afterGroupRefsAttached.subscribe(() => {
+      parentRef.show();
+    });
   }
 }

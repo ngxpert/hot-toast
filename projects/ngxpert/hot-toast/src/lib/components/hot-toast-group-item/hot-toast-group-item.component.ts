@@ -137,7 +137,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get groupChildrenToastRefs() {
-    return this.toastRef.groupRefs;
+    return this.toastRef.groupRefs.filter((ref) => !!ref);
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
     (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;

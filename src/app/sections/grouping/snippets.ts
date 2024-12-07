@@ -65,29 +65,34 @@ readonly childNotifications = (ngTemplateGroupItem: Content): HotToastGroupChild
 ];`;
 
 export const preGroupingTS = `
-@ViewChild('groupTemplate') ngTemplateGroup;
-@ViewChild('groupItemTemplate') ngTemplateGroupItem;
-
-toast = inject(HotToastService);
-
-showPreGroupedNotifications() {
-  this.toast.show(ngTemplateGroup, {
+const parentBuilder = new HotToastBuilder(ngTemplateGroup, toast)
+  .setOptions({
     position: 'top-right',
     autoClose: false,
     className: 'hot-toast-custom-class',
     group: {
-      className: 'hot-toast-custom-class',
-      children: this.childNotifications(this.ngTemplateGroupItem),
+      className: 'hot-toast-custom-class'
     }
-  })
-}
+  });
 
-visibleToasts(toastRefs: CreateHotToastRef&lt;unknown>[]) {
-  return toastRefs.filter((t) => t.getToast().visible).length;
-}
+// Create child toasts
+const children = childNotifications(ngTemplateGroupItem).map((child) => {
+  return new HotToastBuilder(child.options.message, toast)
+    .setOptions(child.options);
+});
 
-${childNotifications}
-`;
+// Add children to parent
+children.forEach((child) => parentBuilder.addChild(child));
+
+// Create the toast with all children (but don't show yet)
+const parentRef = parentBuilder.create();
+
+// Once all refs are attached, show the parent toast
+parentRef.afterGroupRefsAttached.subscribe(() => {
+  parentRef.show();
+});
+
+${childNotifications}`;
 
 export const preGroupingHTML = `
 &lt;ng-template #groupTemplate let-toastRef>
