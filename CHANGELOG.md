@@ -1,3 +1,15 @@
+# [3.1.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.0.2...v3.1.0-beta.1) (2024-12-07)
+
+
+### Bug Fixes
+
+* filter undefined refs from group, add test cases ([af1ed00](https://github.com/ngxpert/hot-toast/commit/af1ed00f87cc37fb4215c79db696e5cc069f550b)), closes [#9](https://github.com/ngxpert/hot-toast/issues/9)
+
+
+### Features
+
+* add new builder pattern to handle pre-grouping ([8b59a9a](https://github.com/ngxpert/hot-toast/commit/8b59a9af19db742115e6aae465346d923da7789d)), closes [#9](https://github.com/ngxpert/hot-toast/issues/9)
+
 ## [3.0.2](https://github.com/ngxpert/hot-toast/compare/v3.0.1...v3.0.2) (2024-10-05)
 
 
