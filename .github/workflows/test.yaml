@@ -34,16 +34,30 @@ jobs:
           HUSKY_SKIP_INSTALL: true
         run: npm ci
 
+      - name: Check Conventional Commits
+        id: check-commits
+        run: |
+          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          if [[ ! $commit_message =~ ^(docs|chore|ci)(\(.+\))?:\s.+$ ]]; then
+            echo "is_conventional=false" >> $GITHUB_ENV
+          else
+            echo "is_conventional=true" >> $GITHUB_ENV
+          fi
+
       - name: Lint
+        if: env.is_conventional == 'true'
         run: npm run lint -- @ngxpert/hot-toast
 
       - name: Build library
+        if: env.is_conventional == 'true'
         run: npm run build:lib
 
       - name: Build
+        if: env.is_conventional == 'true'
         run: npm run build
 
       - name: Test
+        if: env.is_conventional == 'true'
         run: npm run test
 
       - name: Release
