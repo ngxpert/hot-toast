@@ -6,13 +6,11 @@ import { Observable } from 'rxjs';
 type ToastMethod = 'show' | 'success' | 'error' | 'warning' | 'info' | 'loading';
 
 export class HotToastBuilder<DataType = unknown> {
-  private options: ToastOptions<DataType>;
+  private options: ToastOptions<DataType> = {};
   private groupChildren: HotToastBuilder<unknown>[] = [];
   private toastRef: CreateHotToastRef<DataType>;
 
-  constructor(private message: Content, private service: HotToastService) {
-    this.options = {};
-  }
+  constructor(private message: Content, private service: HotToastService) {}
 
   setOptions(options: ToastOptions<DataType>): this {
     this.options = { ...this.options, ...options };

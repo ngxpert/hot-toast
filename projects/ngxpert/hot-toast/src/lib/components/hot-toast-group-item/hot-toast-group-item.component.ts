@@ -16,6 +16,7 @@ import {
   OnDestroy,
   signal,
   ChangeDetectorRef,
+  inject,
 } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
@@ -79,12 +80,10 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   private unlisteners: VoidFunction[] = [];
   protected softClosed = false;
 
-  constructor(
-    protected injector: Injector,
-    protected renderer: Renderer2,
-    protected ngZone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {}
+  private injector = inject(Injector);
+  private renderer = inject(Renderer2);
+  private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   get toastBarBaseHeight() {
     return this.toastBarBase.nativeElement.offsetHeight;

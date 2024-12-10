@@ -30,8 +30,6 @@ export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps
   /** Subject for notifying the user that the toast has been closed. */
   private _onGroupToggle = new Subject<HotToastGroupEvent>();
 
-  private _componentRef: { changeDetectorRef: { detectChanges: () => void } };
-
   constructor(private toast: Toast<DataType>) {}
 
   set data(data: DataType) {

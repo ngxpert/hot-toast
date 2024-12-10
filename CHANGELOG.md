@@ -1,3 +1,17 @@
+## [3.1.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.1.0...v3.1.1-beta.1) (2024-12-10)
+
+
+### Bug Fixes
+
+* use inject function instead of decorator ([9b63e61](https://github.com/ngxpert/hot-toast/commit/9b63e614729d9d1807d13d1c9ee4e409c371ef34)), closes [#22](https://github.com/ngxpert/hot-toast/issues/22)
+
+# [3.1.0-beta.3](https://github.com/ngxpert/hot-toast/compare/v3.1.0-beta.2...v3.1.0-beta.3) (2024-12-10)
+
+
+### Bug Fixes
+
+* use inject function instead of decorator ([9b63e61](https://github.com/ngxpert/hot-toast/commit/9b63e614729d9d1807d13d1c9ee4e409c371ef34)), closes [#22](https://github.com/ngxpert/hot-toast/issues/22)
+
 # [3.1.0](https://github.com/ngxpert/hot-toast/compare/v3.0.2...v3.1.0) (2024-12-10)
 
 
