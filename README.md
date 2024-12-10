@@ -114,23 +114,7 @@ npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@3
 
 ## Setup
 
-### Styles
-
-If you use **SCSS** add this line to your main **styles.scss**:
-
-```scss
-@use 'node_modules/@ngxpert/hot-toast/src/styles/styles.scss';
-```
-
-or if you use **CSS** add this to your styles inside your **angular.json**:
-
-```json
-"styles": [
-     "node_modules/@ngxpert/hot-toast/src/styles/styles.css",
-],
-```
-
-### Standalone Setup
+### Step 1a/2: Standalone Setup
 
 ```typescript
 import { AppComponent } from './src/app.component';
@@ -144,7 +128,7 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-### Module Setup
+### Step 1b/2: Module Setup
 
 Add `provideHotToastConfig()` to your app.module.ts `providers` section. Toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
 
@@ -157,7 +141,7 @@ import { providerHotToastConfig } from '@ngxpert/hot-toast';
 class AppModule {}
 ```
 
-### Stylings
+### Step 2/2: Stylings
 
 if you use **SCSS** add this line to your main **styles.scss**:
 
