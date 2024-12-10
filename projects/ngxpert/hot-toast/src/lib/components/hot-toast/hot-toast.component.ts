@@ -31,22 +31,31 @@ import { AnimatedIconComponent } from '../animated-icon/animated-icon.component'
 import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-group-item.component';
 
 @Component({
-    selector: 'hot-toast',
-    templateUrl: 'hot-toast.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent]
+  selector: 'hot-toast',
+  templateUrl: 'hot-toast.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
   private _toast: Toast<unknown>;
   @Input()
   set toast(value: Toast<unknown>) {
     this._toast = value;
-    const top = value.position.includes('top');
-    const enterAnimation = `hotToastEnterAnimation${
-      top ? 'Negative' : 'Positive'
-    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+    const ogStyle = this.toastBarBaseStylesSignal();
+    const newStyle: Record<string, string> = { ...value.style };
 
-    this.toastBarBaseStylesSignal.set({ ...value.style, animation: enterAnimation });
+    if (ogStyle['animation']?.includes('hotToastExitAnimation')) {
+      // if toast is set for exit, we don't need want set the enter animation
+      newStyle['animation'] = ogStyle['animation'];
+    } else {
+      const top = value.position.includes('top');
+      const enterAnimation = `hotToastEnterAnimation${
+        top ? 'Negative' : 'Positive'
+      } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+      newStyle['animation'] = enterAnimation;
+    }
+    
+    this.toastBarBaseStylesSignal.set(newStyle);
   }
   get toast() {
     return this._toast;
@@ -91,7 +100,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   context: Record<string, unknown>;
   toastComponentInjector: Injector;
   isExpanded = false;
-  toastBarBaseStylesSignal = signal({});
+  toastBarBaseStylesSignal = signal<Record<string, string>>({});
 
   private unlisteners: VoidFunction[] = [];
   private softClosed = false;
