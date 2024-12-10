@@ -6,8 +6,7 @@ import { NgClass } from '@angular/common';
     selector: 'app-steps',
     templateUrl: './steps.component.html',
     styleUrls: ['./steps.component.scss'],
-    standalone: true,
-    imports: [NgClass, CodeComponent],
+    imports: [NgClass, CodeComponent]
 })
 export class StepsComponent implements OnInit {
   stepList: { title: string; subTitle: string; code: string; language: string }[] = [

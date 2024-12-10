@@ -12,11 +12,13 @@ describe('Toast Grouping', () => {
 
     // Check parent toast appears with retry and longer timeout
     cy.get('.hot-toast-bar-base', { timeout: 10000 }).should('be.visible');
-    cy.get('.hot-toast-bar-base').within(() => {
-      cy.contains('New Activities', { timeout: 5000 }).should('be.visible');
-      cy.contains('5 New Activities', { timeout: 5000 }).should('be.visible');
-      cy.contains("What's happening around you!", { timeout: 5000 }).should('be.visible');
-    });
+    cy.get('.hot-toast-bar-base')
+      .first()
+      .within(() => {
+        cy.contains('New Activities', { timeout: 5000 }).should('be.visible');
+        cy.contains('5 New Activities', { timeout: 5000 }).should('be.visible');
+        cy.contains("What's happening around you!", { timeout: 5000 }).should('be.visible');
+      });
 
     // Check expand/collapse functionality with wait
     cy.get('.hot-toast-group-btn').should('be.visible').click();
@@ -71,12 +73,14 @@ describe('Toast Grouping', () => {
 
     // Check parent toast appears with retry and longer timeout
     cy.get('.hot-toast-bar-base', { timeout: 10000 }).should('be.visible');
-    cy.get('.hot-toast-bar-base').within(() => {
-      // Wait for all notifications to be added and visible
-      cy.contains(/[0-5] New Activities/, { timeout: 10000 }).should('be.visible');
-      cy.contains("What's happening around you!", { timeout: 5000 }).should('be.visible');
-      cy.get('.hot-toast-close-btn').should('be.visible');
-    });
+    cy.get('.hot-toast-bar-base')
+      .first()
+      .within(() => {
+        // Wait for all notifications to be added and visible
+        cy.contains(/[0-5] New Activities/, { timeout: 10000 }).should('be.visible');
+        cy.contains("What's happening around you!", { timeout: 5000 }).should('be.visible');
+        cy.get('.hot-toast-close-btn').should('be.visible');
+      });
 
     // Check expand/collapse functionality with wait
     cy.get('.hot-toast-group-btn').should('be.visible').click();

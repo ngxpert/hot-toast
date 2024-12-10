@@ -6,8 +6,7 @@ import { NgClass } from '@angular/common';
     selector: 'app-code',
     templateUrl: './code.component.html',
     styleUrls: ['./code.component.scss'],
-    standalone: true,
-    imports: [NgClass],
+    imports: [NgClass]
 })
 export class CodeComponent implements OnChanges {
   @Input() language = 'typescript';
