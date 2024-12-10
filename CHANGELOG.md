@@ -1,3 +1,11 @@
+# [3.1.0-beta.2](https://github.com/ngxpert/hot-toast/compare/v3.1.0-beta.1...v3.1.0-beta.2) (2024-12-10)
+
+
+### Bug Fixes
+
+* assign statically increasing ids to toasts ([c3ec7a1](https://github.com/ngxpert/hot-toast/commit/c3ec7a1ade1d7c790848983c882e587af0ca5949)), closes [#15](https://github.com/ngxpert/hot-toast/issues/15)
+* revert toastref.groupref assignment ([a99204a](https://github.com/ngxpert/hot-toast/commit/a99204a3e9e8e928a261e806787bc30a95da3d6c))
+
 # [3.1.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.0.2...v3.1.0-beta.1) (2024-12-07)
 
 
