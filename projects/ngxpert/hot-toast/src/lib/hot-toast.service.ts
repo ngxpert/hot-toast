@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, Optional, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { defer, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -33,15 +33,15 @@ export class HotToastService implements HotToastServiceMethods {
   private _defaultGlobalConfig = new ToastConfig();
   private _defaultPersistConfig = new ToastPersistConfig();
 
-  constructor(
-    private _viewService: ViewService,
-    @Inject(PLATFORM_ID) private platformId: string,
-    @Optional() globalConfig: ToastConfig
-  ) {
-    if (globalConfig) {
+  private _viewService = inject(ViewService);
+  private _platformId = inject(PLATFORM_ID);
+  private _globalConfig = inject(ToastConfig, { optional: true });
+
+  constructor() {
+    if (this._globalConfig) {
       this._defaultGlobalConfig = {
         ...this._defaultGlobalConfig,
-        ...globalConfig,
+        ...this._globalConfig,
       };
     }
   }
@@ -269,7 +269,7 @@ export class HotToastService implements HotToastServiceMethods {
    * Creates a container component and attaches it to document.body.
    */
   private init() {
-    if (isPlatformServer(this.platformId)) {
+    if (isPlatformServer(this._platformId)) {
       return;
     }
     this._componentRef = this._viewService
