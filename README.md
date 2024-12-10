@@ -69,13 +69,13 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 With **npm**:
 
 ```bash
-npm install @ngneat/overview@6.0.0 @ngxpert/hot-toast
+npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast
 ```
 
 or **yarn**
 
 ```bash
-yarn add @ngneat/overview@6.0.0 @ngxpert/hot-toast
+yarn add @ngneat/overview@6.1.1 @ngxpert/hot-toast
 ```
 
 <details>
