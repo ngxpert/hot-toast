@@ -1,3 +1,15 @@
+# [4.0.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.2.0-beta.1...v4.0.0-beta.1) (2024-12-10)
+
+
+### Features
+
+* update to Angular 19 ([bb2bd47](https://github.com/ngxpert/hot-toast/commit/bb2bd476ed7f201c79d8261a506f5e3cc9e032ec))
+
+
+### BREAKING CHANGES
+
+* update to angular 19
+
 # [3.2.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.1.1...v3.2.0-beta.1) (2024-12-10)
 
 
