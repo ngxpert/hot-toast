@@ -16,13 +16,22 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: NPM install, build, release and deploy
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build -- --base-href "/hot-toast/"
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm ci
-          npm run build -- --base-href "/hot-toast/"
-          npm run build:lib
-          npx semantic-release
-          npx angular-cli-ghpages --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com --dir=dist/toast/browser
+        run: npx semantic-release
+
+      - name: Deploy to GitHub Pages
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx angular-cli-ghpages --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com --dir=dist/toast/browser

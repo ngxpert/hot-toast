@@ -31,7 +31,7 @@ export class GroupingComponent implements OnInit {
     { label: 'HTML', value: 'html' },
     { label: 'CSS', value: 'css' },
   ];
-  readonly commonOptions: ToastOptions<unknown> = { autoClose: false, dismissible: true };
+  readonly commonOptions: ToastOptions<unknown> = { autoClose: false };
   readonly childNotifications = (ngTemplateGroupItem: Content): HotToastGroupChild[] => [
     {
       options: {
@@ -132,7 +132,6 @@ export class GroupingComponent implements OnInit {
           this.parentRef = this.toast.show(this.ngTemplateGroup, {
             position: 'top-right',
             autoClose: false,
-            dismissible: true,
             className: 'hot-toast-custom-class',
             group: {
               className: 'hot-toast-custom-class',

@@ -34,13 +34,20 @@ jobs:
           HUSKY_SKIP_INSTALL: true
         run: npm ci
 
-      - name: Lint, build, test and release
+      - name: Lint
+        run: npm run lint -- @ngxpert/hot-toast
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm run test
+
+      - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm run lint -- @ngxpert/hot-toast
-          npm run build:lib
-          npm run build
-          npm run test
-          npx semantic-release --debug
+        run: npx semantic-release --debug
