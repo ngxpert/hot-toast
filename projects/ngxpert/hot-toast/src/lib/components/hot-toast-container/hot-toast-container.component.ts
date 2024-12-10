@@ -178,8 +178,13 @@ export class HotToastContainerComponent {
           item.options.group = { parent: ref };
           // We need to give a tick's delay so that IDs are generated properly
           setTimeout(() => {
-            const itemRef = this.toastService.show(item.options.message, item.options, skipAttachToParent);
-            innerResolve(itemRef);
+            try {
+              const itemRef = this.toastService.show(item.options.message, item.options, skipAttachToParent);
+              innerResolve(itemRef);
+            } catch (error) {
+              console.error('Error creating toast', error);
+              innerResolve(null);
+            }
           });
         });
       });

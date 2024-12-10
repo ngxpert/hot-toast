@@ -1,3 +1,23 @@
+# [3.1.0-beta.2](https://github.com/ngxpert/hot-toast/compare/v3.1.0-beta.1...v3.1.0-beta.2) (2024-12-10)
+
+
+### Bug Fixes
+
+* assign statically increasing ids to toasts ([c3ec7a1](https://github.com/ngxpert/hot-toast/commit/c3ec7a1ade1d7c790848983c882e587af0ca5949)), closes [#15](https://github.com/ngxpert/hot-toast/issues/15)
+* revert toastref.groupref assignment ([a99204a](https://github.com/ngxpert/hot-toast/commit/a99204a3e9e8e928a261e806787bc30a95da3d6c))
+
+# [3.1.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v3.0.2...v3.1.0-beta.1) (2024-12-07)
+
+
+### Bug Fixes
+
+* filter undefined refs from group, add test cases ([af1ed00](https://github.com/ngxpert/hot-toast/commit/af1ed00f87cc37fb4215c79db696e5cc069f550b)), closes [#9](https://github.com/ngxpert/hot-toast/issues/9)
+
+
+### Features
+
+* add new builder pattern to handle pre-grouping ([8b59a9a](https://github.com/ngxpert/hot-toast/commit/8b59a9af19db742115e6aae465346d923da7789d)), closes [#9](https://github.com/ngxpert/hot-toast/issues/9)
+
 ## [3.0.2](https://github.com/ngxpert/hot-toast/compare/v3.0.1...v3.0.2) (2024-10-05)
 
 

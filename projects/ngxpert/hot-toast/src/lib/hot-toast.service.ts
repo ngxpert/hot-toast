@@ -26,6 +26,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
+  static nextId = 0;
   private _isInitialized = false;
   private _componentRef: CompRef<HotToastContainerComponent>;
 
@@ -331,8 +332,7 @@ export class HotToastService implements HotToastServiceMethods {
       this.init();
     }
 
-    const now = Date.now();
-    const id = options?.id ?? now.toString();
+    const id = options?.id ?? `toast-${HotToastService.nextId++}`;
 
     if (
       !this.isDuplicate(id) &&
@@ -340,7 +340,7 @@ export class HotToastService implements HotToastServiceMethods {
     ) {
       const toast: Toast<DataType | unknown> = {
         ariaLive: options?.ariaLive ?? 'polite',
-        createdAt: now,
+        createdAt: Date.now(),
         duration: options?.duration ?? HOT_TOAST_DEFAULT_TIMEOUTS[type],
         id,
         message,

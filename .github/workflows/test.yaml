@@ -34,13 +34,32 @@ jobs:
           HUSKY_SKIP_INSTALL: true
         run: npm ci
 
-      - name: Lint, build, test and release
+      - name: Check Conventional Commits
+        id: check-commits
+        run: |
+          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+          if [[ ! $commit_message =~ ^(docs|chore|ci)(\(.+\))?:\s.+$ ]]; then
+            echo "is_conventional=false" >> $GITHUB_ENV
+          else
+            echo "is_conventional=true" >> $GITHUB_ENV
+          fi
+
+      - name: Lint
+        if: env.is_conventional == 'true'
+        run: npm run lint -- @ngxpert/hot-toast
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        if: env.is_conventional == 'true'
+        run: npm run test
+
+      - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm run lint -- @ngxpert/hot-toast
-          npm run build:lib
-          npm run build
-          npm run test
-          npx semantic-release --debug
+        run: npx semantic-release --debug

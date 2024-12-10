@@ -99,7 +99,7 @@ export interface Toast<DataType> {
    * Unique id to associate with hot-toast.
    * There can't be multiple hot-toasts opened with same id.
    *
-   * @default Date.now().toString()
+   * @default HotToastService.nextId
    */
   id: string;
 
@@ -338,6 +338,7 @@ export interface HotToastRefProps<DataType> {
    * @since 1.1.0
    */
   toggleGroup: (eventData?: { byAction: boolean }) => void;
+  show: () => void;
 }
 
 /** Event that is emitted when a toast is dismissed. */

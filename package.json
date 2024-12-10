@@ -8,6 +8,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:lib": "ng build @ngxpert/hot-toast --watch",
     "build": "ng build",
     "unit": "npm run cy:open",
     "test": "npm run ci:cy-run",
@@ -46,7 +47,7 @@
     "@angular/platform-browser": "^18.0.2",
     "@angular/platform-browser-dynamic": "^18.0.2",
     "@angular/router": "^18.0.2",
-    "@ngneat/overview": "6.0.0",
+    "@ngneat/overview": "6.1.1",
     "@ngxpert/cmdk": "^1.0.0",
     "prismjs": "^1.23.0",
     "rxjs": "~6.6.0",
