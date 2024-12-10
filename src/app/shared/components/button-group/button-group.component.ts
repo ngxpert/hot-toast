@@ -13,8 +13,7 @@ export type ButtonGroupItem = {
     selector: 'app-button-group',
     templateUrl: './button-group.component.html',
     styleUrls: ['./button-group.component.scss'],
-    standalone: true,
-    imports: [NgClass],
+    imports: [NgClass]
 })
 export class ButtonGroupComponent {
   @Input() buttons: ButtonGroupItem[] = [];

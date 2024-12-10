@@ -8,12 +8,11 @@ import { ButtonGroupComponent } from '../../shared/components/button-group/butto
 @Component({
     selector: 'app-stacking',
     templateUrl: './stacking.component.html',
-    standalone: true,
     imports: [
         ButtonGroupComponent,
         FormsModule,
         CodeComponent,
-    ],
+    ]
 })
 export class StackingComponent {
   stacking: ToastStacking;

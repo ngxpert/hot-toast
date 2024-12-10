@@ -17,23 +17,22 @@ import { GroupingComponent } from './sections/grouping/grouping.component';
 import { EmojiButtonComponent } from './shared/components/emoji-button/emoji-button.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [
-    NgClass,
-    FeaturesComponent,
-    StepsComponent,
-    ExampleComponent,
-    PositionComponent,
-    StackingComponent,
-    GroupingComponent,
-    ReverseOrderComponent,
-    FooterComponent,
-    EmojiButtonComponent,
-    // JumpToDialogComponent,
-  ],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [
+        NgClass,
+        FeaturesComponent,
+        StepsComponent,
+        ExampleComponent,
+        PositionComponent,
+        StackingComponent,
+        GroupingComponent,
+        ReverseOrderComponent,
+        FooterComponent,
+        EmojiButtonComponent,
+        // JumpToDialogComponent,
+    ]
 })
 export class AppComponent {
   readonly repoUrl = REPO_URL;

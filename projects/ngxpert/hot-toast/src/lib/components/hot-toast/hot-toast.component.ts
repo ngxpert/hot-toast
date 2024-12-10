@@ -31,11 +31,10 @@ import { AnimatedIconComponent } from '../animated-icon/animated-icon.component'
 import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-group-item.component';
 
 @Component({
-  selector: 'hot-toast',
-  templateUrl: 'hot-toast.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
+    selector: 'hot-toast',
+    templateUrl: 'hot-toast.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent]
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
   private _toast: Toast<unknown>;

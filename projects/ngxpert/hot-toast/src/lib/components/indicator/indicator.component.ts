@@ -8,11 +8,10 @@ import { WarningComponent } from './icons/warning/warning.component';
 import { InfoComponent } from './icons/info/info.component';
 
 @Component({
-  selector: 'hot-toast-indicator',
-  templateUrl: 'indicator.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [LoaderComponent, ErrorComponent, CheckMarkComponent, WarningComponent, InfoComponent],
+    selector: 'hot-toast-indicator',
+    templateUrl: 'indicator.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [LoaderComponent, ErrorComponent, CheckMarkComponent, WarningComponent, InfoComponent]
 })
 export class IndicatorComponent {
   @Input() theme: IconTheme;
