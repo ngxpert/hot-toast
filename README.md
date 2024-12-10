@@ -42,7 +42,15 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         3.x
       </td>
       <td>
-        >= 18
+        >= 18 < 19
+      </td>
+    </tr>
+    <tr>
+      <td>
+        4.x
+      </td>
+      <td>
+        >= 19
       </td>
     </tr>
   </tbody>
@@ -81,14 +89,6 @@ yarn add @ngneat/overview@6.1.1 @ngxpert/hot-toast
 <details>
 <summary>For older versions</summary>
 
-You can install it through **Angular CLI**:
-
-```bash
-ng add @ngneat/hot-toast
-```
-
-or with **npm**:
-
 ```bash
 # For Angular version >= 9.1.13 < 13
 npm install @ngneat/overview@2.0.2 @ngneat/hot-toast@3
@@ -101,6 +101,12 @@ npm install @ngneat/overview@3.0.0 @ngneat/hot-toast@5
 
 # For Angular version >= 16 <17
 npm install @ngneat/overview@5.1.1 @ngneat/hot-toast@6
+
+# For Angular version >= 17 <18
+npm install @ngneat/overview@6.0.0 @ngxpert/hot-toast@2
+
+# For Angular version >= 18 <19
+npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@3
 ```
 
 </details>
