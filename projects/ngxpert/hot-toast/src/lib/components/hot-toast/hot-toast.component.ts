@@ -6,6 +6,7 @@ import {
   DoCheck,
   ElementRef,
   EventEmitter,
+  inject,
   Injector,
   Input,
   NgZone,
@@ -97,12 +98,10 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   private softClosed = false;
   private groupRefs: CreateHotToastRef<unknown>[] = [];
 
-  constructor(
-    private injector: Injector,
-    private renderer: Renderer2,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {}
+  private injector = inject(Injector);
+  private renderer = inject(Renderer2);
+  private ngZone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   get toastBarBaseHeight() {
     return this.toastBarBase.nativeElement.offsetHeight;

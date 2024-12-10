@@ -1,4 +1,12 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Input, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  Input,
+  QueryList,
+  ViewChildren,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import {
   HotToastClose,
@@ -46,7 +54,8 @@ export class HotToastContainerComponent {
   private onGroupToggle$ = this._onGroupToggle.asObservable();
   private onGroupRefAttached$ = this._onGroupRefAttached.asObservable();
 
-  constructor(private cdr: ChangeDetectorRef, private toastService: HotToastService) {}
+  private cdr = inject(ChangeDetectorRef);
+  private toastService = inject(HotToastService);
 
   trackById(index: number, toast: Toast<unknown>) {
     return toast.id;
@@ -66,18 +75,18 @@ export class HotToastContainerComponent {
     const visibleToasts = this.getVisibleToasts(position);
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
-    index !== -1
-    ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-      const toastsAfter = visibleToasts.length - 1 - i;
-      return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
-      ? 0
-      : acc +
-      (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
-        ? t.height || 0
-        : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
-        HOT_TOAST_MARGIN;
-      }, 0)
-      : 0;
+      index !== -1
+        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            const toastsAfter = visibleToasts.length - 1 - i;
+            return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
+              ? 0
+              : acc +
+                  (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
+                    ? t.height || 0
+                    : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
+                  HOT_TOAST_MARGIN;
+          }, 0)
+        : 0;
     return offset;
   }
 
