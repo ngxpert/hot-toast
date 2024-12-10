@@ -49,11 +49,9 @@ jobs:
         run: npm run lint -- @ngxpert/hot-toast
 
       - name: Build library
-        if: env.is_conventional == 'true'
         run: npm run build:lib
 
       - name: Build
-        if: env.is_conventional == 'true'
         run: npm run build
 
       - name: Test
