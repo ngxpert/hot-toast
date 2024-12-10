@@ -27,7 +27,7 @@ export function getProjectStyleFile(project: workspaces.ProjectDefinition, exten
   const buildOptions = getProjectTargetOptions(project, 'build');
 
   if (buildOptions.styles && Array.isArray(buildOptions.styles) && buildOptions.styles.length) {
-    // @ts-expect-error
+    // @ts-expect-error ignore error
     const styles = buildOptions.styles.map((s) => (typeof s === 'string' ? s : s!['input']));
 
     // Look for the default style file that is generated for new projects by the Angular CLI. This
