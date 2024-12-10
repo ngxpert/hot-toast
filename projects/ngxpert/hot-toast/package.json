@@ -3,13 +3,22 @@
   "version": "0.0.0-development",
   "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
   "scripts": {
-    "build": "npm run build:sass",
+    "build": "npm run build:sass && tsc -p tsconfig.schematics.json",
     "build:sass": "sass ./src/styles/styles.scss ../../../dist/ngxpert/hot-toast/src/styles/styles.css",
-    "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/"
+    "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/",
+    "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../../dist/ngxpert/hot-toast/"
   },
   "peerDependencies": {
+    "@angular/common": ">= 19.0.0",
     "@angular/core": ">= 19.0.0",
     "@ngneat/overview": "6.1.1"
+  },
+  "devDependencies": {
+    "copyfiles": "file:../../../node_modules/copyfiles",
+    "typescript": "file:../../../node_modules/typescript",
+    "cpx": "file:../../../node_modules/cpx",
+    "sass": "file:../../../node_modules/sass",
+    "@angular/cdk": "file:../../../node_modules/@angular/cdk"
   },
   "keywords": [
     "angular",
@@ -31,7 +40,16 @@
     "type": "git",
     "url": "https://github.com/ngxpert/hot-toast"
   },
+  "exports": {
+    "./styles.css": {
+      "style": "./src/styles/styles.css"
+    },
+    "./styles": {
+      "sass": "./src/styles/styles.scss"
+    }
+  },
   "ng-add": {
     "save": true
-  }
+  },
+  "schematics": "./schematics/collection.json"
 }

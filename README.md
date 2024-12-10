@@ -75,6 +75,16 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 
 ## Installation
 
+### Angular 19+
+
+Using **Angular CLI**:
+
+```bash
+ng add @ngxpert/hot-toast
+```
+
+### Other Angular Versions
+
 With **npm**:
 
 ```bash
