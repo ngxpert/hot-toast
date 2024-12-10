@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-features',
-    templateUrl: './features.component.html',
-    styleUrls: ['./features.component.scss'],
-    standalone: true,
+  selector: 'app-features',
+  templateUrl: './features.component.html',
+  styleUrls: ['./features.component.scss'],
+  standalone: true,
 })
-export class FeaturesComponent implements OnInit {
+export class FeaturesComponent {
   featureList = [
     'Hot by default',
     'Easy to use',
+    'Snackbar variation',
     'Accessible',
     'Reduce motion support',
     'Emoji Support',
@@ -18,9 +19,6 @@ export class FeaturesComponent implements OnInit {
     'Pause on hover',
     'Events',
     'Persistent',
+    'Grouping',
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

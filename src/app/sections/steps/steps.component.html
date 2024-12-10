@@ -1,6 +1,25 @@
-<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-8 my-12" id="steps">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-x-4 gap-y-8 my-12" id="steps">
+  <div class="col-span-1 lg:col-span-3">
+    <div class="flex flex-col gap-1 items-center">
+      <div class="font-bold">Install and setup using Angular CLI</div>
+      <div class="max-w-full">
+        <app-code [language]="'bash'" [snippet]="ngCliSetup"> </app-code>
+      </div>
+    </div>
+  </div>
+  <div class="col-span-1 lg:col-span-3">
+    <div class="flex flex-col gap-1 items-center">
+      <button
+        class="rounded-lg font-semibold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center p-2 text-sm active:shadow-button-active active:bg-gray-100 transform focus:outline-none focus:ring-2"
+        (click)="showManual = !showManual"
+      >
+        <div>🛠️</div>
+        <span class="flex-1 mr-2">Or install manually</span>
+      </button>
+    </div>
+  </div>
   @for (step of stepList; track step; let i = $index) {
-  <div [ngClass]="{ 'col-span-1 lg:col-span-2': i === 0, 'col-span-1': i > 1 }">
+  <div class="col-span-1" [class.hidden]="!showManual">
     <div class="flex flex-col gap-1 items-center">
       <div class="h-6 w-6 mb-2 text-sm rounded-full bg-toast-900 text-toast-50 flex items-center justify-center">
         {{ i + 1 }}

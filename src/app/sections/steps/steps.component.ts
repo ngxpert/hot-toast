@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CodeComponent } from '../../shared/components/code/code.component';
-import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-steps',
-    templateUrl: './steps.component.html',
-    styleUrls: ['./steps.component.scss'],
-    imports: [NgClass, CodeComponent]
+  selector: 'app-steps',
+  templateUrl: './steps.component.html',
+  styleUrls: ['./steps.component.scss'],
+  imports: [CodeComponent],
 })
-export class StepsComponent implements OnInit {
+export class StepsComponent {
+  showManual = false;
+  ngCliSetup = `
+ng add @ngxpert/hot-toast`;
   stepList: { title: string; subTitle: string; code: string; language: string }[] = [
     {
       title: 'Install package',
-      subTitle: '',
+      subTitle: 'Using npm or yarn',
       code: `
   # With npm
   npm install @ngneat/overview@6.0.0 @ngxpert/hot-toast
@@ -60,8 +62,4 @@ export class StepsComponent implements OnInit {
       language: 'typescript',
     },
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
