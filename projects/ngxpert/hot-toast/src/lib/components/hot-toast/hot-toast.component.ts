@@ -158,10 +158,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     return this.groupRefs.filter((ref) => !!ref);
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
-    // maybe below will prevent execution in ngDoCheck?
-    // (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
-
     this.groupRefs = value;
+
+    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
   get groupChildrenToasts() {
