@@ -15,8 +15,7 @@ interface Position {
     selector: 'app-position',
     templateUrl: './position.component.html',
     styleUrls: ['./position.component.scss'],
-    standalone: true,
-    imports: [EmojiButtonComponent, CodeComponent],
+    imports: [EmojiButtonComponent, CodeComponent]
 })
 export class PositionComponent implements OnInit {
   positionExamples: Position[] = [

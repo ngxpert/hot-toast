@@ -10,11 +10,10 @@ import { preGroupingTS, preGroupingHTML, preGroupingCSS, postGroupingTS } from '
 import { HotToastBuilder } from '@ngxpert/hot-toast';
 
 @Component({
-  selector: 'app-grouping',
-  templateUrl: 'grouping.component.html',
-  standalone: true,
-  imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass],
-  styleUrls: ['./grouping.component.scss'],
+    selector: 'app-grouping',
+    templateUrl: 'grouping.component.html',
+    imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass],
+    styleUrls: ['./grouping.component.scss']
 })
 export class GroupingComponent implements OnInit {
   toast = inject(HotToastService);

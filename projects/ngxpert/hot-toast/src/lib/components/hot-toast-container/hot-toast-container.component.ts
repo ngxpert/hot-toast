@@ -26,11 +26,10 @@ import { HOT_TOAST_DEPTH_SCALE, HOT_TOAST_DEPTH_SCALE_ADD, HOT_TOAST_MARGIN } fr
 import { HotToastService } from '../../hot-toast.service';
 
 @Component({
-  selector: 'hot-toast-container',
-  templateUrl: './hot-toast-container.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [HotToastComponent],
+    selector: 'hot-toast-container',
+    templateUrl: './hot-toast-container.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [HotToastComponent]
 })
 export class HotToastContainerComponent {
   @Input() defaultConfig: ToastConfig;

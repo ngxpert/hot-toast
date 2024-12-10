@@ -7,12 +7,11 @@ import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji
 @Component({
     selector: 'app-reverse-order',
     templateUrl: './reverse-order.component.html',
-    standalone: true,
     imports: [
         EmojiButtonComponent,
         NgClass,
         CodeComponent,
-    ],
+    ]
 })
 export class ReverseOrderComponent {
   reversOrder: boolean;

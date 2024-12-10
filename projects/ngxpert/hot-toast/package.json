@@ -8,7 +8,7 @@
     "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/"
   },
   "peerDependencies": {
-    "@angular/core": ">= 18.0.0",
+    "@angular/core": ">= 19.0.0",
     "@ngneat/overview": "6.1.1"
   },
   "keywords": [
