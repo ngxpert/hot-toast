@@ -38,12 +38,21 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   @Input()
   set toast(value: Toast<unknown>) {
     this._toast = value;
-    const top = value.position.includes('top');
-    const enterAnimation = `hotToastEnterAnimation${
-      top ? 'Negative' : 'Positive'
-    } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+    const ogStyle = this.toastBarBaseStylesSignal();
+    const newStyle: Record<string, string> = { ...value.style };
 
-    this.toastBarBaseStylesSignal.set({ ...value.style, animation: enterAnimation });
+    if (ogStyle['animation']?.includes('hotToastExitAnimation')) {
+      // if toast is set for exit, we don't need want set the enter animation
+      newStyle['animation'] = ogStyle['animation'];
+    } else {
+      const top = value.position.includes('top');
+      const enterAnimation = `hotToastEnterAnimation${
+        top ? 'Negative' : 'Positive'
+      } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
+      newStyle['animation'] = enterAnimation;
+    }
+
+    this.toastBarBaseStylesSignal.set(newStyle);
   }
   get toast() {
     return this._toast;

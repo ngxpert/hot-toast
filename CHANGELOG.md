@@ -1,3 +1,10 @@
+## [4.0.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v4.0.0...v4.0.1-beta.1) (2024-12-10)
+
+
+### Bug Fixes
+
+* toast getting reopened on change ([625daf7](https://github.com/ngxpert/hot-toast/commit/625daf7b5514ad0829dc97159eee55db65424363))
+
 # [4.0.0](https://github.com/ngxpert/hot-toast/compare/v3.1.1...v4.0.0) (2024-12-10)
 
 
