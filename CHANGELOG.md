@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/ngxpert/hot-toast/compare/v4.0.1...v4.1.0) (2024-12-10)
+
+
+### Features
+
+* add schematics ([2b1502f](https://github.com/ngxpert/hot-toast/commit/2b1502fc9dcc71cfd6136dc54d2fe91ffbe61341))
+
 ## [4.0.1](https://github.com/ngxpert/hot-toast/compare/v4.0.0...v4.0.1) (2024-12-10)
 
 
