@@ -24,7 +24,7 @@
     >
       <div class="hot-toast-icon" aria-hidden="true">
         @if (toast.icon !== undefined) { @if (isIconString) {
-        <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
+        <hot-toast-animated-icon [iconTheme]="toast.iconTheme" [icon]="toast.icon"></hot-toast-animated-icon>
         } @else {
         <div>
           <ng-container *dynamicView="toast.icon"></ng-container>

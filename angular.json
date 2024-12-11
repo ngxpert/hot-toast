@@ -31,7 +31,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/prismjs/themes/prism-okaidia.min.css"
+              "node_modules/prismjs/themes/prism-okaidia.min.css",
+              "node_modules/highlight.js/styles/atom-one-dark.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [

@@ -1,5 +1,12 @@
-<div [ngClass]="containerClass">
-  <pre class="language-{{ language }}" data-prismjs-copy="📋" data-prismjs-copy-success="✅">
-    <code class="language-{{ language }}" #code [innerHTML]="snippet"> </code>
-  </pre>
+<div class="relative">
+  @if (!hideCopyButton) {
+  <button class="copy-btn" [cdkCopyToClipboard]="code.textContent ?? ''" (cdkCopyToClipboardCopied)="codeCopied()">
+    <img [src]="isCopied ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
+  </button>
+  }
+  <div [ngClass]="containerClass">
+    <pre class="language-{{ language }}">
+      <code class="language-{{ language }}" #code [innerHTML]="snippet | highlightCode : language | html" [class.select-all]="selectOnFocus"> </code>
+    </pre>
+  </div>
 </div>
