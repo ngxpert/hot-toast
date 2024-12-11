@@ -1,3 +1,10 @@
+## [4.1.1](https://github.com/ngxpert/hot-toast/compare/v4.1.0...v4.1.1) (2024-12-11)
+
+
+### Bug Fixes
+
+* allow html in icon ([161b0bc](https://github.com/ngxpert/hot-toast/commit/161b0bc65d0d8f408042907ec026b98200a16d0c))
+
 # [4.1.0](https://github.com/ngxpert/hot-toast/compare/v4.0.1...v4.1.0) (2024-12-10)
 
 
