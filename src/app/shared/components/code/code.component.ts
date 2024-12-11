@@ -1,27 +1,27 @@
-import { Component, ElementRef, Input, OnChanges, ViewChild } from '@angular/core';
-import { CodeHighlightService } from 'src/app/core/services/code-highlight.service';
+import { Component, Input } from '@angular/core';
 import { NgClass } from '@angular/common';
-
+import { HighlightCodePipe } from '../../pipes/highlight-code.pipe';
+import { HtmlPipe } from '../../pipes/html.pipe';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 @Component({
-    selector: 'app-code',
-    templateUrl: './code.component.html',
-    styleUrls: ['./code.component.scss'],
-    imports: [NgClass]
+  selector: 'app-code',
+  templateUrl: './code.component.html',
+  styleUrls: ['./code.component.scss'],
+  imports: [NgClass, HighlightCodePipe, HtmlPipe, ClipboardModule],
 })
-export class CodeComponent implements OnChanges {
+export class CodeComponent {
   @Input() language = 'typescript';
   @Input() containerClass: string;
   @Input() snippet: string;
+  @Input() hideCopyButton = false;
+  @Input() selectOnFocus = false;
 
-  @ViewChild('code') codeTemplateRef: ElementRef<HTMLElement>;
+  isCopied = false;
 
-  constructor(private codeHighlightService: CodeHighlightService) {}
-
-  ngOnChanges(): void {
-    if (this.codeTemplateRef && this.codeTemplateRef.nativeElement) {
-      setTimeout(() => {
-        this.codeHighlightService.highlightElement(this.codeTemplateRef.nativeElement);
-      });
-    }
+  codeCopied() {
+    this.isCopied = true;
+    setTimeout(() => {
+      this.isCopied = false;
+    }, 3000);
   }
 }
