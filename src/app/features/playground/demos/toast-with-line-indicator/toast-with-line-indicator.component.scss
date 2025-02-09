@@ -1,0 +1,52 @@
+@keyframes bell-keyframes {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.bell-animation {
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-delay: 300ms;
+  animation-name: bell-keyframes;
+  display: inline-block;
+  transform-origin: top center;
+}
+
+@keyframes shrink-line-animation {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.shrink-line-animation {
+  animation-name: shrink-line-animation;
+  animation-duration: var(--shrink-line-animation-duration);
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}

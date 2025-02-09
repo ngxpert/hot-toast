@@ -1,0 +1,21 @@
+<button
+  (click)="showToast()"
+  class="rounded-lg font-bold gap-4 flex bg-gradient-to-b from-toast-50 to-toast-200 shadow-button text-center py-4 px-6 active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform focus:outline-none focus:ring-4"
+>
+  Show Toast
+</button>
+<ng-template #toastTemplate let-toastRef>
+  <div class="flex gap-x-2 w-full h-[56px] items-center relative px-4">
+    <div class="flex items-center justify-center text-xl">
+      <span class="drop-shadow-md">
+        <span class="bell-animation"> 🔔 </span>
+      </span>
+    </div>
+    <div class="font-medium">New Activities</div>
+    <div
+      class="absolute left-0 bottom-0 right-0 h-1 bg-blue-500 rounded-b shrink-line-animation"
+      [style.--shrink-line-animation-duration]="toastRef.getToast().duration + 'ms'"
+    ></div>
+  </div>
+</ng-template>
+

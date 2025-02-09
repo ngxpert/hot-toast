@@ -16,14 +16,13 @@
     All demos are available on
     <a
       class="font-bold text-toast-400 hover:bg-gray-100 hover:text-toast-600 transform"
-      href="https://github.com/ngxpert/hot-toast/blob/main/src/app/features/playground/playground.ts"
+      href="https://github.com/ngxpert/hot-toast/tree/main/src/app/features/playground/demos"
       target="_blank"
       style="transition-property: background-color, color"
-      >playground.ts</a
+      >GitHub</a
     >
   </h4>
 </div>
-
 <div class="mb-6 flex items-center gap-2">
   <div class="relative flex-1">
     <input
@@ -63,7 +62,7 @@
 <div class="space-y-4">
   @if (demos().length) {
   <div class="grid grid-cols-1 gap-4">
-    @for (demo of demos(); track demo.title) {
+    @for (demo of demos(); track demo.id) {
     <div class="bg-white rounded-lg shadow p-4" [id]="demo.id">
       <div class="flex justify-between items-center mb-4">
         <div>
@@ -75,37 +74,43 @@
           <p class="text-gray-600 mt-1">{{ demo.description }}</p>
           }
         </div>
-        <button
-          [ngClass]="[
-            'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-toast-50 to-toast-200 shadow-button text-center',
-            'py-4 px-6',
-            'active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform',
-            'focus:outline-none focus:ring-4'
-          ]"
-          style="transition-property: box-shadow, transform"
-          (click)="playDemo(demo)"
-        >
-          Play Demo
-        </button>
       </div>
 
-      <div class="bg-gray-50 rounded-md p-4 font-mono text-sm">
-        <div class="mb-3">
-          <span class="font-semibold text-gray-600">Message:</span>
-          <span class="ml-2">{{ demo.message }}</span>
-        </div>
+      <div class="sm:col-span-1 md:col-span-2">
+        <div class="shadow border sm:rounded-md">
+          <div class="bg-white">
+            <nav class="flex flex-row">
+              <button
+                class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                [ngClass]="[
+                  demo.activeSnippet === 'preview' || !demo.activeSnippet ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
+                ]"
+                (click)="demo.activeSnippet = 'preview'"
+              >
+                Preview
+              </button>
 
-        @if (demo.options) {
-        <div class="mb-3">
-          <span class="font-semibold text-gray-600">Options:</span>
-          <app-code [snippet]="stringify(demo.options)" language="json"></app-code>
+              @for (language of snippetLanguages; track language) { @if (demo.code[language.value]) {
+              <button
+                class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                [ngClass]="[
+                  demo.activeSnippet === language.value ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
+                ]"
+                (click)="demo.activeSnippet = language.value"
+              >
+                {{ language.label }}
+              </button>
+              } }
+            </nav>
+            <div class="mb-4 p-4 max-w-full">
+              @if (demo.activeSnippet === 'preview' || !demo.activeSnippet) {
+              <ng-container *ngComponentOutlet="demo.component"></ng-container>
+              } @else {
+              <app-code [snippet]="demo.code[demo.activeSnippet]" [language]="demo.activeSnippet"> </app-code>
+              }
+            </div>
+          </div>
         </div>
-        } @if (demo.notes) {
-        <div class="mb-3">
-          <span class="font-semibold text-gray-600">Notes:</span>
-          <span class="ml-2" [innerHTML]="demo.notes"></span>
-        </div>
-        }
       </div>
     </div>
     }
@@ -114,7 +119,12 @@
   <div class="text-center py-8">
     <p class="text-gray-600">
       No demos found matching your search.
-      <a href="https://github.com/ngxpert/hot-toast/blob/main/ADD_PLAYGROUND.md" class="font-semibold underline" target="_blank">Add one?</a>
+      <a
+        href="https://github.com/ngxpert/hot-toast/blob/main/ADD_PLAYGROUND.md"
+        class="font-semibold underline"
+        target="_blank"
+        >Add one?</a
+      >
     </p>
   </div>
   }

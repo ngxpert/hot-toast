@@ -1,10 +1,10 @@
-/* eslint-disable max-len */
 import { Component, Inject, Injector, OnInit, Optional, ViewChild } from '@angular/core';
-import { CreateHotToastRef, HotToastClose, HotToastRef, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
+import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
 import { CodeComponent } from '../../shared/components/code/code.component';
+
 import { NgClass, JsonPipe } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
@@ -21,10 +21,10 @@ export interface Example {
 }
 
 @Component({
-    selector: 'app-example',
-    templateUrl: './example.component.html',
-    styleUrls: ['./example.component.scss'],
-    imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass]
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss'],
+  imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
 })
 export class ExampleComponent implements OnInit {
   @ViewChild('success') successTemplate;
@@ -148,12 +148,12 @@ export class ExampleComponent implements OnInit {
     catchError((error) => of(error))
   ).subscribe();`,
           html: `
-  &lt;ng-template #successTemplate&gt;
-    &lt;b&gt;Settings saved!&lt;/b&gt;
-  &lt;/ng-template&gt;
-  &lt;ng-template #errorTemplate&gt;
-    &lt;b&gt;Could not save.&lt;/b&gt;
-  &lt;/ng-template&gt;`,
+  <ng-template #successTemplate>
+    <b>Settings saved!</b>
+  </ng-template>
+  <ng-template #errorTemplate>
+    <b>Could not save.</b>
+  </ng-template>`,
         },
         action: () => {
           from(
@@ -426,8 +426,8 @@ export class ExampleComponent implements OnInit {
           typescript: `
   supportType = 'ground support';
   toast.show(\`
-    I don't know why I am &lt;i&gt;tilted&lt;/i&gt;!
-    Maybe I need some &lt;u class="bg-toast-100"&gt;\${supportType}&lt;/u&gt;.
+    I don't know why I am <i>tilted</i>!
+    Maybe I need some <u class="bg-toast-100">\${supportType}</u>.
   \`)`,
         },
         action: () => {
@@ -448,10 +448,10 @@ export class ExampleComponent implements OnInit {
           typescript: `
   toast.show(template, { autoClose: false });`,
           html: `
-  &lt;ng-template #template let-toastRef&gt;
-   Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
-   &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
-  &lt;/ng-template&gt;`,
+  <ng-template #template let-toastRef>
+   Custom and <b>bold</b>&nbsp;
+   <button (click)="toastRef.close({ dismissedByAction: true })">Dismiss</button>
+  </ng-template>`,
         },
         action: () => {
           this.toast.show(this.ngTemplate, { autoClose: false });
@@ -472,11 +472,11 @@ export class ExampleComponent implements OnInit {
     data: { fact: '1+1 = 2' },
   });`,
           html: `
-  &lt;ng-template #template let-toastRef&gt;
-   Custom and &lt;b&gt;bold&lt;/b&gt;&nbsp;
+  <ng-template #template let-toastRef>
+   Custom and <b>bold</b>&nbsp;
    with data: {{ toastRef?.data | json }}
-   &lt;button (click)="toastRef.close({ dismissedByAction: true })"&gt;Dismiss&lt;/button&gt;
-  &lt;/ng-template&gt;`,
+   <button (click)="toastRef.close({ dismissedByAction: true })">Dismiss</button>
+  </ng-template>`,
         },
         action: () => {
           this.toast.show(this.ngTemplateContext, {

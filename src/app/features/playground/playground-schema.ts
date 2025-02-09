@@ -1,12 +1,10 @@
-import { Content } from '@ngneat/overview';
-import { ToastOptions, ToastType } from '@ngxpert/hot-toast';
-
+import { CodeSchema } from './codes/code.schema';
+import { Type } from '@angular/core';
 export interface PlaygroundSchema {
   title: string;
   description?: string;
-  message: Content;
-  options?: ToastOptions<unknown>;
-  type?: ToastType;
   id: string;
-  notes?: string;
+  code: CodeSchema;
+  activeSnippet?: 'ts' | 'html' | 'scss' | 'css' | 'preview';
+  component: Type<unknown>;
 }

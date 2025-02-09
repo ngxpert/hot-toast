@@ -1,30 +1,31 @@
-import { AngularLogoComponent, MaterialIconComponent } from './components';
 import { PlaygroundSchema } from './playground-schema';
-
+import toastWithCustomStyleCode from './codes/toast-with-custom-style';
+import toastWithMaterialIconCode from './codes/toast-with-material-icon';
+import { ToastWithCustomStyleComponent } from './demos/toast-with-custom-style/toast-with-custom-style.component';
+import { ToastWithMaterialIconComponent } from './demos/toast-with-material-icon/toast-with-material-icon.component';
+import { ToastWithLineIndicatorComponent } from './demos/toast-with-line-indicator/toast-with-line-indicator.component';
+import toastWithLineIndicatorCode from './codes/toast-with-line-indicator';
 export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
   {
     title: 'Toast with custom style',
     id: 'toast-with-custom-style',
     description: 'A toast with gradient background, border, custom icon and font.',
-    message: 'Hot toast ❤️ Angular',
-    options: {
-      icon: AngularLogoComponent,
-      style: {
-        background: 'linear-gradient(90deg, rgb(255, 255, 255) 0%, color(srgb 0.996034 0.913028 0.987763 / 0.9) 80%)',
-        fontFamily: 'sans-serif',
-        border: '1px solid oklch(69.02% .277 332.77)',
-      },
-    },
+    code: toastWithCustomStyleCode,
+    component: ToastWithCustomStyleComponent,
   },
   {
     title: 'Toast with Material icon',
     id: 'toast-with-material-icon',
-    message: 'Hot toast with Material icon',
-    options: {
-      icon: `<span class="material-symbols-outlined">favorite</span>`,
-    },
-    notes:
-      'This demo requires the Material Symbols font to be loaded. For example, you can add the following to your index.html file: <code>&lt;link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /&gt;</code>',
+    description: 'A toast with Material icon.',
+    code: toastWithMaterialIconCode,
+    component: ToastWithMaterialIconComponent,
+  },
+  {
+    title: 'Toast with line indicator',
+    id: 'toast-with-line-indicator',
+    description: 'A toast with a line indicator that shrinks to 0% width with duration.',
+    code: toastWithLineIndicatorCode,
+    component: ToastWithLineIndicatorComponent,
   },
 ];
 

@@ -95,23 +95,23 @@ parentRef.afterGroupRefsAttached.subscribe(() => {
 ${childNotifications}`;
 
 export const preGroupingHTML = `
-&lt;ng-template #groupTemplate let-toastRef>
-  &lt;div class="flex gap-x-2 w-full h-[56px] items-center">
-    &lt;div
+<ng-template #groupTemplate let-toastRef>
+  <div class="flex gap-x-2 w-full h-[56px] items-center">
+    <div
       class="bg-slate-100 rounded transition-all ease-in-out duration-[230ms] flex items-center justify-center text-xl"
       [ngClass]="{ 'w-10 h-10': toastRef.groupExpanded, 'w-14 h-14': !toastRef.groupExpanded }"
     >
-      &lt;span
+      <span
         class="transition-all ease-in-out duration-[230ms] drop-shadow-md"
         [ngClass]="{ 'scale-1': toastRef.groupExpanded, 'scale-125': !toastRef.groupExpanded }"
       >
         @if (visibleToasts(toastRef.groupRefs) === 0) { 🔕 } @else {
-        &lt;span class="bell-animation"> 🔔 &lt;/span>
+        <span class="bell-animation"> 🔔 </span>
         }
-      &lt;/span>
-    &lt;/div>
-    &lt;div>
-      &lt;div
+      </span>
+    </div>
+    <div>
+      <div
         class="font-medium transition-all ease-in-out duration-[230ms]"
         [ngClass]="{
           'scale-125': !toastRef.groupExpanded,
@@ -123,40 +123,44 @@ export const preGroupingHTML = `
         @if (visibleToasts(toastRef.groupRefs) === 0) { No } @else {
         {{ visibleToasts(toastRef.groupRefs) }}
         } New Activities
-      &lt;/div>
-      &lt;div
+      </div>
+      <div
         class="text-gray-500 transition-all ease-in-out duration-[230ms]"
         [ngClass]="{ 'scale-90 ml-[-10px]': toastRef.groupExpanded, 'ml-0': !toastRef.groupExpanded }"
       >
         @if (visibleToasts(toastRef.groupRefs) === 0) { You're all caught up! } @else { What's happening around you! }
-      &lt;/div>
-    &lt;/div>
+      </div>
+    </div>
+
     @if (visibleToasts(toastRef.groupRefs) > 0) {
-    &lt;button
+    <button
       (click)="toastRef.toggleGroup()"
       class="ml-auto self-center hot-toast-group-btn"
       [class.expanded]="toastRef.groupExpanded"
       [attr.aria-label]="toastRef.groupExpanded ? 'Collapse' : 'Expand'"
-    >&lt;/button>
+    >
+    </button>
     }
-  &lt;/div>
-&lt;/ng-template>
-&lt;ng-template #groupItemTemplate let-toastRef>
-  &lt;div class="flex gap-x-2 w-full">
-    &lt;div class="bg-slate-100 rounded w-10 h-10 flex items-center justify-center text-xl">
-      &lt;span class="drop-shadow-md">
+  </div>
+</ng-template>
+
+<ng-template #groupItemTemplate let-toastRef>
+  <div class="flex gap-x-2 w-full">
+    <div class="bg-slate-100 rounded w-10 h-10 flex items-center justify-center text-xl">
+      <span class="drop-shadow-md">
         {{ toastRef.data.icon }}
-      &lt;/span>
-    &lt;/div>
-    &lt;div>
+      </span>
+    </div>
+    <div>
       {{ toastRef.data.title }}
-      &lt;div class="text-sm text-gray-500">{{ toastRef.data.subTitle }}&lt;/div>
-    &lt;/div>
-    &lt;div class="text-xs text-gray-500 ml-auto">
+      <div class="text-sm text-gray-500">{{ toastRef.data.subTitle }}</div>
+    </div>
+    <div class="text-xs text-gray-500 ml-auto">
       {{ toastRef.data.time }}
-    &lt;/div>
-  &lt;/div>
-&lt;/ng-template>`;
+    </div>
+  </div>
+</ng-template>`;
+
 
 export const preGroupingCSS = `
 .hot-toast-custom-class {

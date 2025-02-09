@@ -1,21 +1,25 @@
-import { Component, computed, inject, model, signal, Type } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Component, computed, signal } from '@angular/core';
+import { NgClass, NgComponentOutlet } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { PLAYGROUND_ITEMS } from './playground';
-import { PlaygroundSchema } from './playground-schema';
 import { CodeComponent } from '../../shared/components/code/code.component';
-import { isComponent } from '@ngneat/overview';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-playground',
   standalone: true,
-  imports: [NgClass, FormsModule, RouterLink, CodeComponent],
+  imports: [NgClass, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss'],
 })
 export class PlaygroundComponent {
+  snippetLanguages: { label: string; value: 'ts' | 'html' | 'scss' | 'css' }[] = [
+    { label: 'TypeScript', value: 'ts' },
+    { label: 'HTML', value: 'html' },
+    { label: 'SCSS', value: 'scss' },
+    { label: 'CSS', value: 'css' },
+  ];
+
   allDemos = PLAYGROUND_ITEMS;
   searchTerm = signal('');
   demos = computed(() => {
@@ -29,20 +33,4 @@ export class PlaygroundComponent {
         demo.description?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-  private toast = inject(HotToastService);
-
-  playDemo(demo: PlaygroundSchema) {
-    this.toast[demo.type ?? 'show'](demo.message, demo.options);
-  }
-
-  stringify(value: ToastOptions<unknown>) {
-    let icon = value.icon;
-    if (isComponent(icon)) {
-      icon = (icon as Type<unknown>).name;
-    } else {
-      // icon = icon.toString().replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-    return `
-${JSON.stringify({ ...value, icon }, null, 2)}`;
-  }
 }
