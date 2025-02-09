@@ -1,8 +1,8 @@
 # Add New Hot Toast Demo
 
 1. Clone the repo
-2. Add new demo to `src/app/features/playground/playground.ts`
-3. If new component is needed, add it to `src/app/features/playground/components`
+2. Add new demo to `src/app/features/playground/demos`
+3. Add codes to `src/app/features/playground/codes`
 4. Run `npm run start:lib`
 5. Run `npm run start`
 6. Open `http://localhost:4200/playground`

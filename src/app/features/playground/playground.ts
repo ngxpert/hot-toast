@@ -5,6 +5,7 @@ import { ToastWithCustomStyleComponent } from './demos/toast-with-custom-style/t
 import { ToastWithMaterialIconComponent } from './demos/toast-with-material-icon/toast-with-material-icon.component';
 import { ToastWithLineIndicatorComponent } from './demos/toast-with-line-indicator/toast-with-line-indicator.component';
 import toastWithLineIndicatorCode from './codes/toast-with-line-indicator';
+
 export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
   {
     title: 'Toast with custom style',
