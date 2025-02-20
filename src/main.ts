@@ -8,6 +8,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app/app.routes';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 if (environment.production) {
   enableProdMode();
@@ -19,5 +20,6 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     provideHotToastConfig(),
     provideRouter(routes, withInMemoryScrolling()),
+    provideHttpClient(withFetch()),
   ],
 }).catch((err) => console.error(err));

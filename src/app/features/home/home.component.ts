@@ -6,7 +6,6 @@ import { NgClass } from '@angular/common';
 // import { Dialog } from '@angular/cdk/dialog';
 
 import { REPO_URL } from '../../core/constants';
-import { FooterComponent } from '../../sections/footer/footer.component';
 import { ReverseOrderComponent } from '../../sections/reverse-order/reverse-order.component';
 import { StackingComponent } from '../../sections/stacking/stacking.component';
 import { PositionComponent } from '../../sections/position/position.component';
@@ -14,7 +13,6 @@ import { ExampleComponent } from '../../sections/example/example.component';
 import { StepsComponent } from '../../sections/steps/steps.component';
 import { FeaturesComponent } from '../../sections/features/features.component';
 import { GroupingComponent } from '../../sections/grouping/grouping.component';
-import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 import { RouterLink } from '@angular/router';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
@@ -29,8 +27,6 @@ import { RouterLink } from '@angular/router';
     StackingComponent,
     GroupingComponent,
     ReverseOrderComponent,
-    FooterComponent,
-    EmojiButtonComponent,
     RouterLink,
     // JumpToDialogComponent,
   ],

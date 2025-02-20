@@ -5,6 +5,8 @@ import { ToastWithCustomStyleComponent } from './demos/toast-with-custom-style/t
 import { ToastWithMaterialIconComponent } from './demos/toast-with-material-icon/toast-with-material-icon.component';
 import { ToastWithLineIndicatorComponent } from './demos/toast-with-line-indicator/toast-with-line-indicator.component';
 import toastWithLineIndicatorCode from './codes/toast-with-line-indicator';
+import { ToastWithConfettiComponent } from './demos/toast-with-confetti/toast-with-confetti.component';
+import toastWithConfettiCode from './codes/toast-with-confetti';
 
 export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
   {
@@ -27,6 +29,14 @@ export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
     description: 'A toast with a line indicator that shrinks to 0% width with duration.',
     code: toastWithLineIndicatorCode,
     component: ToastWithLineIndicatorComponent,
+  },
+  {
+    title: 'Toast with confetti',
+    id: 'toast-with-confetti',
+    description:
+      'A toast with <a href="https://github.com/catdad/canvas-confetti" target="_blank">canvas-confetti</a>.',
+    code: toastWithConfettiCode,
+    component: ToastWithConfettiComponent,
   },
 ];
 
