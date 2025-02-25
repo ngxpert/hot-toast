@@ -1,3 +1,10 @@
+## [4.1.2-beta.1](https://github.com/ngxpert/hot-toast/compare/v4.1.1...v4.1.2-beta.1) (2025-02-25)
+
+
+### Bug Fixes
+
+* **info.component.html:** adjust variable names within info component ([2aea049](https://github.com/ngxpert/hot-toast/commit/2aea0499daf72a2bc3580cf2e318006f43b194c5))
+
 ## [4.1.1](https://github.com/ngxpert/hot-toast/compare/v4.1.0...v4.1.1) (2024-12-11)
 
 
