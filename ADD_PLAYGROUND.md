@@ -1,6 +1,6 @@
 # Add New Hot Toast Demo
 
-1. Clone the repo
+1. [Fork the repo](https://github.com/ngxpert/hot-toast/fork)
 2. Add new demo to `src/app/features/playground/demos`
 3. Add codes to `src/app/features/playground/codes`
 4. Add entry in `src/app/features/playground/playground.ts`
