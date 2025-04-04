@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
@@ -69,9 +69,9 @@ const isFunction = <TValue, TArg>(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isAngularComponent = (arg: any): boolean => {
-  return (
-    typeof arg === 'function' && arg.decorators && arg.decorators.some((decorator) => decorator.type === Component)
-  );
+  // `ɵcmp` is a component definition set by the Angular compiler.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return typeof arg === 'function' && !!(arg as any).ɵcmp;
 };
 
 export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
