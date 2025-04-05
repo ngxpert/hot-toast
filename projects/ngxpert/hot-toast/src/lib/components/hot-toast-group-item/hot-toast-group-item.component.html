@@ -1,7 +1,7 @@
 <div
   class="hot-toast-bar-base-container"
-  [ngStyle]="containerPositionStyle"
-  [ngClass]="'hot-toast-theme-' + toast.theme"
+  [style]="containerPositionStyle"
+  [class]="'hot-toast-theme-' + toast.theme"
   [style.--hot-toast-scale]="scale"
   [style.--hot-toast-translate-y]="translateY"
 >
@@ -9,8 +9,8 @@
     <div
       class="hot-toast-bar-base"
       #hotToastBarBase
-      [ngStyle]="toastBarBaseStylesSignal()"
-      [ngClass]="toast.className"
+      [style]="toastBarBaseStylesSignal()"
+      [class]="toast.className"
       [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts ? 'paused' : 'running'"
       [style.--hot-toast-exit-animation-delay]="exitAnimationDelay"
@@ -37,7 +37,7 @@
         type="button"
         class="hot-toast-close-btn"
         aria-label="Close"
-        [ngStyle]="toast.closeStyle"
+        [style]="toast.closeStyle"
       ></button>
       }
     </div>

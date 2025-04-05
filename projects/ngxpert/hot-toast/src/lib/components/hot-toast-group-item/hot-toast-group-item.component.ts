@@ -18,7 +18,6 @@ import {
   ChangeDetectorRef,
   inject,
 } from '@angular/core';
-import { NgClass, NgStyle } from '@angular/common';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
 import { IndicatorComponent } from '../indicator/indicator.component';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
@@ -28,10 +27,10 @@ import { Toast, ToastConfig, CreateHotToastRef, HotToastClose, HotToastGroupEven
 import { animate } from '../../utils';
 
 @Component({
-    selector: 'hot-toast-group-item',
-    templateUrl: 'hot-toast-group-item.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [NgClass, NgStyle, AnimatedIconComponent, IndicatorComponent, DynamicViewDirective]
+  selector: 'hot-toast-group-item',
+  templateUrl: 'hot-toast-group-item.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
 export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   private _toast: Toast<unknown>;
