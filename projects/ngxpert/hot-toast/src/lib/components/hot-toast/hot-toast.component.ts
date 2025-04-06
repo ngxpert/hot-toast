@@ -19,7 +19,6 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
 
 import { ENTER_ANIMATION_DURATION, EXIT_ANIMATION_DURATION, HOT_TOAST_DEPTH_SCALE } from '../../constants';
@@ -34,7 +33,7 @@ import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-gr
   selector: 'hot-toast',
   templateUrl: 'hot-toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
+  imports: [DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges, DoCheck {
   private _toast: Toast<unknown>;
@@ -54,7 +53,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
       } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
       newStyle['animation'] = enterAnimation;
     }
-    
+
     this.toastBarBaseStylesSignal.set(newStyle);
   }
   get toast() {
