@@ -78,7 +78,7 @@
     "@types/node": "^22.13.11",
     "@types/prismjs": "^1.26.0",
     "@typescript-eslint/eslint-plugin": "7.11.0",
-    "@typescript-eslint/parser": "7.11.0",
+    "@typescript-eslint/parser": "8.30.1",
     "all-contributors-cli": "^6.24.0",
     "angular-cli-ghpages": "^2.0.0-beta.2",
     "codelyzer": "^6.0.0",
