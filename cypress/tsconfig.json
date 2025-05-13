@@ -4,5 +4,9 @@
     "lib": ["es5", "dom"],
     "types": ["cypress"]
   },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true
+  },
   "include": ["**/*.ts"]
 }
