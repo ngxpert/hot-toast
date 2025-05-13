@@ -1,9 +1,6 @@
 name: Test, Build and Publish a beta version
 
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
     branches:
       - main
