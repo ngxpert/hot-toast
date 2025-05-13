@@ -1,4 +1,4 @@
-name: Make a Release and Deploy on GitHub Pages
+name: Deploy on GitHub Pages
 
 on:
   push:
@@ -24,12 +24,6 @@ jobs:
 
       - name: Build app
         run: npm run build -- --base-href "/hot-toast/"
-
-      - name: Release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
 
       - name: Deploy to GitHub Pages
         env:
