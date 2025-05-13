@@ -12,7 +12,7 @@
 [![linted with eslint](https://img.shields.io/badge/linted_with-eslint-4b32c3.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 [![ngxpert](https://img.shields.io/badge/@-ngxpert-383636?style=flat-square&labelColor=8f68d4)](https://github.com/ngxpert/)
-[![cypress](https://img.shields.io/badge/tested%20with-cypress-2196F3.svg?style=flat-square)](https://www.cypress.io/)
+[![cypress](https://img.shields.io/endpoint?url=https://cloud.cypress.io/badge/detailed/5qxvbj/main&style=flat&logo=cypress)](https://cloud.cypress.io/projects/5qxvbj/runs)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 > Smoking hot Notifications for Angular. Lightweight, customizable and beautiful by default. Inspired from [react-hot-toast](https://github.com/timolins/react-hot-toast)
