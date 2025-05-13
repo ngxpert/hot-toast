@@ -1,0 +1,471 @@
+# @ngxpert/hot-toast - Angular Toast Library
+
+## Overview
+@ngxpert/hot-toast is a lightweight, customizable toast notification library for Angular applications. It provides beautiful toast notifications with various pre-defined styles and extensive customization options.
+
+## Installation
+
+```bash
+npm install @ngxpert/hot-toast
+```
+
+## Setup
+
+### Step 1: Configure Providers
+
+#### For Standalone Applications:
+```typescript
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHotToastConfig(), // Basic configuration
+    // OR with custom config:
+    // provideHotToastConfig({
+    //   position: 'bottom-center',
+    //   theme: 'snackbar',
+    //   autoClose: true,
+    //   duration: 5000,
+    // }),
+  ]
+});
+```
+
+#### For Module-based Applications:
+```typescript
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
+
+@NgModule({
+  providers: [
+    provideHotToastConfig()
+  ],
+})
+class AppModule {}
+```
+
+### Step 2: Add Styles
+
+#### For SCSS:
+```scss
+@use '@ngxpert/hot-toast/src/styles/styles.scss';
+```
+
+#### For CSS (in angular.json):
+```json
+"styles": [
+  "node_modules/@ngxpert/hot-toast/src/styles/styles.css",
+],
+```
+
+## Basic Usage
+
+### Import the Service
+```typescript
+import { HotToastService } from '@ngxpert/hot-toast';
+
+@Component({})
+export class AppComponent {
+  constructor(private toast: HotToastService) {}
+}
+```
+
+### Show Basic Toasts
+```typescript
+// Simple toast
+this.toast.show('Hello World!');
+
+// Toast types
+this.toast.success('Operation successful!');
+this.toast.error('Something went wrong!');
+this.toast.warning('Warning message!');
+this.toast.info('Information message');
+this.toast.loading('Loading...');
+```
+
+### Observe Pattern (for Async Operations)
+```typescript
+saveSettings()
+  .pipe(
+    this.toast.observe({
+      loading: 'Saving...',
+      success: 'Settings saved!',
+      error: 'Could not save.',
+    })
+  )
+  .subscribe();
+```
+
+## Customization Options
+
+### Toast Options
+```typescript
+this.toast.success('Operation successful!', {
+  duration: 5000,           // Duration in milliseconds
+  position: 'top-right',    // Position on screen
+  dismissible: true,        // Show close button
+  autoClose: true,          // Auto close after duration
+  theme: 'toast',           // Visual theme
+  icon: '✅',               // Custom icon
+  className: 'my-toast',    // Additional CSS class
+  style: {                  // Custom inline styles
+    border: '1px solid #713200',
+    padding: '16px',
+  },
+});
+```
+
+### Available Toast Positions
+- 'top-left'
+- 'top-center'
+- 'top-right'
+- 'bottom-left'
+- 'bottom-center'
+- 'bottom-right'
+
+### Available Toast Themes
+- 'toast' (default)
+- 'snackbar'
+- 'colored'
+
+## Advanced Features
+
+### Toast Grouping
+Group related toasts together:
+
+```typescript
+this.toast.success('First message', { group: 'notifications' });
+this.toast.info('Second message', { group: 'notifications' });
+```
+
+### Toast Stacking
+Control how multiple toasts stack:
+
+```typescript
+// In your global configuration
+provideHotToastConfig({
+  stacking: 'vertical',  // 'vertical' or 'horizontal'
+  visibleToasts: 5,      // Maximum number of visible toasts
+  reverseOrder: false    // Display newest toasts at the bottom
+})
+```
+
+### Persistence
+Configure toasts to show only a certain number of times:
+
+```typescript
+this.toast.success('Welcome back!', {
+  persist: {
+    enabled: true,
+    count: 3,  // Show this toast only 3 times
+  }
+});
+```
+
+## Reference
+
+### ToastConfig Interface
+```typescript
+interface ToastConfig {
+  reverseOrder?: boolean;       // Reverse stacking order
+  visibleToasts?: number;       // Max visible toasts (0 = unlimited)
+  stacking?: 'vertical' | 'horizontal';
+  position?: ToastPosition;     // Default position
+  theme?: ToastTheme;           // Default theme
+  autoClose?: boolean;          // Auto close after duration
+  duration?: number;            // Default duration in ms
+  dismissible?: boolean;        // Show close button
+  // Type-specific defaults
+  success?: ToastOptions;
+  error?: ToastOptions;
+  loading?: ToastOptions;
+  warning?: ToastOptions;
+  info?: ToastOptions;
+}
+```
+
+### ToastOptions Interface
+```typescript
+interface ToastOptions {
+  id?: string;                  // Custom ID
+  duration?: number;            // Duration in ms
+  dismissible?: boolean;        // Show close button
+  autoClose?: boolean;          // Auto close after duration
+  position?: ToastPosition;     // Position on screen
+  className?: string;           // Additional CSS class
+  style?: Record<string, string>; // Custom inline styles
+  icon?: Content;               // Custom icon
+  iconTheme?: IconTheme;        // Icon styling
+  theme?: ToastTheme;           // Visual theme
+  ariaLive?: 'assertive' | 'polite'; // Accessibility
+  role?: 'status' | 'alert';    // ARIA role
+  group?: string;               // Group identifier
+  persist?: {                   // Persistence options
+    enabled: boolean;
+    count?: number;
+    storage?: 'local' | 'session';
+  };
+}
+```
+
+## Browser Compatibility
+@ngxpert/hot-toast supports all modern browsers including:
+- Chrome
+- Firefox
+- Safari
+- Edge
+
+## Examples
+
+### Complete Example
+```typescript
+import { Component } from '@angular/core';
+import { HotToastService } from '@ngxpert/hot-toast';
+import { catchError, of, tap } from 'rxjs';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <button (click)="showToast()">Show Toast</button>
+    <button (click)="showObservableToast()">Show Observable Toast</button>
+  `
+})
+export class AppComponent {
+  constructor(private toast: HotToastService) {}
+
+  showToast() {
+    this.toast.success('Operation completed successfully!', {
+      position: 'bottom-right',
+      duration: 4000,
+      theme: 'snackbar',
+      dismissible: true
+    });
+  }
+
+  showObservableToast() {
+    this.saveData()
+      .pipe(
+        this.toast.observe({
+          loading: 'Saving data...',
+          success: 'Data saved successfully!',
+          error: 'Failed to save data'
+        })
+      )
+      .subscribe();
+  }
+
+  private saveData() {
+    // Simulate API call
+    return of({ success: true }).pipe(
+      tap(() => console.log('Data saved')),
+      catchError(err => {
+        console.error(err);
+        return of({ success: false });
+      })
+    );
+  }
+}
+``` 
+
+## Additional Examples
+
+### Toast Positions
+```typescript
+// Top Left
+this.toast.show('I am on top-left', { 
+  icon: '↖', 
+  position: 'top-left' 
+});
+
+// Top Center
+this.toast.show('I am on top-center', { 
+  icon: '⬆', 
+  position: 'top-center' 
+});
+
+// Top Right
+this.toast.show('I am on top-right', { 
+  icon: '↗', 
+  position: 'top-right' 
+});
+
+// Bottom Left
+this.toast.show('I am on bottom-left', { 
+  icon: '↙', 
+  position: 'bottom-left' 
+});
+
+// Bottom Center
+this.toast.show('I am on bottom-center', { 
+  icon: '⬇', 
+  position: 'bottom-center' 
+});
+
+// Bottom Right
+this.toast.show('I am on bottom-right', { 
+  icon: '↘', 
+  position: 'bottom-right' 
+});
+```
+
+### Toast Types
+```typescript
+// Info toast
+this.toast.info("I must be super-useful!");
+
+// Success toast
+this.toast.success('Successfully toasted!');
+
+// Warning toast
+this.toast.warning('Please be cautious!');
+
+// Error toast
+this.toast.error("This didn't work.");
+
+// Loading toast
+this.toast.loading('I am on the 🛣 way...');
+```
+
+### Observe with Templates
+```typescript
+// In your component template
+<ng-template #successTemplate>
+  <b>Settings saved!</b>
+</ng-template>
+<ng-template #errorTemplate>
+  <b>Could not save.</b>
+</ng-template>
+
+// In your component class
+saveSettings(settings).pipe(
+  this.toast.observe({
+    loading: 'Saving...',
+    success: this.successTemplate,
+    error: this.errorTemplate,
+  }),
+  catchError((error) => of(error))
+).subscribe();
+
+// Using functions to access response data
+saveSettings(settings).pipe(
+  this.toast.observe({
+    loading: 'Saving...',
+    success: (response) => `I got a response: ${response}`,
+    error: (error) => `Something did not work, reason: ${error}`,
+  }),
+  catchError((error) => of(error))
+).subscribe();
+```
+
+### Multi-line Toast
+```typescript
+this.toast.show(
+  "This toast is super big. I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.",
+  {
+    autoClose: false,
+    dismissible: true
+  }
+);
+```
+
+### Custom Emoji Icon
+```typescript
+this.toast.show('Good Job!', {
+  icon: '👏',
+});
+```
+
+### Snackbar Theme
+```typescript
+this.toast.show('Snackbar', { 
+  theme: 'snackbar', 
+  icon: '🌞', 
+  position: 'bottom-center' 
+});
+```
+
+### Advanced Stacking Configuration
+```typescript
+// In your component
+toggleStacking(stacking: 'vertical' | 'depth') {
+  this.toast.defaultConfig = {
+    ...this.toast.defaultConfig,
+    stacking: stacking,
+    visibleToasts: 5,
+  };
+  
+  // Show multiple toasts to demonstrate stacking
+  ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣'].forEach((num, i) => {
+    setTimeout(() => {
+      this.toast.show('Notification ' + (i + 1), { 
+        icon: num, 
+        style: { width: '250px', height: '48px' } 
+      });
+    }, i * 500);
+  });
+}
+```
+
+### Advanced Grouping with Builder Pattern
+```typescript
+import { HotToastBuilder } from '@ngxpert/hot-toast';
+
+// Create parent toast first but don't show it
+const parentBuilder = new HotToastBuilder(ngTemplateGroup, this.toast)
+  .setOptions({
+    position: 'top-right',
+    autoClose: false,
+    className: 'custom-toast-class',
+    group: {
+      className: 'custom-toast-class'
+    }
+  });
+
+// Create child toasts
+const children = [
+  {
+    message: childTemplate,
+    data: { title: 'New Message!', subTitle: 'Sarah sent you a message.', icon: '🗨️' }
+  },
+  {
+    message: childTemplate,
+    data: { title: 'Level Up!', subTitle: "You've unlocked a new achievement.", icon: '✅' }
+  }
+].map((child) => {
+  return new HotToastBuilder(child.message, this.toast)
+    .setOptions({ data: child.data, autoClose: false });
+});
+
+// Add children to parent
+children.forEach((child) => parentBuilder.addChild(child));
+
+// Create the toast with all children (but don't show yet)
+const parentRef = parentBuilder.create();
+
+// Once all refs are attached, show the parent toast
+parentRef.afterGroupRefsAttached.subscribe(() => {
+  parentRef.show();
+});
+```
+
+### Adding Children to Existing Toast Group
+```typescript
+// First create the parent toast
+const parentRef = this.toast.show(parentTemplate, {
+  position: 'top-right',
+  autoClose: false,
+  className: 'custom-toast-class',
+  group: {
+    className: 'custom-toast-class'
+  }
+});
+
+// Later, add a child to the existing parent
+this.toast.show(childTemplate, { 
+  data: { 
+    title: 'New Notification', 
+    subTitle: 'Something happened!', 
+    icon: '🔔' 
+  }, 
+  group: { parent: parentRef } 
+});
+``` 
