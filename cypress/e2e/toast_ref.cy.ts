@@ -10,7 +10,8 @@ describe('Test hot toasts - ToastRef', () => {
 
     cy.get('@refToast').should('contain', 'I will be closed using ref.');
     cy.get('@refToast').should('not.be.visible');
-    cy.get('@refToast').should('not.exist'); 
+    cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
+    cy.get('@refToast').should('not.exist');
   });
 
   it('should show toast and change message by toastRef', () => {
