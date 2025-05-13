@@ -1,3 +1,12 @@
+# [4.2.0](https://github.com/ngxpert/hot-toast/compare/v4.1.2...v4.2.0) (2025-05-13)
+
+
+### Features
+
+* ng update @angular-eslint/schematics @angular/cdk ([1cf631f](https://github.com/ngxpert/hot-toast/commit/1cf631f657e13e91701ad638dc43653bbb5d47cd))
+* ng update @angular/core @angular/cli ([6f7395c](https://github.com/ngxpert/hot-toast/commit/6f7395c8260998c74dcce857331c7f4b7c53503e))
+* update other dependencies ([c9f1044](https://github.com/ngxpert/hot-toast/commit/c9f10447892351c84e6d351a7a05f7ebd4636731))
+
 ## [4.1.2](https://github.com/ngxpert/hot-toast/compare/v4.1.1...v4.1.2) (2025-02-25)
 
 
