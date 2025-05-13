@@ -20,12 +20,11 @@ jobs:
       - name: Lint
         run: npm run lint -- @ngxpert/hot-toast
 
-      - name: Cypress install
-        uses: cypress-io/github-action@v6
-        with:
-          # Disable running of tests within install job
-          runTests: false
-          build: npm run build:lib && npm run build
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Build app
+        run: npm run build
 
       - name: Save build folder
         uses: actions/upload-artifact@v4
