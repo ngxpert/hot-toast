@@ -1,0 +1,92 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Ignore reading files mentioned in [.gitignore](mdc:.gitignore)
+
+# General Cursor rules
+
+- use `declarative` over `imperative` pattern
+- always add type signature to functions
+- modules are not allowed, only standlaone components
+- Use Angular version 19
+
+## Typescript
+
+- use `type` over `interface`
+- if a type is used in a single file, declare it at the top of the same file, under the imports section. Otherwise create a a dedicated `*.model.ts` file.
+- do not prefix types with `I`
+
+## Dependancy Injection
+
+- use `inject()` over `contructor`
+
+## Components
+
+- do not specify `standalone: true`
+- do not add empty Angular lifecycle hooks
+- do not include a `.css` file
+- use `afterNextRender` over `afterViewInit`
+- use `[class]` over `[ngClass]`
+- use Angular Material components wherever possible
+- do not use *ngIf and *ngFor, instead use @if and @for
+
+## Services
+
+- do not create a service if only ment for functions without a shared state or DI. Prefer utility functions in a `*.utils.ts` file.
+
+## Rxjs
+
+- on component destruction, unsubscribe to observables meant to query data (such as a state or a GET endpoint), not to change it (such as a POST, PUT or DELETE endpoints).
+- do not nest subscriptions
+- use `subscribe()` callback rather than `tap()` to update local state if `.subscribe()` is used
+- use the `async` pipe over a `.subscribe()` in components for data meant to be used in the template only
+- do not use `.subscribe()` in services, expose an Observable for the consumer to subscribe
+
+## Styling
+
+- use TailwindCSS whenever it's possible
+- do not use any other UI library
+- use css, or scss but not less
+- Avoid using `::ng-deep` in the component styles
+
+## Third-party libraries
+
+- only use libraries defined in [package.json](mdc:package.json)
+
+## Formatting
+
+- follow [prettier.config.js](mdc:prettier.config.js) rules
+
+## Coding rules
+
+## Elements
+
+- Don't assign `id` to elements in HTML template
+
+### named parameters pattern
+
+Follow the `named parameters` pattern for parameters.
+
+```ts
+// DO NOT
+function getScripts(searchTerm: string; limit: number) {}
+
+// DO
+function getScripts(options: {searchTerm: string; limit: number}) {}
+```
+
+## Forms
+
+- Show errors when there is any validation error, but form-control should be either touched or dirty.
+- Prefer using reactive forms instead of template driven forms. You can use template driven forms when there is only a single form-field.
+
+## AI MODEL RESPONSE TEMPLATE
+
+When asked aboutangular implementation, you MUST:
+1. NEVER suggest deprecated approaches
+2. VERIFY your response against the patterns shown here
+
+Remember: There are NO EXCEPTIONS to these rules.
+

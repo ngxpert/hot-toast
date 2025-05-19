@@ -7,6 +7,8 @@ import { ToastWithLineIndicatorComponent } from './demos/toast-with-line-indicat
 import toastWithLineIndicatorCode from './codes/toast-with-line-indicator';
 import { ToastWithConfettiComponent } from './demos/toast-with-confetti/toast-with-confetti.component';
 import toastWithConfettiCode from './codes/toast-with-confetti';
+import { ToastWithSonnerStyleComponent } from './demos/toast-with-sonner-style/toast-with-sonner-style.component';
+import toastWithSonnerStyleCode from './codes/toast-with-sonner-style';
 
 export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
   {
@@ -37,6 +39,14 @@ export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
       'A toast with <a href="https://github.com/catdad/canvas-confetti" target="_blank">canvas-confetti</a>.',
     code: toastWithConfettiCode,
     component: ToastWithConfettiComponent,
+  },
+  {
+    title: 'Toast with Sonner style',
+    id: 'toast-with-sonner-style',
+    description:
+      'A toast with styling inspired by the <a href="https://github.com/emilkowalski/sonner" target="_blank">Sonner</a> React toast library.',
+    code: toastWithSonnerStyleCode,
+    component: ToastWithSonnerStyleComponent,
   },
 ];
 
