@@ -1,3 +1,15 @@
+# [5.0.0](https://github.com/ngxpert/hot-toast/compare/v4.2.0...v5.0.0) (2025-05-29)
+
+
+### Features
+
+* update to Angular v20 ([e3eb2a5](https://github.com/ngxpert/hot-toast/commit/e3eb2a5674d184f4fed313ebd396af4fb28d38f2))
+
+
+### BREAKING CHANGES
+
+* Update to Angular v20
+
 # [4.2.0](https://github.com/ngxpert/hot-toast/compare/v4.1.2...v4.2.0) (2025-05-13)
 
 
