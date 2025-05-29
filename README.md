@@ -56,7 +56,15 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         4.x
       </td>
       <td>
-        >= 19
+        >= 19 < 20
+      </td>
+    </tr>
+    <tr>
+      <td>
+        5.x
+      </td>
+      <td>
+        >= 20
       </td>
     </tr>
   </tbody>

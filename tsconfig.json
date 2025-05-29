@@ -7,13 +7,18 @@
     "esModuleInterop": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": ["es2018", "dom"],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "paths": {
-      "@ngxpert/hot-toast": ["projects/ngxpert/hot-toast/src/public-api.ts"]
+      "@ngxpert/hot-toast": [
+        "projects/ngxpert/hot-toast/src/public-api.ts"
+      ]
     },
     "resolveJsonModule": true,
     "useDefineForClassFields": false
