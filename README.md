@@ -1,3 +1,4 @@
+<!-- GitAds-Verify: SJ8M49JZ5AGV63OTC555HT5993UEWQ89 -->
 <p align="center">
   <img width="20%" height="20%" src="./assets/logo.svg?raw=true">
 </p>
