@@ -361,7 +361,3 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 
 <div>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
-## GitAds Sponsored
-[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=ngxpert/hot-toast@github)](https://gitads.dev/v1/ad-track?source=ngxpert/hot-toast@github)
-
-
