@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { NgClass } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 // import { Dialog } from '@angular/cdk/dialog';
 
 import { REPO_URL } from '../../core/constants';
@@ -20,6 +20,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './home.component.html',
   imports: [
     NgClass,
+    NgStyle,
     FeaturesComponent,
     StepsComponent,
     ExampleComponent,
