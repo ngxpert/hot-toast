@@ -87,6 +87,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 🔁 **Events**
 - 🔒 **Persistent**
 - 🎭 **Grouping**
+- 🔒 **CSP Compatible**
 
 ## Installation
 
