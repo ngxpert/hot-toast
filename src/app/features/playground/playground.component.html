@@ -18,7 +18,7 @@
       class="font-bold text-toast-400 hover:bg-gray-100 hover:text-toast-600 transform"
       href="https://github.com/ngxpert/hot-toast/tree/main/src/app/features/playground/demos"
       target="_blank"
-      style="transition-property: background-color, color"
+      [ngStyle]="{'transition-property': 'background-color, color'}"
       >GitHub</a
     >
   </h4>
@@ -51,7 +51,7 @@
       'rounded-lg flex font-bold bg-white py-2 px-6 shadow-button text-toast-800',
       'active:translate-y-0.5 active:shadow-button-active transform'
     ]"
-    style="transition-property: box-shadow, transform"
+    [ngStyle]="{'transition-property': 'box-shadow, transform'}"
     href="https://github.com/ngxpert/hot-toast/blob/main/ADD_PLAYGROUND.md"
     target="_blank"
   >

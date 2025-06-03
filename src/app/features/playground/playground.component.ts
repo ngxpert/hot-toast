@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { NgClass, NgComponentOutlet } from '@angular/common';
+import { NgClass, NgComponentOutlet, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PLAYGROUND_ITEMS } from './playground';
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-playground',
   standalone: true,
-  imports: [NgClass, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
+  imports: [NgClass, NgStyle, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
   styleUrls: ['./playground.component.scss'],
 })
