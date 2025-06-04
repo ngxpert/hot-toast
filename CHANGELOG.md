@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/ngxpert/hot-toast/compare/v3.1.1...v3.1.2) (2025-06-04)
+
+
+### Bug Fixes
+
+* use ngStyle instead of style for CSP ([7395df7](https://github.com/ngxpert/hot-toast/commit/7395df7e40b8fdd722ff60fd0bce7ad47e6d76da)), closes [#95](https://github.com/ngxpert/hot-toast/issues/95)
+
 ## [3.1.1](https://github.com/ngxpert/hot-toast/compare/v3.1.0...v3.1.1) (2024-12-10)
 
 
