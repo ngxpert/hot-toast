@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgStyle } from '@angular/common';
 
 import { IconTheme } from '../../../../hot-toast.model';
 
@@ -8,7 +8,7 @@ import { IconTheme } from '../../../../hot-toast.model';
   templateUrl: './loader.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgStyle],
 })
 export class LoaderComponent {
   @Input() theme: IconTheme;

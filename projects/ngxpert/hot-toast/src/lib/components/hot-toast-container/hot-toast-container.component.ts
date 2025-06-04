@@ -24,13 +24,14 @@ import { Content } from '@ngneat/overview';
 import { HotToastComponent } from '../hot-toast/hot-toast.component';
 import { HOT_TOAST_DEPTH_SCALE, HOT_TOAST_DEPTH_SCALE_ADD, HOT_TOAST_MARGIN } from '../../constants';
 import { HotToastService } from '../../hot-toast.service';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'hot-toast-container',
   templateUrl: './hot-toast-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [HotToastComponent],
+  imports: [HotToastComponent, NgStyle],
 })
 export class HotToastContainerComponent {
   @Input() defaultConfig: ToastConfig;
