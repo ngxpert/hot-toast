@@ -73,6 +73,8 @@ export class ExpandableNotificationToastWithTimerComponent implements OnDestroy 
 
     this.currentToastRef = this.toast.show<ToastData>(this.toastTemplate(), {
       duration: toastData.duration,
+      // setting id allows to open only one toast at a time
+      id: 'expandable-notification-toast-with-timer',
       style: {
         '--hot-toast-padding': '0',
         '--hot-toast-message-margin': '0',
@@ -112,7 +114,6 @@ export class ExpandableNotificationToastWithTimerComponent implements OnDestroy 
   }
 
   toggleExpanded(): void {
-    console.log(this.currentToastRef?.getToast().duration);
     this.isExpanded.update((expanded) => !expanded);
   }
 
