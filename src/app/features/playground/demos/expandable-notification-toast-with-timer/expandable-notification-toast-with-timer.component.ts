@@ -6,7 +6,6 @@ import {
   signal,
   OnDestroy,
   DestroyRef,
-  ViewEncapsulation,
   computed,
   effect,
 } from '@angular/core';
@@ -26,7 +25,6 @@ type ToastData = {
   selector: 'app-expandable-notification-toast-with-timer',
   templateUrl: './expandable-notification-toast-with-timer.component.html',
   styleUrls: ['./expandable-notification-toast-with-timer.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ExpandableNotificationToastWithTimerComponent implements OnDestroy {
   private toast = inject(HotToastService);
