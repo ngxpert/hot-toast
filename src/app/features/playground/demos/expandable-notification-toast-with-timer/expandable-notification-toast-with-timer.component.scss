@@ -1,0 +1,21 @@
+@keyframes shrink-line-animation {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.shrink-line-animation {
+  animation-name: shrink-line-animation;
+  animation-duration: var(--shrink-line-animation-duration);
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.expandable-content {
+  height: var(--expandable-content-height, 0);
+  transition: height 0.23s ease-out;
+}

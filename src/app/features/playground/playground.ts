@@ -9,6 +9,8 @@ import { ToastWithConfettiComponent } from './demos/toast-with-confetti/toast-wi
 import toastWithConfettiCode from './codes/toast-with-confetti';
 import { ToastWithSonnerStyleComponent } from './demos/toast-with-sonner-style/toast-with-sonner-style.component';
 import toastWithSonnerStyleCode from './codes/toast-with-sonner-style';
+import { ExpandableNotificationToastWithTimerComponent } from './demos/expandable-notification-toast-with-timer/expandable-notification-toast-with-timer.component';
+import expandableNotificationToastWithTimerCode from './codes/expandable-notification-toast-with-timer';
 
 export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
   {
@@ -47,6 +49,13 @@ export const PLAYGROUND_ITEMS: PlaygroundSchema[] = [
       'A toast with styling inspired by the <a href="https://github.com/emilkowalski/sonner" target="_blank">Sonner</a> React toast library.',
     code: toastWithSonnerStyleCode,
     component: ToastWithSonnerStyleComponent,
+  },
+  {
+    title: 'Expandable notification toast with timer',
+    id: 'expandable-notification-toast-with-timer',
+    description: 'A toast with a timer that expands to show more details.',
+    code: expandableNotificationToastWithTimerCode,
+    component: ExpandableNotificationToastWithTimerComponent,
   },
 ];
 
