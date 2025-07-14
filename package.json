@@ -95,7 +95,7 @@
     "lint-staged": "^15.5.2",
     "ng-packagr": "^20.0.0",
     "postcss": "8.5.3",
-    "prettier": "^2.8.8",
+    "prettier": "3.6.2",
     "semantic-release": "^23.1.1",
     "serve": "^14.2.4",
     "start-server-and-test": "^2.0.11",
