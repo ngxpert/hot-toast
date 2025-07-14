@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/ngxpert/hot-toast/compare/v5.0.1...v5.0.2) (2025-07-14)
+
+
+### Bug Fixes
+
+* remove `NgStyle` directive to reduce bundle size ([83e0b46](https://github.com/ngxpert/hot-toast/commit/83e0b4673cd6b6d456a21b10f11c7bdb34103645))
+
 ## [5.0.1](https://github.com/ngxpert/hot-toast/compare/v5.0.0...v5.0.1) (2025-06-03)
 
 
