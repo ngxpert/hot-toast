@@ -14,6 +14,7 @@ import { StepsComponent } from '../../sections/steps/steps.component';
 import { FeaturesComponent } from '../../sections/features/features.component';
 import { GroupingComponent } from '../../sections/grouping/grouping.component';
 import { RouterLink } from '@angular/router';
+import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { RouterLink } from '@angular/router';
     GroupingComponent,
     ReverseOrderComponent,
     RouterLink,
+    ToastContainerComponent,
     // JumpToDialogComponent,
   ],
 })
@@ -37,7 +39,7 @@ export class HomeComponent {
   isDialogOpen = false;
 
   constructor(
-    private toast: HotToastService // private dialog: Dialog
+    private toast: HotToastService, // private dialog: Dialog
   ) {}
 
   // keyDownListener(ev: KeyboardEvent) {
@@ -95,7 +97,7 @@ export class HomeComponent {
           error: { content: 'Whoops, it burnt', style: { width: '200px' } },
           success: { content: `Here's your toast`, style: { width: '200px' } },
         }),
-        catchError((error) => of(error))
+        catchError((error) => of(error)),
       )
       .subscribe();
   }

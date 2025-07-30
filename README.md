@@ -88,6 +88,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 🔒 **Persistent**
 - 🎭 **Grouping**
 - 🔒 **CSP Compatible**
+- 📦 **Customizable Toast Container**
 
 ## Installation
 
@@ -273,7 +274,7 @@ export const appConfig: ApplicationConfig = {
 
 You can checkout examples at: <https://ngxpert.github.io/hot-toast#examples>.
 
-### ToastConfig
+## ToastConfig
 
 All options, which are set _Available in global config?_ from `ToastOptions` are supported. Below are extra configurable options:
 
@@ -283,7 +284,7 @@ All options, which are set _Available in global config?_ from `ToastOptions` are
 | visibleToasts | `number`              | Sets the number of toasts visible. 0 will set no limit.<br>_Default: 5_ |
 | stacking      | `"vertical"\|"depth"` | Sets Sets the type of stacking<br>_Default: "vertical"_                 |
 
-### ToastOptions
+## ToastOptions
 
 Configuration used when opening an hot-toast.
 
@@ -307,6 +308,25 @@ Configuration used when opening an hot-toast.
 | data        | [`DataType`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20interface%20Toast%3CDataType%3E)        | Allows you to pass data for your template and component. You can access the data using `toastRef.data`.<br>_Examples: [Template with Data](https://ngxpert.github.io/hot-toast/#template-data), [Component with Data](https://ngxpert.github.io/hot-toast/#component-data)_ | No                          |
 | injector    | `Injector`                                                                                                                                                                                                    | Allows you to pass injector for your component.<br>_[Example](https://ngxpert.github.io/hot-toast/#injector)_                                                                                                                                                               | No                          |
 | group       | [`group`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=group%3F)                                           | Allows you to set group options. <br>Examples: [Pre-Grouping](https://ngxpert.github.io/hot-toast/#pre-grouping), [Post-Grouping](https://ngxpert.github.io/hot-toast/#post-grouping)                                                                                       | No                          |
+
+## Injection Tokens
+
+### HOT_TOAST_CONTAINER_TOKEN
+
+Injection token to provide a custom container selector for the toast container. The value will be used as a selector to find the container element using `document.querySelector`.
+
+```typescript
+import { HOT_TOAST_CONTAINER_TOKEN } from '@ngxpert/hot-toast';
+
+@Component({
+  providers: [
+    {
+      provide: HOT_TOAST_CONTAINER_TOKEN,
+      useValue: '#toast-container',
+    },
+  ],
+})
+```
 
 ---
 

@@ -7,3 +7,4 @@ export * from './lib/hot-toast.provide';
 export * from './lib/hot-toast.model';
 export * from './lib/hot-toast-ref';
 export * from './lib/hot-toast-builder';
+export * from './lib/tokens';
