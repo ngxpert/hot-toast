@@ -23,6 +23,7 @@ import {
   UpdateToastOptions,
   ValueOrFunction,
 } from './hot-toast.model';
+import { HOT_TOAST_CONTAINER_TOKEN } from './tokens';
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
@@ -36,7 +37,7 @@ export class HotToastService implements HotToastServiceMethods {
   private _viewService = inject(ViewService);
   private _platformId = inject(PLATFORM_ID);
   private _globalConfig = inject(ToastConfig, { optional: true });
-
+  private _container = inject(HOT_TOAST_CONTAINER_TOKEN, { optional: true });
   constructor() {
     if (this._globalConfig) {
       this._defaultGlobalConfig = {
@@ -71,7 +72,7 @@ export class HotToastService implements HotToastServiceMethods {
   show<DataType>(
     message?: Content,
     options?: ToastOptions<DataType>,
-    skipAttachToParent?: boolean
+    skipAttachToParent?: boolean,
   ): CreateHotToastRef<DataType | unknown> {
     const toast = this.createToast<DataType>({
       message: message || this._defaultGlobalConfig.blank.content,
@@ -207,7 +208,7 @@ export class HotToastService implements HotToastServiceMethods {
    * @memberof HotToastService
    */
   observe<T = unknown, DataType = unknown>(
-    messages: ObservableMessages<T, DataType>
+    messages: ObservableMessages<T, DataType>,
   ): (source: Observable<T>) => Observable<T> {
     return (source) => {
       let toastRef: CreateHotToastRef<DataType | unknown>;
@@ -231,7 +232,7 @@ export class HotToastService implements HotToastServiceMethods {
                   val,
                   toastRef,
                   'success',
-                  start === 0 ? start : Date.now() - start
+                  start === 0 ? start : Date.now() - start,
                 );
               },
             }),
@@ -242,11 +243,11 @@ export class HotToastService implements HotToastServiceMethods {
                   e,
                   toastRef,
                   'error',
-                  start === 0 ? start : Date.now() - start
+                  start === 0 ? start : Date.now() - start,
                 );
               },
             }),
-          })
+          }),
         );
       });
     };
@@ -272,10 +273,17 @@ export class HotToastService implements HotToastServiceMethods {
     if (isPlatformServer(this._platformId)) {
       return;
     }
+    let containerElement = document.querySelector(this._container);
+    if (!containerElement) {
+      console.warn(
+        `No container element found for selector: ${this._container}, using document.body instead as toast container.`,
+      );
+      containerElement = document.body;
+    }
     this._componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultGlobalConfig)
-      .appendTo(document.body);
+      .appendTo(containerElement);
   }
 
   private createOrUpdateToast<T, DataType>(
@@ -283,14 +291,14 @@ export class HotToastService implements HotToastServiceMethods {
     val: unknown,
     toastRef: CreateHotToastRef<DataType>,
     type: ToastType,
-    diff: number
+    diff: number,
   ) {
     try {
       let content: Content | ValueOrFunction<Content, T> = null;
       let options: ToastOptions<DataType | unknown> = {};
       ({ content, options } = this.getContentAndOptions<unknown, DataType>(
         type,
-        messages[type] || (this._defaultGlobalConfig[type] ? this._defaultGlobalConfig[type].content : '')
+        messages[type] || (this._defaultGlobalConfig[type] ? this._defaultGlobalConfig[type].content : ''),
       ));
       content = resolveValueOrFunction(content, val);
       if (toastRef) {
@@ -397,7 +405,11 @@ export class HotToastService implements HotToastServiceMethods {
 
   private getContentAndOptions<T, DataType>(
     toastType: ToastType,
-    message: Content | ValueOrFunction<Content, T> | ObservableLoading<DataType> | ObservableSuccessOrError<T, DataType>
+    message:
+      | Content
+      | ValueOrFunction<Content, T>
+      | ObservableLoading<DataType>
+      | ObservableSuccessOrError<T, DataType>,
   ): { options: ToastOptions<DataType | unknown>; content: Content | ValueOrFunction<Content, T> } {
     let content: Content | ValueOrFunction<Content, T>;
     let options: ToastOptions<DataType | unknown> = {

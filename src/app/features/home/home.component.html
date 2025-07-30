@@ -19,7 +19,7 @@
         href="https://react-hot-toast.com/"
         target="_blank"
         rel="noopener noreferrer"
-        [ngStyle]="{'transition-property': 'background-color, color'}"
+        [ngStyle]="{ 'transition-property': 'background-color, color' }"
         >React Hot Toast</a
       >
     </h4>
@@ -33,9 +33,9 @@
         'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center',
         'py-4 px-6',
         'active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform',
-        'focus:outline-none focus:ring-4'
+        'focus:outline-none focus:ring-4',
       ]"
-      [ngStyle]="{'transition-property': 'box-shadow, transform'}"
+      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
       (click)="observe()"
     >
       <div>🍞</div>
@@ -47,9 +47,9 @@
       rel="noopener noreferrer"
       [ngClass]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
-        'active:translate-y-0.5 active:shadow-button-active transform'
+        'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
-      [ngStyle]="{'transition-property': 'box-shadow, transform'}"
+      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
     >
       <div>
         <img src="assets/github.svg" alt="GitHub" />
@@ -60,21 +60,19 @@
       routerLink="/playground"
       [ngClass]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
-        'active:translate-y-0.5 active:shadow-button-active transform'
+        'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
-      [ngStyle]="{'transition-property': 'box-shadow, transform'}"
+      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
     >
-      <div>
-        ▶️
-      </div>
+      <div>▶️</div>
       <span class="flex-1 text-center">Playground</span></a
     >
   </div>
   <div class="my-2 flex items-center space-x-2">
-    <a href="#grouping">
+    <a href="#toast-container">
       <img
-        alt="what's new: stacking"
-        src="https://img.shields.io/badge/🌟what's new-grouping-purple?style=flat-square"
+        alt="what's new: toast container"
+        src="https://img.shields.io/badge/🌟what's new-toast%20container-purple?style=flat-square"
       />
     </a>
     <a href="https://www.npmjs.com/package/@ngxpert/hot-toast" target="_blank">
@@ -104,7 +102,7 @@
     href="https://github.com/ngxpert/hot-toast/tree/master/src/app/sections"
     target="_blank"
     class="text-toast-600 hover:bg-gray-100 hover:text-toast-800 transform"
-    [ngStyle]="{'transition-property': 'background-color, color'}"
+    [ngStyle]="{ 'transition-property': 'background-color, color' }"
     >GitHub</a
   >.
 </h3>
@@ -120,3 +118,5 @@
 <app-grouping></app-grouping>
 
 <app-reverse-order></app-reverse-order>
+
+<app-toast-container></app-toast-container>
