@@ -273,10 +273,17 @@ export class HotToastService implements HotToastServiceMethods {
     if (isPlatformServer(this._platformId)) {
       return;
     }
+    let containerElement = document.querySelector(this._container);
+    if (!containerElement) {
+      console.warn(
+        `No container element found for selector: ${this._container}, using document.body instead as toast container.`,
+      );
+      containerElement = document.body;
+    }
     this._componentRef = this._viewService
       .createComponent(HotToastContainerComponent)
       .setInput('defaultConfig', this._defaultGlobalConfig)
-      .appendTo(document.querySelector(this._container) || document.body);
+      .appendTo(containerElement);
   }
 
   private createOrUpdateToast<T, DataType>(

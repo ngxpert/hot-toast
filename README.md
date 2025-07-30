@@ -316,16 +316,17 @@ Configuration used when opening an hot-toast.
 Injection token to provide a custom container selector for the toast container. The value will be used as a selector to find the container element using `document.querySelector`.
 
 ```typescript
-import { HOT_TOAST_CONTAINER_TOKEN } from '@ngxpert/hot-toast';
+import { HOT_TOAST_CONTAINER_TOKEN, provideHotToastConfig } from '@ngxpert/hot-toast';
 
-@Component({
+bootstrapApplication(AppComponent, {
   providers: [
+    provideHotToastConfig(),
     {
       provide: HOT_TOAST_CONTAINER_TOKEN,
       useValue: '#toast-container',
     },
   ],
-})
+}).catch((err) => console.error(err));
 ```
 
 ---
