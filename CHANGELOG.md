@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/ngxpert/hot-toast/compare/v5.0.2...v5.1.0) (2025-07-30)
+
+
+### Features
+
+* expose toast container using injection token ([8d5ddb8](https://github.com/ngxpert/hot-toast/commit/8d5ddb808699521309acc16b137a2af18933d68f))
+
 ## [5.0.2](https://github.com/ngxpert/hot-toast/compare/v5.0.1...v5.0.2) (2025-07-14)
 
 
