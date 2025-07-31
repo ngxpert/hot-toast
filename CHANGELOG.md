@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/ngxpert/hot-toast/compare/v5.1.0...v5.1.1) (2025-07-31)
+
+
+### Bug Fixes
+
+* **hot-toast.service:** show warning only if token is present ([3d100a0](https://github.com/ngxpert/hot-toast/commit/3d100a0100a180d37479c25a6ced1090874545a6)), closes [#133](https://github.com/ngxpert/hot-toast/issues/133)
+
 # [5.1.0](https://github.com/ngxpert/hot-toast/compare/v5.0.2...v5.1.0) (2025-07-30)
 
 
