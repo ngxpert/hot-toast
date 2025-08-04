@@ -160,7 +160,7 @@ bootstrapApplication(AppComponent, {
 Add `provideHotToastConfig()` to your app.module.ts `providers` section. Toast options ([`Partial<ToastConfig>`](#toastconfig)) here.:
 
 ```typescript
-import { providerHotToastConfig } from '@ngxpert/hot-toast';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 @NgModule({
   providers: [provideHotToastConfig()],
