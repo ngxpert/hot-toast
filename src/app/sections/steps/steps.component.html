@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-1 items-center">
       <div class="font-bold">Install and setup using Angular CLI</div>
       <div class="max-w-full">
-        <app-code [language]="'bash'" [snippet]="ngCliSetup" [hideCopyButton]="true" [selectOnFocus]="true"> </app-code>
+        <app-code [language]="'bash'" [snippet]="ngCliSetup" [hideCopyButton]="true" [selectOnFocus]="true" />
       </div>
     </div>
   </div>
@@ -19,17 +19,17 @@
     </div>
   </div>
   @for (step of stepList; track step; let i = $index) {
-  <div class="col-span-1" [class.hidden]="!showManual">
-    <div class="flex flex-col gap-1 items-center">
-      <div class="h-6 w-6 mb-2 text-sm rounded-full bg-toast-900 text-toast-50 flex items-center justify-center">
-        {{ i + 1 }}
-      </div>
-      <div class="font-bold">{{ step.title }}</div>
-      <div class="text-red-700 text-sm mb-2">{{ step.subTitle }}</div>
-      <div class="max-w-full">
-        <app-code [language]="step.language" [snippet]="step.code"> </app-code>
+    <div class="col-span-1" [class.hidden]="!showManual">
+      <div class="flex flex-col gap-1 items-center">
+        <div class="h-6 w-6 mb-2 text-sm rounded-full bg-toast-900 text-toast-50 flex items-center justify-center">
+          {{ i + 1 }}
+        </div>
+        <div class="font-bold">{{ step.title }}</div>
+        <div class="text-red-700 text-sm mb-2">{{ step.subTitle }}</div>
+        <div class="max-w-full">
+          <app-code [language]="step.language" [snippet]="step.code" />
+        </div>
       </div>
     </div>
-  </div>
   }
 </div>

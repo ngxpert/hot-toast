@@ -1,29 +1,35 @@
 @if (type !== 'blank') {
-<div class="hot-toast-indicator-wrapper">
-  @if (type === 'loading') {
-  <hot-toast-loader [theme]="theme"></hot-toast-loader>
-  } @if (type !== 'loading') {
-  <div class="hot-toast-status-wrapper">
-    <div>
-      @switch (type) { @case ('error') {
-      <div>
-        <hot-toast-error [theme]="theme"></hot-toast-error>
+  <div class="hot-toast-indicator-wrapper">
+    @if (type === 'loading') {
+      <hot-toast-loader [theme]="theme" />
+    }
+    @if (type !== 'loading') {
+      <div class="hot-toast-status-wrapper">
+        <div>
+          @switch (type) {
+            @case ('error') {
+              <div>
+                <hot-toast-error [theme]="theme" />
+              </div>
+            }
+            @case ('success') {
+              <div>
+                <hot-toast-checkmark [theme]="theme" />
+              </div>
+            }
+            @case ('warning') {
+              <div>
+                <hot-toast-warning [theme]="theme" />
+              </div>
+            }
+            @case ('info') {
+              <div>
+                <hot-toast-info [theme]="theme" />
+              </div>
+            }
+          }
+        </div>
       </div>
-      } @case ('success') {
-      <div>
-        <hot-toast-checkmark [theme]="theme"></hot-toast-checkmark>
-      </div>
-      } @case ('warning') {
-      <div>
-        <hot-toast-warning [theme]="theme"></hot-toast-warning>
-      </div>
-      } @case ('info') {
-      <div>
-        <hot-toast-info [theme]="theme"></hot-toast-info>
-      </div>
-      } }
-    </div>
+    }
   </div>
-  }
-</div>
 }

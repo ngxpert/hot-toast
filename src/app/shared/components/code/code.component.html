@@ -1,8 +1,8 @@
 <div class="relative">
   @if (!hideCopyButton) {
-  <button class="copy-btn" [cdkCopyToClipboard]="code.textContent ?? ''" (cdkCopyToClipboardCopied)="codeCopied()">
-    <img [src]="isCopied ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
-  </button>
+    <button class="copy-btn" [cdkCopyToClipboard]="code.textContent ?? ''" (cdkCopyToClipboardCopied)="codeCopied()">
+      <img [src]="isCopied ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
+    </button>
   }
   <div [ngClass]="containerClass">
     <pre class="language-{{ language }}">

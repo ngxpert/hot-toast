@@ -5,14 +5,14 @@
   </h2>
   <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
     <div class="sm:col-span-1 md:col-span-1">
-      <app-button-group [buttons]="stackingButtons" [selectedValue]="stacking"></app-button-group>
+      <app-button-group [buttons]="stackingButtons" [selectedValue]="stacking" />
       <p class="mt-1 mb-2 text-sm text-toast-800">
         Setting <b><code>stacking</code></b> can help achieving desired stacking for hot-toasts.
       </p>
       <p class="mb-2 text-sm text-toast-800">
         Use the
-        <b><code>visibleToasts</code></b> option to control number of visible toasts, defaults to <b>5</b>. See it in action by setting value
-        in below input!
+        <b><code>visibleToasts</code></b> option to control number of visible toasts, defaults to <b>5</b>. See it in
+        action by setting value in below input!
       </p>
       <input
         [(ngModel)]="visibleToasts"
@@ -38,7 +38,7 @@
             </button>
           </nav>
           <div class="mb-4 px-4 max-w-full">
-            <app-code [snippet]="snippet"></app-code>
+            <app-code [snippet]="snippet" />
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
             </button>
           </nav>
           <div class="mb-4 px-4 max-w-full">
-            <app-code [snippet]="serviceSnippet"></app-code>
+            <app-code [snippet]="serviceSnippet" />
           </div>
         </div>
       </div>

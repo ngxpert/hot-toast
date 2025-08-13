@@ -7,7 +7,7 @@
         <ng-container *ngFor="let item of group.items">
           <cmdk-separator *ngIf="item.separatorOnTop"></cmdk-separator>
           <button cmdkItem [value]="item.label" (selected)="item.itemSelected && item.itemSelected()">
-            <ng-container *dynamicView="item.icon"></ng-container>
+            <ng-container *dynamicView="item.icon" />
             {{ item.label }}
           </button>
         </ng-container>
