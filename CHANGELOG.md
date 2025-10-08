@@ -1,3 +1,10 @@
+## [5.1.2](https://github.com/ngxpert/hot-toast/compare/v5.1.1...v5.1.2) (2025-10-08)
+
+
+### Bug Fixes
+
+* **hot-toast-container:** update ref's toast when calling updateToast ([b7f9a31](https://github.com/ngxpert/hot-toast/commit/b7f9a3149f8c70c48e85d49a5065967e6e293709)), closes [#160](https://github.com/ngxpert/hot-toast/issues/160)
+
 ## [5.1.1](https://github.com/ngxpert/hot-toast/compare/v5.1.0...v5.1.1) (2025-07-31)
 
 
