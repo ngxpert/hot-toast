@@ -98,7 +98,7 @@ export class HotToastContainerComponent {
   addToast<DataType>(ref: HotToastRef<DataType>, skipAttachToParent?: boolean): AddToastRef<DataType> {
     this.toastRefs.push(ref);
 
-    const toast = ref.getToast();
+    let toast = ref.getToast();
 
     this.toasts.push(ref.getToast());
 
@@ -125,6 +125,7 @@ export class HotToastContainerComponent {
         this.cdr.markForCheck();
       },
       updateToast: (options: UpdateToastOptions<DataType>) => {
+        toast = { ...toast, ...options };
         this.updateToasts(toast, options);
         this.cdr.markForCheck();
       },
