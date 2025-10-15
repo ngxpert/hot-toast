@@ -6,37 +6,41 @@
 </div>
 <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
   @for (example of examples; track example) {
-  <div class="col-span-1">
-    <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
-      {{ example.title }}
-    </app-emoji-button>
-    @if (example.subtitle) {
-    <p class="mt-1 text-sm text-toast-800" [innerHTML]="example.subtitle | html"></p>
-    }
-  </div>
-  <div class="sm:col-span-1 md:col-span-2">
-    <div class="shadow border sm:rounded-md">
-      <div class="bg-white">
-        <nav class="flex flex-row">
-          @for (language of snippetLanguages; track language) { @if (example.snippet[language.value]) {
-          <button
-            class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-            [ngClass]="[
-              example.activeSnippet === language.value ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
-            ]"
-            (click)="example.activeSnippet = language.value"
-          >
-            {{ language.label }}
-          </button>
-          } }
-        </nav>
-        <div class="mb-4 px-4 max-w-full">
-          <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
+    <div class="col-span-1">
+      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
+        {{ example.title }}
+      </app-emoji-button>
+      @if (example.subtitle) {
+        <p class="mt-1 text-sm text-toast-800" [innerHTML]="example.subtitle | html"></p>
+      }
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            @for (language of snippetLanguages; track language) {
+              @if (example.snippet[language.value]) {
+                <button
+                  class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                  [ngClass]="[
+                    example.activeSnippet === language.value
+                      ? 'bg-gray-50 text-toast-700 font-medium border-toast-700'
+                      : '',
+                  ]"
+                  (click)="example.activeSnippet = language.value"
+                >
+                  {{ language.label }}
+                </button>
+              }
+            }
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
   }
 </section>
 
