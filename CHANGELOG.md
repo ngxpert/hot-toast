@@ -1,3 +1,10 @@
+## [5.1.3](https://github.com/ngxpert/hot-toast/compare/v5.1.2...v5.1.3) (2025-11-13)
+
+
+### Bug Fixes
+
+* **dependencies:** update @ngneat/overview to version 7.0.0 ([4d68b72](https://github.com/ngxpert/hot-toast/commit/4d68b728810d17fb71f9bd62c01695739acf11d8))
+
 ## [5.1.2](https://github.com/ngxpert/hot-toast/compare/v5.1.1...v5.1.2) (2025-10-08)
 
 
