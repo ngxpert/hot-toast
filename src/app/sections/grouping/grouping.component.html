@@ -5,45 +5,57 @@
   </h2>
   <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
     @for (example of examples; track example) {
-    <div class="col-span-1">
-      @if (example.id === "grouping-post") { @if (parentRef) {
-      <p class="mb-1 text-sm text-toast-800">Parent toast is opened!</p>
-      <app-emoji-button emoji="➕" (btnClick)="addNotification()"> Add notification </app-emoji-button>
-      } @else {
-      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
-        {{ example.title }}
-      </app-emoji-button>
-      } } @else {
-      <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
-        {{ example.title }}
-      </app-emoji-button>
-      } @if (example.subtitle) {
-      <p class="mt-1 text-sm text-toast-800" [innerHTML]="example.subtitle | html"></p>
-      }
-    </div>
-    <div class="sm:col-span-1 md:col-span-2">
-      <div class="shadow border sm:rounded-md">
-        <div class="bg-white">
-          <nav class="flex flex-row">
-            @for (language of snippetLanguages; track language) { @if (example.snippet[language.value]) {
-            <button
-              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-              [ngClass]="[
-                example.activeSnippet === language.value ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
-              ]"
-              (click)="example.activeSnippet = language.value"
+      <div class="col-span-1">
+        @if (example.id === 'grouping-post') {
+          @if (parentRef) {
+            <p class="mb-1 text-sm text-toast-800">Parent toast is opened!</p>
+            <app-emoji-button emoji="➕" (btnClick)="addNotification()"> Add notification </app-emoji-button>
+          } @else {
+            <app-emoji-button
+              [btnId]="example.id"
+              [emoji]="example.emoji"
+              (btnClick)="click(example)"
+              [showLink]="true"
             >
-              {{ language.label }}
-            </button>
-            } }
-          </nav>
-          <div class="mb-4 px-4 max-w-full">
-            <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet"> </app-code>
+              {{ example.title }}
+            </app-emoji-button>
+          }
+        } @else {
+          <app-emoji-button [btnId]="example.id" [emoji]="example.emoji" (btnClick)="click(example)" [showLink]="true">
+            {{ example.title }}
+          </app-emoji-button>
+        }
+        @if (example.subtitle) {
+          <p class="mt-1 text-sm text-toast-800" [innerHTML]="example.subtitle | html"></p>
+        }
+      </div>
+      <div class="sm:col-span-1 md:col-span-2">
+        <div class="shadow border sm:rounded-md">
+          <div class="bg-white">
+            <nav class="flex flex-row">
+              @for (language of snippetLanguages; track language) {
+                @if (example.snippet[language.value]) {
+                  <button
+                    class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+                    [ngClass]="[
+                      example.activeSnippet === language.value
+                        ? 'bg-gray-50 text-toast-700 font-medium border-toast-700'
+                        : '',
+                    ]"
+                    (click)="example.activeSnippet = language.value"
+                  >
+                    {{ language.label }}
+                  </button>
+                }
+              }
+            </nav>
+            <div class="mb-4 px-4 max-w-full">
+              <app-code [snippet]="example.snippet[example.activeSnippet]" [language]="example.activeSnippet" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+      <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
     }
   </section>
 </div>
@@ -57,8 +69,10 @@
         class="transition-all ease-in-out duration-[230ms] drop-shadow-md"
         [ngClass]="{ 'scale-1': toastRef.groupExpanded, 'scale-125': !toastRef.groupExpanded }"
       >
-        @if (visibleToasts(toastRef.groupRefs) === 0) { 🔕 } @else {
-        <span class="bell-animation"> 🔔 </span>
+        @if (visibleToasts(toastRef.groupRefs) === 0) {
+          🔕
+        } @else {
+          <span class="bell-animation"> 🔔 </span>
         }
       </span>
     </div>
@@ -69,27 +83,34 @@
           'scale-125': !toastRef.groupExpanded,
           'scale-1 pl-0': toastRef.groupExpanded,
           'pl-[22px]': !toastRef.groupExpanded && visibleToasts(toastRef.groupRefs) !== 0,
-          'pl-[14px]': !toastRef.groupExpanded && visibleToasts(toastRef.groupRefs) === 0
+          'pl-[14px]': !toastRef.groupExpanded && visibleToasts(toastRef.groupRefs) === 0,
         }"
       >
-        @if (visibleToasts(toastRef.groupRefs) === 0) { No } @else {
-        {{ visibleToasts(toastRef.groupRefs) }}
-        } New Activities
+        @if (visibleToasts(toastRef.groupRefs) === 0) {
+          No
+        } @else {
+          {{ visibleToasts(toastRef.groupRefs) }}
+        }
+        New Activities
       </div>
       <div
         class="text-gray-500 transition-all ease-in-out duration-[230ms]"
         [ngClass]="{ 'scale-90 ml-[-10px]': toastRef.groupExpanded, 'ml-0': !toastRef.groupExpanded }"
       >
-        @if (visibleToasts(toastRef.groupRefs) === 0) { You're all caught up! } @else { What's happening around you! }
+        @if (visibleToasts(toastRef.groupRefs) === 0) {
+          You're all caught up!
+        } @else {
+          What's happening around you!
+        }
       </div>
     </div>
     @if (visibleToasts(toastRef.groupRefs) > 0) {
-    <button
-      (click)="toastRef.toggleGroup()"
-      class="ml-auto self-center hot-toast-group-btn"
-      [class.expanded]="toastRef.groupExpanded"
-      [attr.aria-label]="toastRef.groupExpanded ? 'Collapse' : 'Expand'"
-    ></button>
+      <button
+        (click)="toastRef.toggleGroup()"
+        class="ml-auto self-center hot-toast-group-btn"
+        [class.expanded]="toastRef.groupExpanded"
+        [attr.aria-label]="toastRef.groupExpanded ? 'Collapse' : 'Expand'"
+      ></button>
     }
   </div>
 </ng-template>
@@ -109,7 +130,7 @@
     </div>
   </div>
 </ng-template>
-<div [ngStyle]="{display: 'none'}">
+<div [ngStyle]="{ display: 'none' }">
   <!-- Test buttons for toast options -->
-  <button id="test-dismissible-toasts" (click)="showDismissibleToasts()"></button>
+  <button id="test-dismissible-toasts" (click)="showDismissibleToasts()">Test dismissible toasts</button>
 </div>

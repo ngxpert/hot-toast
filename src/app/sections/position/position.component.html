@@ -7,16 +7,16 @@
     <div class="sm:col-span-1 md:col-span-1">
       <div class="grid grid-cols-3 bg-toast-100 rounded-xl gap-x-2 gap-y-1 p-2 md:p-4">
         @for (pos of positionExamples; track pos) {
-        <app-emoji-button
-          [btnId]="pos.id"
-          [emoji]="pos.emoji"
-          (btnClick)="setSnippet(pos)"
-          [className]="
-            'w-full ' + (position === pos.title ? 'bg-toast-900 text-toast-100 ' : 'bg-white shadow-small-button')
-          "
-        >
-          {{ pos.title }}
-        </app-emoji-button>
+          <app-emoji-button
+            [btnId]="pos.id"
+            [emoji]="pos.emoji"
+            (btnClick)="setSnippet(pos)"
+            [className]="
+              'w-full ' + (position === pos.title ? 'bg-toast-900 text-toast-100 ' : 'bg-white shadow-small-button')
+            "
+          >
+            {{ pos.title }}
+          </app-emoji-button>
         }
       </div>
     </div>
@@ -32,7 +32,7 @@
             </button>
           </nav>
           <div class="mb-4 px-4 max-w-full">
-            <app-code [snippet]="snippet"></app-code>
+            <app-code [snippet]="snippet" />
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
             </button>
           </nav>
           <div class="mb-4 px-4 max-w-full">
-            <app-code [snippet]="globalSnippet"></app-code>
+            <app-code [snippet]="globalSnippet" />
           </div>
         </div>
       </div>
