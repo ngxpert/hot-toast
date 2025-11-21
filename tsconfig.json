@@ -11,10 +11,6 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
     "paths": {
       "@ngxpert/hot-toast": [
         "projects/ngxpert/hot-toast/src/public-api.ts"
