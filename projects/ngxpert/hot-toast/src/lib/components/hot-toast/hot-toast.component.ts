@@ -5,7 +5,6 @@ import {
   Component,
   DoCheck,
   ElementRef,
-  EventEmitter,
   inject,
   Injector,
   Input,
@@ -13,12 +12,12 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   signal,
   SimpleChanges,
   ViewChild,
   input,
+  output
 } from '@angular/core';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
 
@@ -89,11 +88,11 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   readonly isShowingAllToasts = input(false);
 
-  @Output() height = new EventEmitter<number>();
-  @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter<HotToastClose>();
-  @Output() showAllToasts = new EventEmitter<boolean>();
-  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
+  readonly height = output<number>();
+  readonly beforeClosed = output();
+  readonly afterClosed = output<HotToastClose>();
+  readonly showAllToasts = output<boolean>();
+  readonly toggleGroup = output<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase', { static: true }) private toastBarBase: ElementRef<HTMLElement>;
 

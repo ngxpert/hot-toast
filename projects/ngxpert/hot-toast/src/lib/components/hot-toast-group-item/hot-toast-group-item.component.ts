@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   NgZone,
-  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -18,6 +16,7 @@ import {
   ChangeDetectorRef,
   inject,
   input,
+  output
 } from '@angular/core';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
 import { IndicatorComponent } from '../indicator/indicator.component';
@@ -72,11 +71,11 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   readonly isShowingAllToasts = input(false);
 
-  @Output() height = new EventEmitter<number>();
-  @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter<HotToastClose>();
-  @Output() showAllToasts = new EventEmitter<boolean>();
-  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
+  readonly height = output<number>();
+  readonly beforeClosed = output();
+  readonly afterClosed = output<HotToastClose>();
+  readonly showAllToasts = output<boolean>();
+  readonly toggleGroup = output<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase: ElementRef<HTMLElement>;
 

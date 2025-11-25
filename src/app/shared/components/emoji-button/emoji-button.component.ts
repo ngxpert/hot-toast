@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgStyle } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ export class EmojiButtonComponent {
   readonly emoji = input<string>();
   readonly className = input<string>();
   readonly btnId = input<string>();
-  @Output() btnClick = new EventEmitter();
+  readonly btnClick = output();
   readonly showLink = input(false);
   readonly disabled = input(false);
 }
