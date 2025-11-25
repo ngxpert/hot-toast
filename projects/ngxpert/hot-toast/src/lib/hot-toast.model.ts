@@ -48,6 +48,13 @@ export class ToastConfig implements DefaultToastOptions {
   loading: ToastOptions<unknown> & { content?: Content } = { content: '' };
   blank: ToastOptions<unknown> & { content?: Content } = { content: '' };
   warning: ToastOptions<unknown> & { content?: Content } = { content: '' };
+
+  /**
+   * Whether the overlay should be rendered as a native popover element, rather than placing it inside of the overlay container.
+   * @default undefined
+   * @since 5.2.0
+   */
+  usePopover?: boolean;
 }
 
 export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning' | 'info';
@@ -64,7 +71,7 @@ export type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
 export type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;
 
 const isFunction = <TValue, TArg>(
-  valOrFunction: ValueOrFunction<TValue, TArg>
+  valOrFunction: ValueOrFunction<TValue, TArg>,
 ): valOrFunction is ValueFunction<TValue, TArg> => typeof valOrFunction === 'function';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,12 +81,15 @@ const isAngularComponent = (arg: any): boolean => {
   return typeof arg === 'function' && !!(arg as any).ɵcmp;
 };
 
-export const resolveValueOrFunction = <TValue, TArg>(valOrFunction: ValueOrFunction<TValue, TArg>, arg: TArg): TValue =>
+export const resolveValueOrFunction = <TValue, TArg>(
+  valOrFunction: ValueOrFunction<TValue, TArg>,
+  arg: TArg,
+): TValue =>
   isAngularComponent(valOrFunction)
     ? (valOrFunction as TValue)
     : isFunction(valOrFunction)
-    ? valOrFunction(arg)
-    : valOrFunction;
+      ? valOrFunction(arg)
+      : valOrFunction;
 
 export type ToastRole = 'status' | 'alert';
 

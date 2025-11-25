@@ -1,4 +1,4 @@
-import { isPlatformServer } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
 import { defer, Observable } from 'rxjs';
@@ -23,7 +23,7 @@ import {
   UpdateToastOptions,
   ValueOrFunction,
 } from './hot-toast.model';
-import { HOT_TOAST_CONTAINER_TOKEN } from './tokens';
+import { HOT_TOAST_CONTAINER_TOKEN, HOT_TOAST_USE_POPOVER_TOKEN } from './tokens';
 
 @Injectable({ providedIn: 'root' })
 export class HotToastService implements HotToastServiceMethods {
@@ -38,6 +38,8 @@ export class HotToastService implements HotToastServiceMethods {
   private _platformId = inject(PLATFORM_ID);
   private _globalConfig = inject(ToastConfig, { optional: true });
   private _container = inject(HOT_TOAST_CONTAINER_TOKEN, { optional: true });
+  private _usePopover = inject(HOT_TOAST_USE_POPOVER_TOKEN, { optional: true });
+  private _document = inject(DOCUMENT);
   constructor() {
     if (this._globalConfig) {
       this._defaultGlobalConfig = {
@@ -273,6 +275,13 @@ export class HotToastService implements HotToastServiceMethods {
     if (isPlatformServer(this._platformId)) {
       return;
     }
+    const defaultUsePopover = this._usePopover ?? true;
+    if (!('showPopover' in this._document?.body)) {
+      this._defaultGlobalConfig.usePopover = false;
+    } else {
+      this._defaultGlobalConfig.usePopover = this._defaultGlobalConfig.usePopover ?? defaultUsePopover;
+    }
+
     if (this._container) {
       let containerElement = document.querySelector(this._container);
       if (!containerElement) {
