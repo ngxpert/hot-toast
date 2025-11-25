@@ -54,8 +54,7 @@
     "highlight.js": "^11.11.1",
     "prismjs": "^1.30.0",
     "rxjs": "~6.6.0",
-    "tslib": "^2.3.1",
-    "zone.js": "~0.15.0"
+    "tslib": "^2.3.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^21.0.0",

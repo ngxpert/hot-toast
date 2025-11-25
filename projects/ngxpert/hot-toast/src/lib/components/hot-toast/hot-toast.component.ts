@@ -227,8 +227,6 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     this.ngZone.runOutsideAngular(() => {
       this.unlisteners.push(
         // Caretaker note: we have to remove these event listeners at the end (even if the element is removed from DOM).
-        // zone.js stores its `ZoneTask`s within the `nativeElement[Zone.__symbol__('animationstart') + 'false']` property
-        // with callback that capture `this`.
         this.renderer.listen(nativeElement, 'animationstart', (event: AnimationEvent) => {
           if (this.isExitAnimation(event)) {
             this.ngZone.run(() => {
