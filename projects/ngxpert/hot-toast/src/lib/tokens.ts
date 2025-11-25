@@ -20,3 +20,23 @@ import { InjectionToken } from '@angular/core';
  *
  */
 export const HOT_TOAST_CONTAINER_TOKEN = new InjectionToken<string>('HOT_TOAST_CONTAINER_TOKEN');
+
+/** Injection token used to configure whether the toast should be rendered as a native popover element.
+ *  * @example
+ * ```ts
+ * import { HOT_TOAST_USE_POPOVER_TOKEN, provideHotToastConfig } from '@ngxpert/hot-toast';
+ * import { bootstrapApplication } from '@angular/platform-browser';
+ *
+ * bootstrapApplication(AppComponent, {
+ *   providers: [
+ *     provideHotToastConfig(),
+ *     {
+ *       provide: HOT_TOAST_USE_POPOVER_TOKEN,
+ *       useValue: true,
+ *     },
+ *   ],
+ * }).catch((err) => console.error(err));
+ * ```
+ *
+ */
+export const HOT_TOAST_USE_POPOVER_TOKEN = new InjectionToken<boolean>('HOT_TOAST_USE_POPOVER_TOKEN');

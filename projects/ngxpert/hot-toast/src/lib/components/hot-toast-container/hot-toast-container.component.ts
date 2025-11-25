@@ -6,6 +6,9 @@ import {
   ViewChildren,
   ChangeDetectorRef,
   input,
+  afterNextRender,
+  ElementRef,
+  OnDestroy,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -31,8 +34,12 @@ import { HotToastService } from '../../hot-toast.service';
   styleUrl: './hot-toast-container.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HotToastComponent],
+  host: {
+    '[attr.popover]': 'defaultConfig.usePopover ? "manual" : undefined',
+    '[class.hot-toast-container-overlay-popover]': 'defaultConfig.usePopover',
+  },
 })
-export class HotToastContainerComponent {
+export class HotToastContainerComponent implements OnDestroy {
   readonly defaultConfig = input<ToastConfig>();
 
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
@@ -56,6 +63,20 @@ export class HotToastContainerComponent {
 
   private cdr = inject(ChangeDetectorRef);
   private toastService = inject(HotToastService);
+  private host = inject(ElementRef);
+
+  constructor() {
+    afterNextRender(() => {
+      if (this.defaultConfig.usePopover) {
+        // We need the try/catch because the browser will throw if the
+        // host or any of the parents are outside the DOM. Also note
+        // the string access which is there for compatibility with Closure.
+        try {
+          this.host.nativeElement['showPopover']();
+        } catch {}
+      }
+    });
+  }
 
   trackById(index: number, toast: Toast<unknown>) {
     return toast.id;
@@ -246,6 +267,17 @@ export class HotToastContainerComponent {
 
   showAllToasts(show: boolean) {
     this.isShowingAllToasts = show;
+  }
+
+  ngOnDestroy() {
+    if (this.defaultConfig.usePopover) {
+      // We need the try/catch because the browser will throw if the
+      // host or any of the parents are outside the DOM. Also note
+      // the string access which is there for compatibility with Closure.
+      try {
+        this.host.nativeElement['hidePopover']();
+      } catch {}
+    }
   }
 
   private getAfterClosed(toast: Toast<unknown>) {
