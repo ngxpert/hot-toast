@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IconTheme } from '../../../../hot-toast.model';
 
@@ -8,5 +8,5 @@ import { IconTheme } from '../../../../hot-toast.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoaderComponent {
-  @Input() theme: IconTheme;
+  readonly theme = input<IconTheme>();
 }
