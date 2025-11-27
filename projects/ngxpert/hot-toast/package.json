@@ -9,9 +9,9 @@
     "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../../dist/ngxpert/hot-toast/"
   },
   "peerDependencies": {
-    "@angular/common": ">= 20.0.0",
-    "@angular/core": ">= 20.0.0",
-    "@ngneat/overview": "6.1.1"
+    "@angular/common": ">= 20.0.0 < 21",
+    "@angular/core": ">= 20.0.0 < 21",
+    "@ngneat/overview": ">= 7.0.0"
   },
   "devDependencies": {
     "copyfiles": "file:../../../node_modules/copyfiles",
