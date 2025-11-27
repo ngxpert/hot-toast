@@ -11,7 +11,7 @@
   "peerDependencies": {
     "@angular/common": ">= 21.0.0",
     "@angular/core": ">= 21.0.0",
-    "@ngneat/overview": "6.1.1"
+    "@ngneat/overview": ">= 7.0.0"
   },
   "devDependencies": {
     "copyfiles": "file:../../../node_modules/copyfiles",
