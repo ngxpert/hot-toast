@@ -54,4 +54,4 @@
     ><br /><button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
   </div>
 </ng-template>
-<div class="hidden" id="closed-event-data">{{ closedEventData | json }}</div>
+<div class="hidden" id="closed-event-data">{{ closedEventData() | json }}</div>

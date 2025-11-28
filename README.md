@@ -65,9 +65,18 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         5.x
       </td>
       <td>
-        >= 20
+        >= 20 
       </td>
     </tr>
+    <tr>
+      <td>
+        6.x
+      </td>
+      <td>
+        >= 21
+      </td>
+    </tr>
+    
   </tbody>
 </table>
 
@@ -151,7 +160,7 @@ import { provideHotToastConfig } from '@ngxpert/hot-toast';
 bootstrapApplication(AppComponent, {
   providers: [
     provideHotToastConfig(), // @ngxpert/hot-toast providers
-  ]
+  ],
 });
 ```
 
@@ -209,7 +218,7 @@ export class AppComponent {
           loading: 'Saving...',
           success: 'Settings saved!',
           error: 'Could not save.',
-        })
+        }),
       )
       .subscribe();
   }
@@ -382,4 +391,3 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 <div>Icons made by <a href="http://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-

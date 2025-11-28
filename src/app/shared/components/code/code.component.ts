@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { HighlightCodePipe } from '../../pipes/highlight-code.pipe';
 import { HtmlPipe } from '../../pipes/html.pipe';
@@ -10,11 +10,11 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
   imports: [NgClass, HighlightCodePipe, HtmlPipe, ClipboardModule],
 })
 export class CodeComponent {
-  @Input() language = 'typescript';
-  @Input() containerClass: string;
-  @Input() snippet: string;
-  @Input() hideCopyButton = false;
-  @Input() selectOnFocus = false;
+  readonly language = input('typescript');
+  readonly containerClass = input<string>();
+  readonly snippet = input<string>();
+  readonly hideCopyButton = input(false);
+  readonly selectOnFocus = input(false);
 
   isCopied = false;
 

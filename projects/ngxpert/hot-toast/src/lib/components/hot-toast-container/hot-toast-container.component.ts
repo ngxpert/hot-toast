@@ -2,10 +2,10 @@ import {
   Component,
   ChangeDetectionStrategy,
   inject,
-  Input,
   QueryList,
   ViewChildren,
   ChangeDetectorRef,
+  input,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -26,14 +26,14 @@ import { HOT_TOAST_DEPTH_SCALE, HOT_TOAST_DEPTH_SCALE_ADD, HOT_TOAST_MARGIN } fr
 import { HotToastService } from '../../hot-toast.service';
 
 @Component({
-    selector: 'hot-toast-container',
-    templateUrl: './hot-toast-container.component.html',
-    styleUrl: './hot-toast-container.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [HotToastComponent]
+  selector: 'hot-toast-container',
+  templateUrl: './hot-toast-container.component.html',
+  styleUrl: './hot-toast-container.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [HotToastComponent],
 })
 export class HotToastContainerComponent {
-  @Input() defaultConfig: ToastConfig;
+  readonly defaultConfig = input<ToastConfig>();
 
   @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
 
@@ -67,7 +67,7 @@ export class HotToastContainerComponent {
 
   get unGroupedToasts() {
     return this.toasts.filter(
-      (t) => t.group?.parent === undefined || t.group?.children === undefined || t.group?.children.length === 0
+      (t) => t.group?.parent === undefined || t.group?.children === undefined || t.group?.children.length === 0,
     );
   }
 
@@ -76,12 +76,13 @@ export class HotToastContainerComponent {
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+        ? visibleToasts.slice(...(this.defaultConfig().reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
             const toastsAfter = visibleToasts.length - 1 - i;
-            return this.defaultConfig.visibleToasts !== 0 && i < visibleToasts.length - this.defaultConfig.visibleToasts
+            return this.defaultConfig().visibleToasts !== 0 &&
+              i < visibleToasts.length - this.defaultConfig().visibleToasts
               ? 0
               : acc +
-                  (this.defaultConfig.stacking === 'vertical' || this.isShowingAllToasts
+                  (this.defaultConfig().stacking === 'vertical' || this.isShowingAllToasts
                     ? t.height || 0
                     : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
                   HOT_TOAST_MARGIN;
@@ -102,8 +103,8 @@ export class HotToastContainerComponent {
 
     this.toasts.push(ref.getToast());
 
-    if (this.defaultConfig.visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig.visibleToasts) {
-      const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig.visibleToasts);
+    if (this.defaultConfig().visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig().visibleToasts) {
+      const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig().visibleToasts);
       closeToasts.forEach((t) => {
         if (t.autoClose) {
           this.closeToast(t.id);
@@ -138,7 +139,7 @@ export class HotToastContainerComponent {
   private async attachGroupRefs<DataType>(
     toast: Toast<DataType>,
     ref: HotToastRef<DataType>,
-    skipAttachToParent?: boolean
+    skipAttachToParent?: boolean,
   ) {
     let groupRefs: CreateHotToastRef<unknown>[] = [];
 

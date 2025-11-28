@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { IconTheme } from '../../hot-toast.model';
 import { Content, DynamicViewDirective } from '@ngneat/overview';
 
@@ -10,7 +10,6 @@ import { Content, DynamicViewDirective } from '@ngneat/overview';
   imports: [DynamicViewDirective],
 })
 export class AnimatedIconComponent {
-  @Input() iconTheme: IconTheme;
-  @Input() icon: Content;
+  readonly iconTheme = input<IconTheme>();
+  readonly icon = input<Content>();
 }
-

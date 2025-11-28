@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
@@ -32,5 +32,5 @@ if (!environment.production || window.location.href.includes('test-container')) 
 }
 
 bootstrapApplication(AppComponent, {
-  providers,
+  providers: [provideZonelessChangeDetection(), ...providers],
 }).catch((err) => console.error(err));

@@ -1,4 +1,4 @@
-import { Component, Inject, Injector, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, Inject, Injector, OnInit, Optional, ViewChild, signal } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -34,7 +34,7 @@ export class ExampleComponent implements OnInit {
 
   examples: Example[] = [];
 
-  closedEventData: HotToastClose = undefined;
+  closedEventData = signal<HotToastClose | null>(null);
 
   snippetLanguages: { label: string; value: 'typescript' | 'html' }[] = [
     { label: 'TypeScript', value: 'typescript' },
@@ -283,7 +283,7 @@ export class ExampleComponent implements OnInit {
           const toastRef = this.toast.show('Events', { dismissible: true, duration: EXAMPLE_EVENTS_DURATION });
           toastRef.afterClosed.subscribe((e) => {
             console.log(e);
-            this.closedEventData = e;
+            this.closedEventData.set(e);
           });
         },
       },

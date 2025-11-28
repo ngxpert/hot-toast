@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Injector,
   Input,
   NgZone,
-  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -17,6 +15,8 @@ import {
   signal,
   ChangeDetectorRef,
   inject,
+  input,
+  output
 } from '@angular/core';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
 import { IndicatorComponent } from '../indicator/indicator.component';
@@ -56,9 +56,9 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   get toast() {
     return this._toast;
   }
-  @Input() offset = 0;
-  @Input() defaultConfig: ToastConfig;
-  @Input() toastRef: CreateHotToastRef<unknown>;
+  readonly offset = input(0);
+  readonly defaultConfig = input<ToastConfig>();
+  readonly toastRef = input<CreateHotToastRef<unknown>>();
 
   private _toastsAfter = 0;
   get toastsAfter() {
@@ -69,13 +69,13 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     this._toastsAfter = value;
   }
 
-  @Input() isShowingAllToasts = false;
+  readonly isShowingAllToasts = input(false);
 
-  @Output() height = new EventEmitter<number>();
-  @Output() beforeClosed = new EventEmitter();
-  @Output() afterClosed = new EventEmitter<HotToastClose>();
-  @Output() showAllToasts = new EventEmitter<boolean>();
-  @Output() toggleGroup = new EventEmitter<HotToastGroupEvent>();
+  readonly height = output<number>();
+  readonly beforeClosed = output();
+  readonly afterClosed = output<HotToastClose>();
+  readonly showAllToasts = output<boolean>();
+  readonly toggleGroup = output<HotToastGroupEvent>();
 
   @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase: ElementRef<HTMLElement>;
 
@@ -97,13 +97,13 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get scale() {
-    return this.defaultConfig.stacking !== 'vertical' && !this.isShowingAllToasts
+    return this.defaultConfig().stacking !== 'vertical' && !this.isShowingAllToasts()
       ? this.toastsAfter * -HOT_TOAST_DEPTH_SCALE + 1
       : 1;
   }
 
   get translateY() {
-    return this.offset * (this.top ? 1 : -1) + 'px';
+    return this.offset() * (this.top ? 1 : -1) + 'px';
   }
 
   get exitAnimationDelay() {
@@ -123,14 +123,14 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
           left: 0,
         }
       : this.toast.position.includes('right')
-      ? {
-          right: 0,
-        }
-      : {
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-        };
+        ? {
+            right: 0,
+          }
+        : {
+            left: 0,
+            right: 0,
+            justifyContent: 'center',
+          };
     return {
       transform,
       ...verticalStyle,
@@ -143,10 +143,10 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get groupChildrenToastRefs() {
-    return this.toastRef.groupRefs.filter((ref) => !!ref);
+    return this.toastRef().groupRefs.filter((ref) => !!ref);
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
-    (this.toastRef as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
+    (this.toastRef() as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
   }
 
   get groupChildrenToasts() {
@@ -158,7 +158,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get isExpanded() {
-    return this.toastRef.groupExpanded;
+    return this.toastRef().groupExpanded;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -171,14 +171,14 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   ngOnInit() {
     if (isTemplateRef(this.toast.message)) {
-      this.context = { $implicit: this.toastRef };
+      this.context = { $implicit: this.toastRef() };
     }
     if (isComponent(this.toast.message)) {
       this.toastComponentInjector = Injector.create({
         providers: [
           {
             provide: HotToastRef,
-            useValue: this.toastRef,
+            useValue: this.toastRef(),
           },
         ],
         parent: this.toast.injector || this.injector,
@@ -191,8 +191,6 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     this.ngZone.runOutsideAngular(() => {
       this.unlisteners.push(
         // Caretaker note: we have to remove these event listeners at the end (even if the element is removed from DOM).
-        // zone.js stores its `ZoneTask`s within the `nativeElement[Zone.__symbol__('animationstart') + 'false']` property
-        // with callback that capture `this`.
         this.renderer.listen(nativeElement, 'animationstart', (event: AnimationEvent) => {
           if (this.isExitAnimation(event)) {
             this.ngZone.run(() => {
@@ -216,7 +214,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
           if (this.isExitAnimation(event)) {
             this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast.id }));
           }
-        })
+        }),
       );
     });
   }

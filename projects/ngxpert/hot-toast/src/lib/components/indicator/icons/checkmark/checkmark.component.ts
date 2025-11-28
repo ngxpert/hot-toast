@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { IconTheme } from '../../../../hot-toast.model';
 
 @Component({
@@ -8,5 +8,5 @@ import { IconTheme } from '../../../../hot-toast.model';
   standalone: true,
 })
 export class CheckMarkComponent {
-  @Input() theme: IconTheme;
+  readonly theme = input<IconTheme>();
 }
