@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-1 items-center">
       <div class="font-bold">Install and setup using Angular CLI</div>
       <div class="max-w-full">
-        <app-code [language]="'bash'" [snippet]="ngCliSetup" [hideCopyButton]="true" [selectOnFocus]="true"> </app-code>
+        <app-code [language]="'bash'" [snippet]="ngCliSetup" [hideCopyButton]="true" [selectOnFocus]="true" />
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
       <div class="font-bold">{{ step.title }}</div>
       <div class="text-red-700 text-sm mb-2">{{ step.subTitle }}</div>
       <div class="max-w-full">
-        <app-code [language]="step.language" [snippet]="step.code"> </app-code>
+        <app-code [language]="step.language" [snippet]="step.code" />
       </div>
     </div>
   </div>
