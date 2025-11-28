@@ -1,3 +1,25 @@
+# [6.0.0](https://github.com/ngxpert/hot-toast/compare/v5.1.3...v6.0.0) (2025-11-28)
+
+
+### Code Refactoring
+
+* remove zone.js dependencies and switch to zoneless change detection ([fe977c5](https://github.com/ngxpert/hot-toast/commit/fe977c5d5ce8d26a92886c9f6f80e85227e39930))
+
+
+* Merge pull request #170 from JeevanMahesha/feat/angular-21-support ([14ff728](https://github.com/ngxpert/hot-toast/commit/14ff7280a463f2374db2c319a9e210af45171675)), closes [#170](https://github.com/ngxpert/hot-toast/issues/170)
+
+
+### Features
+
+* implement zoneless change detection and update component inputs to use `input()` syntax ([032654c](https://github.com/ngxpert/hot-toast/commit/032654c5a65ddf24f667fd51516e620455345970))
+* Upgrade Angular to v21, update TypeScript, and implement `provideZoneChangeDetection`. ([b6ceabb](https://github.com/ngxpert/hot-toast/commit/b6ceabb4bf0e119a3b0eef81c4a579b79886931c))
+
+
+### BREAKING CHANGES
+
+* - Added support for angular v21
+* - Removed `zone.js` dependency from package.json
+
 ## [5.1.3](https://github.com/ngxpert/hot-toast/compare/v5.1.2...v5.1.3) (2025-11-13)
 
 
