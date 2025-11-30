@@ -22,14 +22,14 @@
         <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
         } @else {
         <div>
-          <ng-container *dynamicView="toast.icon"></ng-container>
+          <ng-container *dynamicView="toast.icon" />
         </div>
         } } @else {
-        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type"></hot-toast-indicator>
+        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type" />
         }
       </div>
       <div class="hot-toast-message">
-        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector"></ng-container>
+        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector" />
       </div>
       @if (toast.dismissible) {
       <button

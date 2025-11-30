@@ -104,9 +104,9 @@
             </nav>
             <div class="mb-4 p-4 max-w-full">
               @if (demo.activeSnippet === 'preview' || !demo.activeSnippet) {
-              <ng-container *ngComponentOutlet="demo.component"></ng-container>
+              <ng-container *ngComponentOutlet="demo.component" />
               } @else {
-              <app-code [snippet]="demo.code[demo.activeSnippet]" [language]="demo.activeSnippet"> </app-code>
+              <app-code [snippet]="demo.code[demo.activeSnippet]" [language]="demo.activeSnippet" />
               }
             </div>
           </div>

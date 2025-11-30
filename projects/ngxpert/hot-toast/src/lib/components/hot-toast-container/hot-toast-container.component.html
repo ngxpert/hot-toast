@@ -4,8 +4,7 @@
       @for (toast of toasts; track trackById($index, toast)) {
         @if (toast.group?.parent) {
         } @else {
-          <hot-toast
-            [toast]="toast"
+          <hot-toast [toast]="toast"
             [offset]="calculateOffset(toast.id, toast.position)"
             [toastRef]="toastRefs[$index]"
             [toastsAfter]="(toast.autoClose ? toasts.length : getVisibleToasts(toast.position).length) - 1 - $index"
@@ -16,7 +15,7 @@
             (beforeClosed)="beforeClosed(toast)"
             (afterClosed)="afterClosed($event)"
             (toggleGroup)="toggleGroup($event)"
-          ></hot-toast>
+           />
         }
       }
     </div>
