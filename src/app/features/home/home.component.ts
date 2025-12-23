@@ -15,6 +15,7 @@ import { FeaturesComponent } from '../../sections/features/features.component';
 import { GroupingComponent } from '../../sections/grouping/grouping.component';
 import { RouterLink } from '@angular/router';
 import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
+import { PopoverComponent } from '../../sections/popover/popover.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-home',
@@ -31,6 +32,7 @@ import { ToastContainerComponent } from '../../sections/toast-container/toast-co
     ReverseOrderComponent,
     RouterLink,
     ToastContainerComponent,
+    PopoverComponent,
     // JumpToDialogComponent,
   ],
 })

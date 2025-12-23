@@ -1,0 +1,64 @@
+<div class="my-14" id="popover-api">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#popover-api"> 🔗 </a></small>
+    Popover API <span class="text-sm font-normal text-toast-600">(New in v6.0.0)</span>
+  </h2>
+
+  <!-- Introduction -->
+  <section class="max-w-4xl mx-auto mb-8">
+    <div class="ml-5 mr-5 bg-gradient-to-r from-toast-100 to-toast-50 p-6 rounded-2xl">
+      <h3 class="text-lg font-bold mb-3 text-toast-900">✨ What is the Popover API?</h3>
+      <p class="text-toast-800 mb-3">
+        The <b>Popover API</b> is a native browser feature that renders elements in the browser's <b>top layer</b>,
+        ensuring they appear above all other content without z-index conflicts.
+      </p>
+      <p class="text-toast-800">
+        Hot Toast now uses the Popover API by default (when supported), providing better stacking context and avoiding
+        z-index issues with dialogs, modals, and other overlay components.
+      </p>
+    </div>
+  </section>
+
+  <hr class="max-w-4xl mx-auto border-toast-300 mb-8" />
+
+  <!-- Global Configuration -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">⚙️ Global Configuration</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        Configure the Popover API globally for all toasts using
+        <code class="bg-toast-200 px-1 py-0.5 rounded">provideHotToastConfig()</code> or
+        <code class="bg-toast-200 px-1 py-0.5 rounded">HOT_TOAST_USE_POPOVER_TOKEN</code>.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="globalConfigSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="max-w-4xl mx-auto border-toast-300 mb-8" />
+
+  <!-- Additional Note -->
+  <section class="max-w-4xl mx-auto mt-8">
+    <div class="ml-5 mr-5 bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+      <p class="text-sm text-blue-800">
+        <b>💡 Note:</b> The Popover API is enabled by default in v6.0.0+. If you experience any issues or need to
+        disable it, you can set <code class="bg-blue-100 px-1 py-0.5 rounded">usePopover: false</code> in your
+        configuration.
+      </p>
+    </div>
+  </section>
+</div>

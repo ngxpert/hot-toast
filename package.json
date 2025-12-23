@@ -69,7 +69,6 @@
     "@commitlint/config-angular": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@ngneat/spectator": "^12.2.1",
-    "@ngneat/tailwind": "^7.0.3",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@tailwindcss/typography": "^0.5.16",
