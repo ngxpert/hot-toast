@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
-import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 type PopoverDemo = {
   id: string;
@@ -15,7 +14,7 @@ type PopoverDemo = {
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
-  imports: [EmojiButtonComponent, CodeComponent],
+  imports: [CodeComponent],
 })
 export class PopoverComponent {
   private toast = inject(HotToastService);
