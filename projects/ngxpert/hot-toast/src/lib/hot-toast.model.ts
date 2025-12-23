@@ -52,7 +52,7 @@ export class ToastConfig implements DefaultToastOptions {
   /**
    * Whether the overlay should be rendered as a native popover element, rather than placing it inside of the overlay container.
    * @default undefined
-   * @since 5.2.0
+   * @since 6.0.0
    */
   usePopover?: boolean;
 }

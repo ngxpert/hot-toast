@@ -276,7 +276,7 @@ export class HotToastService implements HotToastServiceMethods {
       return;
     }
     const defaultUsePopover = this._usePopover ?? true;
-    if (!('showPopover' in this._document?.body)) {
+    if (!('showPopover' in this._document.body)) {
       this._defaultGlobalConfig.usePopover = false;
     } else {
       this._defaultGlobalConfig.usePopover = this._defaultGlobalConfig.usePopover ?? defaultUsePopover;

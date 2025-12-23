@@ -9,6 +9,7 @@ import {
   afterNextRender,
   ElementRef,
   OnDestroy,
+  isDevMode,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -35,8 +36,8 @@ import { HotToastService } from '../../hot-toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HotToastComponent],
   host: {
-    '[attr.popover]': 'defaultConfig.usePopover ? "manual" : undefined',
-    '[class.hot-toast-container-overlay-popover]': 'defaultConfig.usePopover',
+    '[attr.popover]': 'defaultConfig().usePopover ? "manual" : undefined',
+    '[class.hot-toast-container-overlay-popover]': 'defaultConfig().usePopover',
   },
 })
 export class HotToastContainerComponent implements OnDestroy {
@@ -67,13 +68,18 @@ export class HotToastContainerComponent implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      if (this.defaultConfig.usePopover) {
+      if (this.defaultConfig().usePopover) {
         // We need the try/catch because the browser will throw if the
         // host or any of the parents are outside the DOM. Also note
         // the string access which is there for compatibility with Closure.
         try {
           this.host.nativeElement['showPopover']();
-        } catch {}
+        } catch (error) {
+          if (isDevMode()) {
+            console.error('Error showing popover');
+            console.error(error);
+          }
+        }
       }
     });
   }
@@ -270,13 +276,18 @@ export class HotToastContainerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.defaultConfig.usePopover) {
+    if (this.defaultConfig().usePopover) {
       // We need the try/catch because the browser will throw if the
       // host or any of the parents are outside the DOM. Also note
       // the string access which is there for compatibility with Closure.
       try {
         this.host.nativeElement['hidePopover']();
-      } catch {}
+      } catch (error) {
+        if (isDevMode()) {
+          console.error('Error hiding popover');
+          console.error(error);
+        }
+      }
     }
   }
 
