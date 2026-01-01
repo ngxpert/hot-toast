@@ -4,7 +4,7 @@ import { addPackageToPackageJson } from './package-config';
 import { Schema } from './schema';
 export function ngAdd(options: Schema): Rule {
   return (host: Tree, context: SchematicContext) => {
-    addPackageToPackageJson(host, '@ngneat/overview', '6.1.1');
+    addPackageToPackageJson(host, '@ngneat/overview', '7.0.0');
     const installTaskId = context.addTask(new NodePackageInstallTask());
 
     context.addTask(new RunSchematicTask('ng-add-setup-project', options), [installTaskId]);

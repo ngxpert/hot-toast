@@ -1,3 +1,31 @@
+# [6.1.0-beta.3](https://github.com/ngxpert/hot-toast/compare/v6.1.0-beta.2...v6.1.0-beta.3) (2026-01-01)
+
+
+### Bug Fixes
+
+* adjust hot-toast popover styles to remove default padding and border ([eec0061](https://github.com/ngxpert/hot-toast/commit/eec0061f6700e3307f6e9032a13d6a8ffc9047aa))
+
+# [6.1.0-beta.2](https://github.com/ngxpert/hot-toast/compare/v6.1.0-beta.1...v6.1.0-beta.2) (2026-01-01)
+
+
+### Bug Fixes
+
+* trigger release ([9c2b80c](https://github.com/ngxpert/hot-toast/commit/9c2b80ce3d12bbc7ba69d01d900a0a69f82aa875))
+
+# [6.1.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.0.0...v6.1.0-beta.1) (2026-01-01)
+
+
+### Bug Fixes
+
+* remove default popover padding ([42fa7b9](https://github.com/ngxpert/hot-toast/commit/42fa7b92548ab326dc7699cff02024661a1503df))
+* update popover handling in HotToast components ([231a534](https://github.com/ngxpert/hot-toast/commit/231a534d649d0b248315cc83060cd4738f1ecf1f))
+
+
+### Features
+
+* implement Popover API in HotToast components ([988b222](https://github.com/ngxpert/hot-toast/commit/988b22219a65871c46e03f411d3559a1e765b2d7))
+* use popover api with hot-toast-container component ([5e74cd6](https://github.com/ngxpert/hot-toast/commit/5e74cd6e55d988e45e555f898e6f4dc7fba1ff7d)), closes [#171](https://github.com/ngxpert/hot-toast/issues/171) [#172](https://github.com/ngxpert/hot-toast/issues/172)
+
 # [6.0.0](https://github.com/ngxpert/hot-toast/compare/v5.1.3...v6.0.0) (2025-11-28)
 
 

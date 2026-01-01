@@ -65,7 +65,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         5.x
       </td>
       <td>
-        >= 20 
+        >= 20 < 21
       </td>
     </tr>
     <tr>
@@ -98,6 +98,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 🎭 **Grouping**
 - 🔒 **CSP Compatible**
 - 📦 **Customizable Toast Container**
+- 💬 **Popover API**
 
 ## Installation
 
@@ -114,13 +115,13 @@ ng add @ngxpert/hot-toast
 With **npm**:
 
 ```bash
-npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast
+npm install @ngneat/overview@7.0.0 @ngxpert/hot-toast
 ```
 
 or **yarn**
 
 ```bash
-yarn add @ngneat/overview@6.1.1 @ngxpert/hot-toast
+yarn add @ngneat/overview@7.0.0 @ngxpert/hot-toast
 ```
 
 <details>
@@ -144,6 +145,15 @@ npm install @ngneat/overview@6.0.0 @ngxpert/hot-toast@2
 
 # For Angular version >= 18 <19
 npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@3
+
+# For Angular version >= 19 <20
+npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@4
+
+# For Angular version >= 20 <21
+npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@5
+
+# For Angular version >= 21
+npm install @ngneat/overview@7.0.0 @ngxpert/hot-toast@6
 ```
 
 </details>
@@ -292,6 +302,7 @@ All options, which are set _Available in global config?_ from `ToastOptions` are
 | reverseOrder  | `boolean`             | Sets the reverse order for hot-toast stacking<br>_Default: false_       |
 | visibleToasts | `number`              | Sets the number of toasts visible. 0 will set no limit.<br>_Default: 5_ |
 | stacking      | `"vertical"\|"depth"` | Sets Sets the type of stacking<br>_Default: "vertical"_                 |
+| usePopover    | `boolean`             | Sets whether to use the popover API<br>_Default: `undefined`_           |
 
 ## ToastOptions
 
