@@ -1,3 +1,10 @@
+# [6.1.0-beta.3](https://github.com/ngxpert/hot-toast/compare/v6.1.0-beta.2...v6.1.0-beta.3) (2026-01-01)
+
+
+### Bug Fixes
+
+* adjust hot-toast popover styles to remove default padding and border ([eec0061](https://github.com/ngxpert/hot-toast/commit/eec0061f6700e3307f6e9032a13d6a8ffc9047aa))
+
 # [6.1.0-beta.2](https://github.com/ngxpert/hot-toast/compare/v6.1.0-beta.1...v6.1.0-beta.2) (2026-01-01)
 
 
