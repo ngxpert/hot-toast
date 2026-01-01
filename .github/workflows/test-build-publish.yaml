@@ -78,6 +78,11 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
     needs: cypress-run
     steps:
       - name: Checkout
@@ -98,8 +103,10 @@ jobs:
           name: build
           path: dist
 
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release --debug
