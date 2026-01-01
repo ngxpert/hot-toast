@@ -1,1 +1,7 @@
 @use 'components';
+
+/* By default, the popover has a padding of 16px and a border style of solid. This is not desired for hot-toast. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:popover-open#examples */
+hot-toast-container[popover] {
+  padding: var(--hot-toast-container-padding, 0);
+  border-style: var(--hot-toast-container-border-style, none);
+}

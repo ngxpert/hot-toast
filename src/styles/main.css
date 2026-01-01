@@ -29,8 +29,3 @@ pre[class*='language-'] {
   font-family: 'JetBrains Mono', monospace !important;
   font-size: 14px !important;
 }
-
-/* By default, the popover has a padding of 16px. https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:popover-open#examples */
-[popover] {
-  padding: 0;
-}
