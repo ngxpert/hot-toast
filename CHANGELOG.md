@@ -1,3 +1,10 @@
+# [6.1.0-beta.2](https://github.com/ngxpert/hot-toast/compare/v6.1.0-beta.1...v6.1.0-beta.2) (2026-01-01)
+
+
+### Bug Fixes
+
+* trigger release ([9c2b80c](https://github.com/ngxpert/hot-toast/commit/9c2b80ce3d12bbc7ba69d01d900a0a69f82aa875))
+
 # [6.1.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.0.0...v6.1.0-beta.1) (2026-01-01)
 
 
