@@ -2,13 +2,18 @@ import { enableProdMode, importProvidersFrom, provideZonelessChangeDetection } f
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { provideHotToastConfig, HOT_TOAST_CONTAINER_TOKEN } from '@ngxpert/hot-toast';
+import {
+  HOT_TOAST_CONTAINER_TOKEN,
+  hotToastHttpInterceptor,
+  provideHotToastConfig,
+  provideHotToastHttpInterceptor,
+} from '@ngxpert/hot-toast';
 import { FormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app/app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 if (environment.production) {
   enableProdMode();
@@ -19,8 +24,9 @@ const providers = [
   importProvidersFrom(BrowserModule, FormsModule),
   provideAnimations(),
   provideHotToastConfig(),
+  provideHotToastHttpInterceptor({ ignoreStatuses: [401] }),
   provideRouter(routes, withInMemoryScrolling()),
-  provideHttpClient(withFetch()),
+  provideHttpClient(withFetch(), withInterceptors([hotToastHttpInterceptor])),
 ];
 
 // Add container token when testing or when URL contains test-container

@@ -1,0 +1,47 @@
+<div class="mx-auto max-w-3xl space-y-6 p-6">
+  <div class="flex flex-wrap items-baseline justify-between gap-4">
+    <h1 class="text-2xl font-bold text-toast-900">HTTP interceptor · sample server</h1>
+    <a routerLink="/" class="text-sm font-medium text-toast-600 hover:text-toast-800">← Home</a>
+  </div>
+
+  @if (!hasApiBase) {
+    <p class="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900">
+      <strong>No sample server URL</strong> is set for this build (<code class="rounded bg-amber-100 px-1">environment.sampleHttpTestServerUrl</code>).
+      For local testing, use the development environment and run
+      <code class="rounded bg-amber-100 px-1">npm run sample:http-test-server</code>
+      (default <code class="rounded bg-amber-100 px-1">http://localhost:4000</code>).
+    </p>
+  } @else {
+    <p class="text-sm text-toast-800">
+      Requests go to <code class="rounded bg-toast-200 px-1 py-0.5">{{ apiBase }}</code>. Start the Express sample with
+      <code class="rounded bg-toast-200 px-1 py-0.5">npm run sample:http-test-server</code>. CORS already allows this dev
+      app origin.
+    </p>
+  }
+
+  <ul class="space-y-3">
+    @for (ep of endpoints; track ep.id) {
+      <li class="flex flex-col gap-1 rounded-lg border border-toast-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p class="font-mono text-sm font-semibold text-toast-900">{{ ep.label }}</p>
+          <p class="text-xs text-toast-600">{{ ep.hint }}</p>
+        </div>
+        <button
+          type="button"
+          class="shrink-0 rounded-md bg-toast-800 px-3 py-2 text-sm font-medium text-white hover:bg-toast-900 disabled:cursor-not-allowed disabled:opacity-50"
+          [disabled]="!hasApiBase"
+          (click)="fire(ep)"
+        >
+          Send
+        </button>
+      </li>
+    }
+  </ul>
+
+  @if (lastLogText()) {
+    <section class="rounded-lg border border-toast-200 bg-toast-50 p-4">
+      <h2 class="mb-2 text-sm font-semibold text-toast-900">Last request (subscriber)</h2>
+      <pre class="whitespace-pre-wrap break-words font-mono text-xs text-toast-800">{{ lastLogText() }}</pre>
+    </section>
+  }
+</div>
