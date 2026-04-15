@@ -1,10 +1,10 @@
 name: Test, Build and Publish
 
 on:
-  push:
   pull_request:
     branches:
       - main
+      - beta
 
 jobs:
   build:
