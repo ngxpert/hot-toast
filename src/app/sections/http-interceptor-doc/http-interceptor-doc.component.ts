@@ -9,8 +9,7 @@ import { CodeComponent } from '../../shared/components/code/code.component';
   templateUrl: './http-interceptor-doc.component.html',
 })
 export class HttpInterceptorDocComponent {
-  setupSnippet = `
-import {
+  setupSnippet = `import {
   hotToastHttpInterceptor,
   provideHotToastHttpInterceptor,
   provideHotToastConfig,
@@ -29,8 +28,7 @@ bootstrapApplication(AppComponent, {
 });
 `.trim();
 
-  configSnippet = `
-import { provideHotToastHttpInterceptor } from '@ngxpert/hot-toast';
+  configSnippet = `import { provideHotToastHttpInterceptor } from '@ngxpert/hot-toast';
 
 provideHotToastHttpInterceptor({
   /** No toast for these HTTP status codes */
