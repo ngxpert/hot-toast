@@ -99,6 +99,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 🔒 **CSP Compatible**
 - 📦 **Customizable Toast Container**
 - 💬 **Popover API**
+- 🌐 **Optional HTTP error interceptor** — show error toasts on failed `HttpClient` calls with ignore rules
 
 ## Installation
 
@@ -289,6 +290,48 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+## HTTP error interceptor (optional)
+
+Register the functional interceptor on `HttpClient` so failed requests open an error toast and are still rethrown to your `subscribe` / `catchError` handlers. Use `provideHotToastHttpInterceptor()` for optional rules such as skipping specific status codes (for example `401`).
+
+```typescript
+import {
+  hotToastHttpInterceptor,
+  provideHotToastHttpInterceptor,
+  provideHotToastConfig,
+} from '@ngxpert/hot-toast';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHotToastConfig(),
+    provideHttpClient(withFetch(), withInterceptors([hotToastHttpInterceptor])),
+    provideHotToastHttpInterceptor({
+      ignoreStatuses: [401],
+    }),
+  ],
+});
+```
+
+Add `hotToastHttpInterceptor` to the **same** `provideHttpClient(..., withInterceptors([...]))` call as your other features (for example `withFetch()`). Configuration is merged from defaults plus `provideHotToastHttpInterceptor({ ... })`; see `HotToastHttpInterceptorConfig` in the library source for `ignoreStatuses`, `shouldIgnore`, `skipRequest`, `errorMessage`, and `toastOptions`.
+
+Docs on the demo site: <https://ngxpert.github.io/hot-toast#http-interceptor>.
+
+### Try it in this repository
+
+1. Install and start the sample Express API (default `http://localhost:4000`):
+
+   ```bash
+   npm run sample:http-test-server:install
+   npm run sample:http-test-server
+   ```
+
+2. In another terminal, start the docs app (`npm start`, default `http://localhost:4200`).
+
+3. Open **http://localhost:4200/http-interceptor-sample**. The app uses `environment.sampleHttpTestServerUrl` (`http://localhost:4000` in development; empty in production builds unless you override it).
+
+End-to-end coverage lives in `cypress/e2e/toast_http_interceptor.cy.ts`. More detail: `samples/express-http-test-server/README.md`.
+
 ## Examples
 
 You can checkout examples at: <https://ngxpert.github.io/hot-toast#examples>.
@@ -348,6 +391,10 @@ bootstrapApplication(AppComponent, {
   ],
 }).catch((err) => console.error(err));
 ```
+
+### HOT_TOAST_HTTP_INTERCEPTOR_CONFIG
+
+Optional injection token used by `hotToastHttpInterceptor`. Prefer `provideHotToastHttpInterceptor(partialConfig)` at bootstrap; supply this token directly only if you need a custom provider pattern.
 
 ---
 

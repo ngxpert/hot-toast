@@ -1,0 +1,16 @@
+{
+  "name": "hot-toast-http-test-server",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Sample Express API to exercise @ngxpert/hot-toast HTTP error interceptor",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

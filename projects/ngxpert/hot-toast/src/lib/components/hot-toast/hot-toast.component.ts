@@ -17,7 +17,7 @@ import {
   SimpleChanges,
   ViewChild,
   input,
-  output
+  output,
 } from '@angular/core';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
 
@@ -30,7 +30,7 @@ import { AnimatedIconComponent } from '../animated-icon/animated-icon.component'
 import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-group-item.component';
 
 @Component({
-  selector: 'hot-toast',
+  selector: 'hot-toast-component',
   templateUrl: 'hot-toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],

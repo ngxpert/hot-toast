@@ -5,7 +5,7 @@ import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngxpert/hot-toast/src
 describe('Test hot toasts - themed', () => {
   it('should show and hide themed toast', () => {
     cy.get('#themed').click();
-    cy.get('hot-toast').as('themedToast');
+    cy.get('hot-toast-component').as('themedToast');
     cy.get('.hot-toast-bar-base').as('toastBase');
     cy.get('.hot-toast-checkmark-icon').as('checkMarkIcon');
 

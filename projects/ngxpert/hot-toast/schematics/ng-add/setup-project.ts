@@ -26,18 +26,17 @@ function addHotToastConfig(options: Schema): Rule {
 
     // The `addRootProvider` rule can throw in some custom scenarios (see #28640).
     // Add some error handling around it so the setup isn't interrupted.
-    // @ts-expect-error ignore the error
     return callRule(hotToastConfigRule, host, context).pipe(
       // @ts-expect-error ignore the error
       catchError(() => {
         context.logger.error(
-          'Failed to add @ngxpert/hot-toast config to project. Continuing with the @ngxpert/hot-toast setup.'
+          'Failed to add @ngxpert/hot-toast config to project. Continuing with the @ngxpert/hot-toast setup.',
         );
         context.logger.info(
-          'Read more about setting up the config manually: https://github.com/ngxpert/hot-toast?tab=readme-ov-file#standalone-setup'
+          'Read more about setting up the config manually: https://github.com/ngxpert/hot-toast?tab=readme-ov-file#standalone-setup',
         );
         return observableOf(host);
-      })
+      }),
     );
   };
 }

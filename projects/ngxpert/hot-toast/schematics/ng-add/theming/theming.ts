@@ -39,7 +39,7 @@ export function addThemeToAppStyles(options: Schema): Rule {
       return addNgxpertHotToastToStylesFile(styleFilePath, styleFilePatch);
     } else {
       // found supported styles
-      return insertPrebuiltTheme(options.project, context.logger);
+      return insertPrebuiltTheme(options.project, context.logger as unknown as logging.LoggerApi);
     }
   };
 }
@@ -57,11 +57,9 @@ function addThemeStyleToTarget(
   projectName: string,
   targetName: 'test' | 'build',
   assetPath: string,
-  logger: logging.LoggerApi
+  logger: logging.LoggerApi,
 ): Rule {
-  // @ts-expect-error ignore the error
   return updateWorkspace((workspace) => {
-    // @ts-expect-error ignore the error
     const project = getProjectFromWorkspace(workspace, projectName);
 
     // Do not update the builder options in case the target does not use the default CLI builder.
@@ -88,7 +86,7 @@ function addThemeStyleToTarget(
 function validateDefaultTargetBuilder(
   project: workspaces.ProjectDefinition,
   targetName: 'build' | 'test',
-  logger: logging.LoggerApi
+  logger: logging.LoggerApi,
 ) {
   const targets = targetName === 'test' ? getProjectTestTargets(project) : getProjectBuildTargets(project);
   const isDefaultBuilder = targets.length > 0;
@@ -103,14 +101,14 @@ function validateDefaultTargetBuilder(
     throw new SchematicsException(
       `Your project is not using the default builders for ` +
         `"${targetName}". The Angular Material schematics cannot add a theme to the workspace ` +
-        `configuration if the builder has been changed.`
+        `configuration if the builder has been changed.`,
     );
   } else if (!isDefaultBuilder) {
     // for non-build targets we gracefully report the error without actually aborting the
     // setup schematic. This is because a theme is not mandatory for running tests.
     logger.warn(
       `Your project is not using the default builders for "${targetName}". This ` +
-        `means that we cannot add the configured theme to the "${targetName}" target.`
+        `means that we cannot add the configured theme to the "${targetName}" target.`,
     );
   }
 

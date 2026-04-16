@@ -5,7 +5,7 @@ import { ENTER_ANIMATION_DURATION } from '../../projects/ngxpert/hot-toast/src/l
 describe('Test hot toasts - template', () => {
   it('should show and hide toast with template', () => {
     cy.get('#template').click();
-    cy.get('hot-toast').as('templateToast');
+    cy.get('hot-toast-component').as('templateToast');
 
     cy.get('@templateToast').find('.hot-toast-message').children().as('children');
     cy.get('@children').should('have.length', 1);

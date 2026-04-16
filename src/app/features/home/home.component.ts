@@ -14,6 +14,7 @@ import { StepsComponent } from '../../sections/steps/steps.component';
 import { FeaturesComponent } from '../../sections/features/features.component';
 import { GroupingComponent } from '../../sections/grouping/grouping.component';
 import { RouterLink } from '@angular/router';
+import { HttpInterceptorDocComponent } from '../../sections/http-interceptor-doc/http-interceptor-doc.component';
 import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
 import { PopoverComponent } from '../../sections/popover/popover.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
@@ -32,6 +33,7 @@ import { PopoverComponent } from '../../sections/popover/popover.component';
     ReverseOrderComponent,
     RouterLink,
     ToastContainerComponent,
+    HttpInterceptorDocComponent,
     PopoverComponent,
     // JumpToDialogComponent,
   ],

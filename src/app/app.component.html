@@ -23,8 +23,14 @@
 
 <div class="bg-gradient-to-b from-toast-50 to-white bg-opacity-10 relative">
   <div class="container relative">
-    <img src="assets/butter-1.svg" alt="" class="absolute -left-24 md:left-24 transition-opacity duration-200" />
-    <router-outlet />
+    <img
+      src="assets/butter-1.svg"
+      alt=""
+      class="pointer-events-none absolute -left-24 z-0 md:left-24 transition-opacity duration-200"
+    />
+    <div class="relative z-10">
+      <router-outlet />
+    </div>
 
     <div class="container flex justify-end pointer-events-none">
       <img src="assets/butter-2.svg" class="transform translate-x-20" />
