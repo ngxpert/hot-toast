@@ -10,6 +10,23 @@
       "$default": {
         "$source": "projectName"
       }
+    },
+    "theme": {
+      "type": "string",
+      "description": "Built-in visual theme to apply for hot-toast. Adds the corresponding theme import to your styles.",
+      "enum": ["none", "material", "minimal", "glassmorphism", "ios"],
+      "default": "none",
+      "x-prompt": {
+        "message": "Choose a built-in theme for hot-toast (you can add more later):",
+        "type": "list",
+        "items": [
+          { "value": "none", "label": "None (base styles only, current default look)" },
+          { "value": "material", "label": "Material — clean elevation, Material Design aesthetic" },
+          { "value": "minimal", "label": "Minimal — borderless, shadow-free, understated" },
+          { "value": "glassmorphism", "label": "Glassmorphism — frosted-glass blur effect" },
+          { "value": "ios", "label": "iOS — pill shape with system blur, iOS-style" }
+        ]
+      }
     }
   },
   "required": []

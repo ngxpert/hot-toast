@@ -65,7 +65,17 @@ export type IconTheme = {
   secondary?: string;
 };
 
-export type ToastTheme = 'toast' | 'snackbar';
+/**
+ * Visual theme for a hot-toast.
+ *
+ * - `toast` — default look (base styles, no extra import needed)
+ * - `snackbar` — dark snackbar variant (included in base styles)
+ * - `material` — Material Design elevation + typography (`@use '@ngxpert/hot-toast/themes/material'`)
+ * - `minimal` — borderless, no shadow, clean (`@use '@ngxpert/hot-toast/themes/minimal'`)
+ * - `glassmorphism` — frosted-glass effect (`@use '@ngxpert/hot-toast/themes/glassmorphism'`)
+ * - `ios` — iOS-style pill with blur (`@use '@ngxpert/hot-toast/themes/ios'`)
+ */
+export type ToastTheme = 'toast' | 'snackbar' | 'material' | 'minimal' | 'glassmorphism' | 'ios';
 
 export type ValueFunction<TValue, TArg> = (arg: TArg) => TValue;
 export type ValueOrFunction<TValue, TArg> = TValue | ValueFunction<TValue, TArg>;

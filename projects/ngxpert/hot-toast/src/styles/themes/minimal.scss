@@ -1,0 +1,42 @@
+// Minimal theme for @ngxpert/hot-toast
+// Usage: @use '@ngxpert/hot-toast/themes/minimal';
+//
+// Requires the base styles to already be loaded:
+//   @use '@ngxpert/hot-toast/styles';
+
+.hot-toast-theme-minimal {
+  --hot-toast-bg: #f9f9f9;
+  --hot-toast-color: #444444;
+  --hot-toast-border-radius: 6px;
+  --hot-toast-shadow: none;
+  --hot-toast-padding: 8px 14px;
+  --hot-toast-group-bg: #f9f9f9;
+
+  .hot-toast-bar-base {
+    border: 1px solid #eeeeee;
+  }
+
+  // @media (prefers-color-scheme: dark) {
+  //   --hot-toast-bg: #2a2a2a;
+  //   --hot-toast-color: rgba(255, 255, 255, 0.7);
+  //   --hot-toast-group-bg: #2a2a2a;
+
+  //   .hot-toast-bar-base {
+  //     border-color: #333333;
+  //   }
+  // }
+}
+
+// Apply this class to a parent element (e.g. body or html) to force dark mode
+// regardless of the OS preference.
+//
+//   <body class="hot-toast-dark-theme">
+.hot-toast-dark-theme .hot-toast-theme-minimal {
+  --hot-toast-bg: #2a2a2a;
+  --hot-toast-color: rgba(255, 255, 255, 0.7);
+  --hot-toast-group-bg: #2a2a2a;
+
+  .hot-toast-bar-base {
+    border-color: #333333;
+  }
+}

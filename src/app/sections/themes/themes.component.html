@@ -1,0 +1,127 @@
+<div class="my-14" id="themes">
+  <h2 class="ml-5 mr-5 mb-2 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#themes"> 🔗 </a></small>
+    Built-in Themes <span class="text-sm font-normal text-toast-600">(New in v7.0.0)</span>
+  </h2>
+
+  <!-- Intro -->
+  <section class="max-w-4xl mx-auto mb-8">
+    <div class="ml-5 mr-5 bg-gradient-to-r from-toast-100 to-toast-50 p-6 rounded-2xl">
+      <h3 class="text-lg font-bold mb-3 text-toast-900">🎨 Pick your visual style</h3>
+      <p class="text-toast-800 mb-3">
+        Hot Toast ships with <b>6 built-in themes</b>. Import only what you need — the base styles give you
+        <code class="bg-toast-200 px-1 py-0.5 rounded">toast</code> and
+        <code class="bg-toast-200 px-1 py-0.5 rounded">snackbar</code> out of the box. The four new themes each have
+        their own stylesheet to keep your bundle lean.
+      </p>
+      <p class="text-toast-800">
+        Themes can be set <b>globally</b> via
+        <code class="bg-toast-200 px-1 py-0.5 rounded">provideHotToastConfig(&#123; theme: 'material' &#125;)</code>
+        or <b>per-toast</b> via the <code class="bg-toast-200 px-1 py-0.5 rounded">theme</code> option.
+      </p>
+    </div>
+  </section>
+
+  <!-- Theme demos -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    @for (theme of themes; track theme.id) {
+    <div class="col-span-1">
+      <app-emoji-button [btnId]="theme.id" [emoji]="theme.emoji" (btnClick)="theme.action()" [showLink]="true">
+        {{ theme.label }}
+      </app-emoji-button>
+      <p class="mt-1 text-sm text-toast-800" [innerHTML]="theme.description | html"></p>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'scss' }"
+              (click)="theme.activeTab = 'scss'"
+            >
+              SCSS
+            </button>
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'css' }"
+              (click)="theme.activeTab = 'css'"
+            >
+              CSS
+            </button>
+            <button
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
+              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'ts' }"
+              (click)="theme.activeTab = 'ts'"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            @if (theme.activeTab === 'scss') {
+            <app-code [snippet]="theme.scssSnippet" language="scss" />
+            } @else if (theme.activeTab === 'css') {
+            <app-code [snippet]="theme.cssSnippet" language="json" />
+            } @else {
+            <app-code [snippet]="theme.tsSnippet" language="typescript" />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sm:col-span-1 md:col-span-3 border-toast-300" />
+    }
+  </section>
+
+  <!-- Global config -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8 mt-4">
+    <div class="col-span-1">
+      <h3 class="text-md font-bold mb-2 ml-5">⚙️ Global configuration</h3>
+      <p class="ml-5 mr-5 text-sm text-toast-800">
+        Set a theme once for your whole app. Individual toast calls can still override it with their own
+        <code class="bg-toast-200 px-1 py-0.5 rounded">theme</code> option.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <nav class="flex flex-row bg-white">
+          <button class="text-gray-600 py-3 px-4 block bg-gray-50 font-medium border-b-2 border-toast-700 text-toast-700">
+            TypeScript
+          </button>
+        </nav>
+        <div class="mb-4 px-4 bg-white max-w-full">
+          <app-code [snippet]="globalConfigSnippet" language="typescript" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dark mode -->
+  <section class="max-w-4xl mx-auto mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="col-span-1">
+        <h3 class="text-md font-bold mb-2 ml-5">🌙 Dark mode</h3>
+        <p class="ml-5 mr-5 text-sm text-toast-800">
+          All 4 new themes respond to <code class="bg-toast-200 px-1 py-0.5 rounded">@media (prefers-color-scheme: dark)</code>
+          automatically. For a <b>manual toggle</b>, add
+          <code class="bg-toast-200 px-1 py-0.5 rounded">hot-toast-dark-theme</code> to any parent element — it forces
+          dark mode on every themed toast inside it, regardless of OS preference.
+        </p>
+      </div>
+      <div class="sm:col-span-1 md:col-span-2">
+        <div class="shadow border sm:rounded-md">
+          <nav class="flex flex-row bg-white">
+            <button class="text-gray-600 py-3 px-4 block bg-gray-50 font-medium border-b-2 border-toast-700 text-toast-700">
+              HTML
+            </button>
+          </nav>
+          <div class="mb-4 px-4 bg-white max-w-full">
+            <app-code [snippet]="darkModeSnippet" language="html" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

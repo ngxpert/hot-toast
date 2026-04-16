@@ -1,0 +1,30 @@
+// Material Design theme for @ngxpert/hot-toast
+// Usage: @use '@ngxpert/hot-toast/themes/material';
+//
+// Requires the base styles to already be loaded:
+//   @use '@ngxpert/hot-toast/styles';
+
+.hot-toast-theme-material {
+  --hot-toast-bg: #ffffff;
+  --hot-toast-color: #212121;
+  --hot-toast-border-radius: 4px;
+  --hot-toast-shadow: 0 2px 4px rgba(0, 0, 0, 0.14), 0 4px 5px rgba(0, 0, 0, 0.12), 0 1px 10px rgba(0, 0, 0, 0.2);
+  --hot-toast-padding: 8px 16px;
+  --hot-toast-group-bg: #ffffff;
+
+  // @media (prefers-color-scheme: dark) {
+  //   --hot-toast-bg: #1e1e1e;
+  //   --hot-toast-color: rgba(255, 255, 255, 0.87);
+  //   --hot-toast-group-bg: #1e1e1e;
+  // }
+}
+
+// Apply this class to a parent element (e.g. body or html) to force dark mode
+// regardless of the OS preference.
+//
+//   <body class="hot-toast-dark-theme">
+.hot-toast-dark-theme .hot-toast-theme-material {
+  --hot-toast-bg: #1e1e1e;
+  --hot-toast-color: rgba(255, 255, 255, 0.87);
+  --hot-toast-group-bg: #1e1e1e;
+}

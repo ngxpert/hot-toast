@@ -1,0 +1,37 @@
+// iOS-style theme for @ngxpert/hot-toast
+// Usage: @use '@ngxpert/hot-toast/themes/ios';
+//
+// Requires the base styles to already be loaded:
+//   @use '@ngxpert/hot-toast/styles';
+
+.hot-toast-theme-ios {
+  --hot-toast-bg: rgba(255, 255, 255, 0.92);
+  --hot-toast-color: #1c1c1e;
+  --hot-toast-border-radius: 14px;
+  --hot-toast-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  --hot-toast-padding: 10px 16px;
+  --hot-toast-max-width: 320px;
+  --hot-toast-group-bg: rgba(255, 255, 255, 0.92);
+
+  .hot-toast-bar-base {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  // @media (prefers-color-scheme: dark) {
+  //   --hot-toast-bg: rgba(30, 30, 30, 0.92);
+  //   --hot-toast-color: rgba(255, 255, 255, 0.92);
+  //   --hot-toast-group-bg: rgba(30, 30, 30, 0.92);
+  // }
+}
+
+// Apply this class to a parent element (e.g. body or html) to force dark mode
+// regardless of the OS preference.
+//
+// <body class="hot-toast-dark-theme">
+
+.hot-toast-dark-theme .hot-toast-theme-ios {
+  --hot-toast-bg: rgba(30, 30, 30, 0.92);
+  --hot-toast-color: rgba(255, 255, 255, 0.92);
+  --hot-toast-group-bg: rgba(30, 30, 30, 0.92);
+}

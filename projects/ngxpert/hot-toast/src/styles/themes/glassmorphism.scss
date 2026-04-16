@@ -1,0 +1,45 @@
+// Glassmorphism theme for @ngxpert/hot-toast
+// Usage: @use '@ngxpert/hot-toast/themes/glassmorphism';
+//
+// Requires the base styles to already be loaded:
+//   @use '@ngxpert/hot-toast/styles';
+//
+// Note: backdrop-filter requires a non-opaque background behind the toast
+// (e.g. an image, gradient, or other content) to produce the blur effect.
+
+.hot-toast-theme-glassmorphism {
+  --hot-toast-bg: rgba(255, 255, 255, 0.15);
+  --hot-toast-color: #ffffff;
+  --hot-toast-border-radius: 16px;
+  --hot-toast-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --hot-toast-padding: 10px 14px;
+  --hot-toast-group-bg: rgba(255, 255, 255, 0.15);
+
+  .hot-toast-bar-base {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  // @media (prefers-color-scheme: dark) {
+  //   --hot-toast-bg: rgba(0, 0, 0, 0.3);
+  //   --hot-toast-group-bg: rgba(0, 0, 0, 0.3);
+
+  //   .hot-toast-bar-base {
+  //     border-color: rgba(255, 255, 255, 0.1);
+  //   }
+  // }
+}
+
+// Apply this class to a parent element (e.g. body or html) to force dark mode
+// regardless of the OS preference.
+//
+//   <body class="hot-toast-dark-theme">
+.hot-toast-dark-theme .hot-toast-theme-glassmorphism {
+  --hot-toast-bg: rgba(0, 0, 0, 0.3);
+  --hot-toast-group-bg: rgba(0, 0, 0, 0.3);
+
+  .hot-toast-bar-base {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
