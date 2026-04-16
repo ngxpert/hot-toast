@@ -5,7 +5,7 @@ import { ENTER_ANIMATION_DURATION } from '../../projects/ngxpert/hot-toast/src/l
 describe('Test hot toasts - multi line', () => {
   it('should show multi-line toast', () => {
     cy.get('#multi').click();
-    cy.get('hot-toast').as('multiToast');
+    cy.get('hot-toast-component').as('multiToast');
 
     cy.get('@multiToast').should(
       'contain',

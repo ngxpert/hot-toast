@@ -3,7 +3,7 @@
 describe('Test hot toasts - dismissible', () => {
   it('should show and hide dismissible toast', () => {
     cy.get('#dismissible').click();
-    cy.get('hot-toast').as('dismissibleToast');
+    cy.get('hot-toast-component').as('dismissibleToast');
 
     cy.get('@dismissibleToast').should('contain', 'Dismissible');
     cy.get('@dismissibleToast').find('.hot-toast-close-btn').as('closeBtn').should('exist');

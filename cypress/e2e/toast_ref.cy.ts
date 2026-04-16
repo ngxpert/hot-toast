@@ -8,7 +8,7 @@ const TOAST_REF_TIMEOUT = 3000;
 describe('Test hot toasts - ToastRef', () => {
   it('should show toast and closed by toastRef', () => {
     cy.get('#toast-ref').click();
-    cy.get('hot-toast').as('refToast');
+    cy.get('hot-toast-component').as('refToast');
 
     cy.get('@refToast').should('contain', 'I will be closed using ref.');
     // Wait for: setTimeout (3000ms) + exit animation (800ms)
@@ -18,7 +18,7 @@ describe('Test hot toasts - ToastRef', () => {
 
   it('should show toast and change message by toastRef', () => {
     cy.get('#toast-ref-msg').click();
-    cy.get('hot-toast').as('refToast');
+    cy.get('hot-toast-component').as('refToast');
 
     cy.get('@refToast').should('contain', 'My message will be changed in 3 seconds.');
     // Wait for setTimeout (3000ms) to fire updateMessage

@@ -4,7 +4,7 @@ import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngxpert/hot-toast/src
 describe('Test hot toasts - component with data', () => {
   it('should show and hide component toast', () => {
     cy.get('#component-data').click();
-    cy.get('hot-toast').as('componentToast');
+    cy.get('hot-toast-component').as('componentToast');
 
     cy.get('@componentToast').should(
       'contain',

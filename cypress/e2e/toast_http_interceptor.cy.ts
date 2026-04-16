@@ -21,7 +21,7 @@ describe('Test hot toasts - HTTP interceptor', () => {
 
     cy.get('#http-e2e-500').scrollIntoView().click({ force: true });
     cy.wait('@http500');
-    cy.get('hot-toast').should('contain', 'E2E five hundred');
+    cy.get('hot-toast-component').should('contain', 'E2E five hundred');
     cy.get('#http-e2e-close-all').scrollIntoView().click({ force: true });
     cy.get('hot-toast', { timeout: 8000 }).should('not.exist');
   });
@@ -35,7 +35,7 @@ describe('Test hot toasts - HTTP interceptor', () => {
 
     cy.get('#http-e2e-401').scrollIntoView().click({ force: true });
     cy.wait('@http401');
-    cy.get('hot-toast').should('not.exist');
+    cy.get('hot-toast-component').should('not.exist');
   });
 
   it('shows error toast on HTTP 403', () => {
@@ -47,7 +47,7 @@ describe('Test hot toasts - HTTP interceptor', () => {
 
     cy.get('#http-e2e-403').scrollIntoView().click({ force: true });
     cy.wait('@http403');
-    cy.get('hot-toast').should('contain', 'E2E forbidden');
+    cy.get('hot-toast-component').should('contain', 'E2E forbidden');
     cy.get('#http-e2e-close-all').scrollIntoView().click({ force: true });
     cy.get('hot-toast', { timeout: 8000 }).should('not.exist');
   });

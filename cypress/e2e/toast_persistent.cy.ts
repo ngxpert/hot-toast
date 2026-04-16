@@ -9,7 +9,7 @@ describe('Test hot toasts - persistent', () => {
       .should(() => {
         expect(localStorage.getItem('ngxpert/hototast-persist-1')).to.eq('1');
       });
-    cy.get('hot-toast').as('persistentToast');
+    cy.get('hot-toast-component').as('persistentToast');
     cy.get('@persistentToast').should('contain', 'I can be opened only once across multiple browser sessions!');
     cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.blank);
     cy.get('@persistentToast').should('not.be.visible');
