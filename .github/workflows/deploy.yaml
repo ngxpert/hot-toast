@@ -29,3 +29,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx angular-cli-ghpages --name="mr. Dharmen's Bot" --email=shhdharmen@gmail.com --dir=dist/toast/browser
+
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release --debug --branches main
