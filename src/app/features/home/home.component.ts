@@ -17,6 +17,7 @@ import { RouterLink } from '@angular/router';
 import { HttpInterceptorDocComponent } from '../../sections/http-interceptor-doc/http-interceptor-doc.component';
 import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
 import { PopoverComponent } from '../../sections/popover/popover.component';
+import { ThemesComponent } from '../../sections/themes/themes.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ import { PopoverComponent } from '../../sections/popover/popover.component';
     ToastContainerComponent,
     HttpInterceptorDocComponent,
     PopoverComponent,
+    ThemesComponent,
     // JumpToDialogComponent,
   ],
 })

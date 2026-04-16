@@ -4,7 +4,7 @@
   "description": "Smoking hot  Notifications for Angular. Lightweight, customizable and beautiful by default.",
   "scripts": {
     "build": "npm run build:sass && tsc -p tsconfig.schematics.json",
-    "build:sass": "sass ./src/styles/styles.scss ../../../dist/ngxpert/hot-toast/src/styles/styles.css",
+    "build:sass": "sass ./src/styles/styles.scss:../../../dist/ngxpert/hot-toast/src/styles/styles.css ./src/styles/themes/material.scss:../../../dist/ngxpert/hot-toast/src/styles/themes/material.css ./src/styles/themes/minimal.scss:../../../dist/ngxpert/hot-toast/src/styles/themes/minimal.css ./src/styles/themes/glassmorphism.scss:../../../dist/ngxpert/hot-toast/src/styles/themes/glassmorphism.css ./src/styles/themes/ios.scss:../../../dist/ngxpert/hot-toast/src/styles/themes/ios.css",
     "postpublish": "cpx package.json ../../../../../projects/ngxpert/hot-toast/ && cpx npm-shrinkwrap.json ../../../../../projects/ngxpert/hot-toast/",
     "postbuild": "copyfiles schematics/*/schema.json schematics/*/files/** schematics/collection.json ../../../dist/ngxpert/hot-toast/"
   },
@@ -51,6 +51,30 @@
     },
     "./styles": {
       "sass": "./src/styles/styles.scss"
+    },
+    "./themes/material.css": {
+      "style": "./src/styles/themes/material.css"
+    },
+    "./themes/material": {
+      "sass": "./src/styles/themes/material.scss"
+    },
+    "./themes/minimal.css": {
+      "style": "./src/styles/themes/minimal.css"
+    },
+    "./themes/minimal": {
+      "sass": "./src/styles/themes/minimal.scss"
+    },
+    "./themes/glassmorphism.css": {
+      "style": "./src/styles/themes/glassmorphism.css"
+    },
+    "./themes/glassmorphism": {
+      "sass": "./src/styles/themes/glassmorphism.scss"
+    },
+    "./themes/ios.css": {
+      "style": "./src/styles/themes/ios.css"
+    },
+    "./themes/ios": {
+      "sass": "./src/styles/themes/ios.scss"
     }
   },
   "ng-add": {

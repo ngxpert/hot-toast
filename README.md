@@ -99,6 +99,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 🔒 **CSP Compatible**
 - 📦 **Customizable Toast Container**
 - 💬 **Popover API**
+- 🎨 **Built-in Themes** — Material, Minimal, Glassmorphism, iOS (with manual dark mode)
 - 🌐 **Optional HTTP error interceptor** — show error toasts on failed `HttpClient` calls with ignore rules
 
 ## Installation
@@ -190,18 +191,42 @@ class AppModule {}
 
 ### Step 2/2: Stylings
 
-if you use **SCSS** add this line to your main **styles.scss**:
+Add the **base styles** — required for all themes.
+
+If you use **SCSS**, add this to your main `styles.scss`:
 
 ```scss
-@use '@ngxpert/hot-toast/src/styles/styles.scss';
+@use '@ngxpert/hot-toast/styles';
 ```
 
-or if you use **CSS** add this to your styles inside your **angular.json**:
+Or if you use **CSS**, add this inside `angular.json`:
 
 ```json
 "styles": [
-     "node_modules/@ngxpert/hot-toast/src/styles/styles.css",
-],
+  "@ngxpert/hot-toast/styles.css"
+]
+```
+
+> **Tip — `ng add` handles this automatically.** Running `ng add @ngxpert/hot-toast` injects the base import into your styles file and prompts you to pick a theme.
+
+#### Optionally add a built-in theme
+
+Import **one** theme stylesheet on top of the base. See the [Built-in Themes](#built-in-themes) section for all available themes.
+
+**SCSS:**
+
+```scss
+@use '@ngxpert/hot-toast/styles';
+@use '@ngxpert/hot-toast/themes/material'; /* or minimal | glassmorphism | ios */
+```
+
+**CSS / angular.json:**
+
+```json
+"styles": [
+  "@ngxpert/hot-toast/styles.css",
+  "@ngxpert/hot-toast/themes/material.css"
+]
 ```
 
 ## Basic Usage
@@ -290,6 +315,89 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+## Built-in Themes
+
+Hot Toast ships with **6 themes**. The `toast` and `snackbar` themes are included in the base styles — no extra import needed. The four new themes each have a dedicated stylesheet so your bundle only includes what you use.
+
+| Theme | Value | Extra stylesheet needed? | Visual character |
+|---|---|---|---|
+| Default | `toast` | No | Clean white card, subtle shadow |
+| Snackbar | `snackbar` | No | Dark surface, bottom-center friendly |
+| Material | `material` | Yes | Material elevation-2 shadow, 4 px radius |
+| Minimal | `minimal` | Yes | No shadow, 1 px border, understated |
+| Glassmorphism | `glassmorphism` | Yes | `backdrop-filter: blur(12px)`, semi-transparent |
+| iOS | `ios` | Yes | `backdrop-filter: blur(20px)`, pill shape |
+
+### Importing a theme
+
+**SCSS** — add both the base and your chosen theme to `styles.scss`:
+
+```scss
+@use '@ngxpert/hot-toast/styles';
+@use '@ngxpert/hot-toast/themes/material'; /* or minimal | glassmorphism | ios */
+```
+
+**CSS / angular.json** — add the compiled CSS files to the `styles` array:
+
+```json
+"styles": [
+  "@ngxpert/hot-toast/styles.css",
+  "@ngxpert/hot-toast/themes/material.css"
+]
+```
+
+### Applying a theme
+
+**Per-toast** — pass the `theme` option when creating a toast:
+
+```typescript
+toast.success('Saved!', { theme: 'material' });
+toast.info('Note', { theme: 'minimal' });
+toast.show('Glass', { theme: 'glassmorphism', icon: '🪟' });
+toast.success('Done', { theme: 'ios' });
+```
+
+**Globally** — set the default theme for all toasts via `provideHotToastConfig`:
+
+```typescript
+// app.config.ts
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
+
+export const appConfig = {
+  providers: [
+    provideHotToastConfig({ theme: 'material' }),
+  ],
+};
+```
+
+Individual toast calls can still override the global default with their own `theme` option.
+
+### Dark mode
+
+For apps with a **manual dark-mode toggle**, add the `hot-toast-dark-theme` class to any parent element (e.g. `<body>`) — it forces dark mode on every themed toast inside it regardless of OS preference:
+
+```html
+<body class="hot-toast-dark-theme">
+  <!-- all Material / Minimal / Glassmorphism / iOS toasts render in dark mode -->
+</body>
+```
+
+### `ng add` theme prompt
+
+When installing via `ng add`, the schematic asks which theme to set up:
+
+```bash
+ng add @ngxpert/hot-toast
+# > Choose a built-in theme: None | Material | Minimal | Glassmorphism | iOS
+
+# Non-interactive:
+ng add @ngxpert/hot-toast --theme=material
+```
+
+The schematic injects both the base stylesheet and the chosen theme import into your project automatically.
+
+---
+
 ## HTTP error interceptor (optional)
 
 Register the functional interceptor on `HttpClient` so failed requests open an error toast and are still rethrown to your `subscribe` / `catchError` handlers. Use `provideHotToastHttpInterceptor()` for optional rules such as skipping specific status codes (for example `401`).
@@ -360,7 +468,7 @@ Configuration used when opening an hot-toast.
 | dismissible | `boolean`                                                                                                                                                                                                     | Show close button in hot-toast<br>_Default: `false`_<br>_[Example](https://ngxpert.github.io/hot-toast/#dismissible)_                                                                                                                                                       | Yes                         |
 | role        | [`ToastRole`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastRole)                      | Role of the live region.<br>_Default: `status`_                                                                                                                                                                                                                             | Yes                         |
 | ariaLive    | [`ToastAriaLive`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastAriaLive)              | aria-live value for the live region.<br>_Default: `polite`_                                                                                                                                                                                                                 | Yes                         |
-| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme)                    | Visual appearance of hot-toast<br>_Default: `toast`_<br>_[Example](https://ngxpert.github.io/hot-toast/#snackbar)_                                                                                                                                                          | Yes                         |
+| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme) — `'toast' \| 'snackbar' \| 'material' \| 'minimal' \| 'glassmorphism' \| 'ios'` | Visual theme of the toast. The `toast` and `snackbar` values are included in the base styles; the others each require their own stylesheet import.<br>_Default: `toast`_<br>_[Example](https://ngxpert.github.io/hot-toast/#themes)_ | Yes                         |
 | persist     | [`{ToastPersistConfig}`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20class%20ToastPersistConfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>_[Example](https://ngxpert.github.io/hot-toast/#persistent)_                                                                                                                         | No                          |
 | icon        | [`Content`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/overview/blob/main/projects/ngxpert/overview/src/lib/views/types.ts&q=export%20type%20Content)                                | Icon to show in the hot-toast<br>_[Example](https://ngxpert.github.io/hot-toast/#emoji)_                                                                                                                                                                                    | Yes                         |
 | iconTheme   | [`IconTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20IconTheme)                      | Use this to change icon color<br>_[Example](https://ngxpert.github.io/hot-toast/#themed)_                                                                                                                                                                                   | Yes                         |

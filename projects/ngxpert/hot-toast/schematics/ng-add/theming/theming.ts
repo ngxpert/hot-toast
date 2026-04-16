@@ -2,24 +2,28 @@ import { logging, workspaces } from '@angular-devkit/core';
 import { chain, Rule, SchematicContext, Tree, SchematicsException } from '@angular-devkit/schematics';
 import { updateWorkspace } from '@schematics/angular/utility/workspace';
 import { readWorkspace } from '@schematics/angular/utility';
-import { Schema } from '../schema';
+import { Schema, HotToastThemeOption } from '../schema';
 import { getProjectBuildTargets, getProjectTargetOptions, getProjectTestTargets } from '../../utils/project-targets';
 import { getProjectFromWorkspace } from '../../utils/get-project';
 import * as path from 'path';
 import { getProjectStyleFile } from '../../utils/project';
 
-const NGXPERT_CSS_FILEPATH = `@ngxpert/hot-toast/styles.css`;
-const SUPPORTED_NGXPER_HOT_TOAST_STYLE_IMPORTS: Record<string, string> = {
-  '.sass': `
-/* Importing @ngxpert/hot-toast SCSS file. */
-@use '@ngxpert/hot-toast/styles'
-`,
-  '.scss': `
-/* Importing @ngxpert/hot-toast SCSS file. */
+const BASE_CSS_FILEPATH = `@ngxpert/hot-toast/styles.css`;
+const THEME_CSS_FILEPATH = (theme: HotToastThemeOption) => `@ngxpert/hot-toast/themes/${theme}.css`;
+
+const BASE_SCSS_IMPORT = `
+/* Importing @ngxpert/hot-toast base styles. */
 @use '@ngxpert/hot-toast/styles';
-`,
-};
-/** Add pre-built styles to the main project style file. */
+`;
+
+const THEME_SCSS_IMPORT = (theme: HotToastThemeOption) => `
+/* Importing @ngxpert/hot-toast ${theme} theme. */
+@use '@ngxpert/hot-toast/themes/${theme}';
+`;
+
+const SUPPORTED_STYLE_EXTENSIONS = new Set(['.scss', '.sass']);
+
+/** Add pre-built styles (and optionally a theme) to the main project style file. */
 export function addThemeToAppStyles(options: Schema): Rule {
   return async (host: Tree, context: SchematicContext) => {
     const workspace = await readWorkspace(host);
@@ -27,29 +31,49 @@ export function addThemeToAppStyles(options: Schema): Rule {
     const projectName = options.project || workspace.extensions.defaultProject!.toString();
     const project = workspace.projects.get(projectName);
     if (!project) {
-      throw new SchematicsException(`Unable to find project '${project}' in the workspace`);
+      throw new SchematicsException(`Unable to find project '${projectName}' in the workspace`);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const styleFilePath = getProjectStyleFile(project as any) || '';
     const styleFileExtension = path.extname(styleFilePath);
-    const styleFilePatch = SUPPORTED_NGXPER_HOT_TOAST_STYLE_IMPORTS[styleFileExtension];
+    const isScssOrSass = SUPPORTED_STYLE_EXTENSIONS.has(styleFileExtension);
 
-    if (styleFilePatch) {
-      return addNgxpertHotToastToStylesFile(styleFilePath, styleFilePatch);
-    } else {
-      // found supported styles
-      return insertPrebuiltTheme(options.project, context.logger as unknown as logging.LoggerApi);
+    const selectedTheme = (options.theme ?? 'none') as HotToastThemeOption;
+
+    if (isScssOrSass) {
+      let patch = BASE_SCSS_IMPORT;
+      if (selectedTheme !== 'none') {
+        patch += THEME_SCSS_IMPORT(selectedTheme);
+      }
+      return addNgxpertHotToastToStylesFile(styleFilePath, patch);
     }
+
+    // Non-SCSS project: inject CSS files into angular.json styles array.
+    return insertPrebuiltStyles(options.project, selectedTheme, context.logger as unknown as logging.LoggerApi);
   };
 }
 
-/** Insert a pre-built theme into the angular.json file. */
-function insertPrebuiltTheme(project: string, logger: logging.LoggerApi): Rule {
-  return chain([
-    addThemeStyleToTarget(project, 'build', NGXPERT_CSS_FILEPATH, logger),
-    addThemeStyleToTarget(project, 'test', NGXPERT_CSS_FILEPATH, logger),
-  ]);
+/** Insert pre-built CSS file(s) into the angular.json file. */
+function insertPrebuiltStyles(
+  project: string,
+  theme: HotToastThemeOption,
+  logger: logging.LoggerApi,
+): Rule {
+  const rules: Rule[] = [
+    addThemeStyleToTarget(project, 'build', BASE_CSS_FILEPATH, logger),
+    addThemeStyleToTarget(project, 'test', BASE_CSS_FILEPATH, logger),
+  ];
+
+  if (theme !== 'none') {
+    const themeCssPath = THEME_CSS_FILEPATH(theme);
+    rules.push(
+      addThemeStyleToTarget(project, 'build', themeCssPath, logger),
+      addThemeStyleToTarget(project, 'test', themeCssPath, logger),
+    );
+  }
+
+  return chain(rules);
 }
 
 /** Adds a theming style entry to the given project target options. */
@@ -91,12 +115,6 @@ function validateDefaultTargetBuilder(
   const targets = targetName === 'test' ? getProjectTestTargets(project) : getProjectBuildTargets(project);
   const isDefaultBuilder = targets.length > 0;
 
-  // Because the build setup for the Angular CLI can be customized by developers, we can't know
-  // where to put the theme file in the workspace configuration if custom builders are being
-  // used. In case the builder has been changed for the "build" target, we throw an error and
-  // exit because setting up a theme is a primary goal of `ng-add`. Otherwise if just the "test"
-  // builder has been changed, we warn because a theme is not mandatory for running tests
-  // with Material. See: https://github.com/angular/components/issues/14176
   if (!isDefaultBuilder && targetName === 'build') {
     throw new SchematicsException(
       `Your project is not using the default builders for ` +
@@ -104,8 +122,6 @@ function validateDefaultTargetBuilder(
         `configuration if the builder has been changed.`,
     );
   } else if (!isDefaultBuilder) {
-    // for non-build targets we gracefully report the error without actually aborting the
-    // setup schematic. This is because a theme is not mandatory for running tests.
     logger.warn(
       `Your project is not using the default builders for "${targetName}". This ` +
         `means that we cannot add the configured theme to the "${targetName}" target.`,
