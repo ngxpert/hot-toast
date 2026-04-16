@@ -53,10 +53,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install Node.js
-      - uses: actions/setup-node@v6
+        uses: actions/setup-node@v6
         with:
           node-version: '24.x'
-      - run: node -v    
+      - run: node -v
 
       - name: Download the build folder
         uses: actions/download-artifact@v7
