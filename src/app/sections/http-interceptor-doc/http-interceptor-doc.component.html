@@ -1,0 +1,88 @@
+<div class="my-14" id="http-interceptor">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#http-interceptor"> 🔗 </a></small>
+    HTTP error interceptor
+  </h2>
+
+  <section class="grid grid-cols-1 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="ml-5 mr-5">
+      <p class="mb-3 text-toast-800">
+        You can register <code class="bg-toast-200 px-1 py-0.5 rounded">hotToastHttpInterceptor</code> on
+        <code class="bg-toast-200 px-1 py-0.5 rounded">HttpClient</code> to show an error toast when requests fail,
+        then rethrow the error so your existing <code class="bg-toast-200 px-1 py-0.5 rounded">catchError</code> /
+        <code class="bg-toast-200 px-1 py-0.5 rounded">subscribe</code> logic still runs. Use
+        <code class="bg-toast-200 px-1 py-0.5 rounded">provideHotToastHttpInterceptor()</code> to supply optional
+        ignore rules and message overrides. On the server, no toast is opened.
+      </p>
+      <p class="text-sm text-toast-700">
+        Add the functional interceptor to the same <code class="bg-toast-200 px-1 py-0.5 rounded">provideHttpClient()</code>
+        call as your other features (for example <code class="bg-toast-200 px-1 py-0.5 rounded">withFetch()</code>), and
+        list <code class="bg-toast-200 px-1 py-0.5 rounded">hotToastHttpInterceptor</code> in
+        <code class="bg-toast-200 px-1 py-0.5 rounded">withInterceptors([...])</code> alongside your own interceptors.
+      </p>
+      <p class="mt-4 text-sm text-toast-700">
+        <a
+          routerLink="/http-interceptor-sample"
+          class="font-medium text-toast-600 underline hover:text-toast-800"
+          >Sample server test page</a
+        >
+        — run <code class="rounded bg-toast-200 px-1 py-0.5">npm run sample:http-test-server</code>, then open that
+        route while this app is on port 4200 (see <code class="rounded bg-toast-200 px-1 py-0.5">environment.sampleHttpTestServerUrl</code>).
+      </p>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">Registration</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        Wire <code class="bg-toast-200 px-1 py-0.5 rounded">HttpClient</code> and optional interceptor config at bootstrap
+        (or in a route/environment injector that owns HTTP for that subtree).
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              type="button"
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="setupSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">Configuration</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        <code class="bg-toast-200 px-1 py-0.5 rounded">provideHotToastHttpInterceptor</code> accepts a partial config
+        object. All fields are optional; merge with defaults happens inside the provider.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              type="button"
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="configSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

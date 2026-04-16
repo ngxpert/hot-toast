@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  /** Base URL for `samples/express-http-test-server` (`npm run sample:http-test-server`, default port 4000). */
+  sampleHttpTestServerUrl: 'http://localhost:4000',
 };
 
 /*

@@ -1,3 +1,16 @@
+# [6.2.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.1.0...v6.2.0-beta.1) (2026-04-16)
+
+
+### Bug Fixes
+
+* improve error handling and logging in hot-toast setup ([377a77d](https://github.com/ngxpert/hot-toast/commit/377a77d62175eab3b9ed98c6960e2f4dea993c97))
+
+
+### Features
+
+* implement HTTP error interceptor with sample server ([87da889](https://github.com/ngxpert/hot-toast/commit/87da889edb47834fc2f425bb713183a399596946))
+* update angular versions ([debbc7e](https://github.com/ngxpert/hot-toast/commit/debbc7ea2894989e3432600811dc72fe02842890))
+
 # [6.1.0](https://github.com/ngxpert/hot-toast/compare/v6.0.0...v6.1.0) (2026-01-01)
 
 

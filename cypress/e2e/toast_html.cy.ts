@@ -5,7 +5,7 @@ import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngxpert/hot-toast/src
 describe('Test hot toasts - html', () => {
   it('should show and hide toast with template', () => {
     cy.get('#html').click();
-    cy.get('hot-toast').as('htmlToast');
+    cy.get('hot-toast-component').as('htmlToast');
 
     cy.get('@htmlToast').find('.hot-toast-message').children().as('children');
     cy.get('@children').should('have.length', 1);

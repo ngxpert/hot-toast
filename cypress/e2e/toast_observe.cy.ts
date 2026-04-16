@@ -5,7 +5,7 @@ import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngxpert/hot-toast/src
 describe('Test hot toasts - observe', () => {
   it('should show and hide observe toast', () => {
     cy.get('#observe').click();
-    cy.get('hot-toast').as('observeToast');
+    cy.get('hot-toast-component').as('observeToast');
 
     cy.get('@observeToast').should('contain', 'Saving...');
     cy.wait(1000);

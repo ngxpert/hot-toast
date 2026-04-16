@@ -36,7 +36,9 @@
     "ci:cy-run:firefox": "start-server-and-test ci:start-server http://localhost:4200 cy:run:firefox",
     "ci:cy-run:edge": "start-server-and-test ci:start-server http://localhost:4200 cy:run:edge",
     "semantic-release": "semantic-release",
-    "prepare": "husky"
+    "prepare": "husky",
+    "sample:http-test-server:install": "npm install --prefix samples/express-http-test-server",
+    "sample:http-test-server": "npm run start --prefix samples/express-http-test-server"
   },
   "dependencies": {
     "@angular/animations": "^21.2.8",
@@ -94,7 +96,7 @@
     "ng-packagr": "^21.0.0",
     "postcss": "8.5.3",
     "prettier": "3.6.2",
-    "semantic-release": "^25.0.2",
+    "semantic-release": "^25.0.3",
     "serve": "^14.2.4",
     "start-server-and-test": "^2.0.11",
     "stylelint": "^14.16.1",

@@ -5,7 +5,7 @@ import { HOT_TOAST_DEFAULT_TIMEOUTS } from '../../projects/ngxpert/hot-toast/src
 describe('Test hot toasts - success', () => {
   it('should show and hide success toast', () => {
     cy.get('#success').click();
-    cy.get('hot-toast').as('successToast');
+    cy.get('hot-toast-component').as('successToast');
 
     cy.get('@successToast').should('contain', 'Successfully toasted!');
     cy.wait(HOT_TOAST_DEFAULT_TIMEOUTS.success);

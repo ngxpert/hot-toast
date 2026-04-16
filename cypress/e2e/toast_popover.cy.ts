@@ -12,7 +12,7 @@ describe('Test hot toasts - popover API', () => {
     cy.get('#success').click();
 
     // Wait for container to be created and toast to appear
-    cy.get('hot-toast', { timeout: 10000 }).should('exist');
+    cy.get('hot-toast-component', { timeout: 10000 }).should('exist');
 
     // Check if the container has the popover attribute
     cy.get('hot-toast-container').should('have.attr', 'popover', 'manual');
