@@ -60,7 +60,6 @@ function addThemeStyleToTarget(
   logger: logging.LoggerApi,
 ): Rule {
   return updateWorkspace((workspace) => {
-    // @ts-expect-error ignore the error
     const project = getProjectFromWorkspace(workspace, projectName);
 
     // Do not update the builder options in case the target does not use the default CLI builder.
