@@ -325,7 +325,9 @@ export class HotToastService implements HotToastServiceMethods {
             });
           }
         }
-      } else {
+      }
+      // If show is not provided, proceed when form is dirty & touched
+      else if (control.dirty && control.touched) {
         if (toastRef) {
           toastRef.updateMessage(resolvedMessage);
           toastRef.updateToast(mergedOptions);
