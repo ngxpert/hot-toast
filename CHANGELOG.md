@@ -1,3 +1,15 @@
+# [6.3.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.2.0...v6.3.0-beta.1) (2026-04-17)
+
+
+### Bug Fixes
+
+* enhance toast display logic for form controls ([2b4528d](https://github.com/ngxpert/hot-toast/commit/2b4528d30d10da1c45fe57a2256b2a680d730c15)), closes [#183](https://github.com/ngxpert/hot-toast/issues/183)
+
+
+### Features
+
+* add form integration support with reactive validation toasts ([e2101c8](https://github.com/ngxpert/hot-toast/commit/e2101c888973547c90366594fab3550e47312105)), closes [#182](https://github.com/ngxpert/hot-toast/issues/182)
+
 # [6.2.0](https://github.com/ngxpert/hot-toast/compare/v6.1.0...v6.2.0) (2026-04-16)
 
 
