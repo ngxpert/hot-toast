@@ -1,7 +1,8 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { DestroyRef, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
-import { defer, Observable } from 'rxjs';
+import { defer, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
@@ -15,6 +16,9 @@ import {
   ObservableMessages,
   ObservableSuccessOrError,
   resolveValueOrFunction,
+  RouteChangeMessages,
+  RouteChangeToastOptions,
+  RouterEventName,
   Toast,
   ToastConfig,
   ToastOptions,
@@ -37,6 +41,7 @@ export class HotToastService implements HotToastServiceMethods {
   private _viewService = inject(ViewService);
   private _platformId = inject(PLATFORM_ID);
   private _globalConfig = inject(ToastConfig, { optional: true });
+  private _router = inject(Router, { optional: true });
   private _container = inject(HOT_TOAST_CONTAINER_TOKEN, { optional: true });
   private _usePopover = inject(HOT_TOAST_USE_POPOVER_TOKEN, { optional: true });
   private _document = inject(DOCUMENT);
@@ -265,6 +270,76 @@ export class HotToastService implements HotToastServiceMethods {
     if (this._componentRef) {
       this._componentRef.ref.instance.closeToast(id);
     }
+  }
+
+  /**
+   * Subscribes to Angular Router events and shows a toast for each configured event.
+   *
+   * Keys in `messages` are Angular Router event class names (e.g. `NavigationStart.name`).
+   * Values are either a plain `Content` string/template/component (shown as a `blank` toast)
+   * or a full `RouteChangeToastOptions` object (with `message` + any `ToastOptions` fields
+   * including an optional `type`).
+   *
+   * When a new router event fires while the previous toast is still visible, the same toast
+   * is updated in place (message + options). Once the toast is dismissed a subsequent event
+   * opens a fresh one.
+   *
+   * If called from an injection context (e.g. a component constructor) the subscription is
+   * torn down automatically when the caller is destroyed via `DestroyRef`. Pass an explicit
+   * `destroyRef` to bind to a specific lifecycle, or manage the returned `Subscription`
+   * manually when calling outside an injection context.
+   *
+   * @param messages  Map of router event name → content or options.
+   * @param destroyRef  Optional `DestroyRef` for automatic unsubscription.
+   * @returns `Subscription` that can be unsubscribed manually.
+   * @since 7.0.0
+   */
+  onRouteChange(messages: RouteChangeMessages, destroyRef?: DestroyRef): Subscription {
+    if (!this._router) {
+      console.warn(
+        '[HotToast] onRouteChange: Router is not available. Make sure provideRouter() is included in your providers.',
+      );
+      return new Subscription();
+    }
+
+    let toastRef: CreateHotToastRef<unknown> | null = null;
+
+    const subscription = this._router.events.subscribe((event) => {
+      const eventName = event.constructor.name as RouterEventName;
+      const messageConfig = messages[eventName];
+
+      if (messageConfig == null) return;
+
+      let content: Content;
+      let options: ToastOptions<unknown> & { type?: ToastType } = {};
+
+      if (typeof messageConfig === 'string' || isTemplateRef(messageConfig) || isComponent(messageConfig)) {
+        content = messageConfig as Content;
+      } else {
+        const { message, ...rest } = messageConfig as RouteChangeToastOptions;
+        content = message;
+        options = rest;
+      }
+
+      if (toastRef) {
+        toastRef.updateMessage(content);
+        toastRef.updateToast(options as UpdateToastOptions<unknown>);
+      } else {
+        toastRef = this.show(content, options as ToastOptions<unknown>);
+        toastRef.afterClosed.subscribe(() => {
+          toastRef = null;
+        });
+      }
+    });
+
+    try {
+      const dr = destroyRef ?? inject(DestroyRef);
+      dr.onDestroy(() => subscription.unsubscribe());
+    } catch {
+      // Not in an injection context and no DestroyRef provided; caller manages the subscription.
+    }
+
+    return subscription;
   }
 
   /**

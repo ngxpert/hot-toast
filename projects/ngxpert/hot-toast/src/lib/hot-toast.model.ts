@@ -1,6 +1,6 @@
-import { Injector } from '@angular/core';
+import { DestroyRef, Injector } from '@angular/core';
 import { Content } from '@ngneat/overview';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 export type ToastStacking = 'vertical' | 'depth';
 
@@ -288,6 +288,29 @@ export type DefaultToastOptions = ToastOptions<unknown> & {
   [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
 };
 
+export type RouterEventName =
+  | 'NavigationStart'
+  | 'RoutesRecognized'
+  | 'GuardsCheckStart'
+  | 'GuardsCheckEnd'
+  | 'ChildActivationStart'
+  | 'ChildActivationEnd'
+  | 'ActivationStart'
+  | 'ActivationEnd'
+  | 'ResolveStart'
+  | 'ResolveEnd'
+  | 'NavigationEnd'
+  | 'NavigationCancel'
+  | 'NavigationError'
+  | 'Scroll';
+
+export type RouteChangeToastOptions = ToastOptions<unknown> & {
+  message: Content;
+  type?: ToastType;
+};
+
+export type RouteChangeMessages = Partial<Record<RouterEventName, Content | RouteChangeToastOptions>>;
+
 export type ObservableLoading<DataType> = {
   content: Content;
 } & ToastOptions<DataType>;
@@ -309,6 +332,7 @@ export interface HotToastServiceMethods {
   loading<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
   warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
   observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T>;
+  onRouteChange(messages: RouteChangeMessages, destroyRef?: DestroyRef): Subscription;
   close(id?: string): void;
 }
 

@@ -15,6 +15,7 @@ import { FeaturesComponent } from '../../sections/features/features.component';
 import { GroupingComponent } from '../../sections/grouping/grouping.component';
 import { RouterLink } from '@angular/router';
 import { HttpInterceptorDocComponent } from '../../sections/http-interceptor-doc/http-interceptor-doc.component';
+import { RouterIntegrationComponent } from '../../sections/router-integration/router-integration.component';
 import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
 import { PopoverComponent } from '../../sections/popover/popover.component';
 import { ThemesComponent } from '../../sections/themes/themes.component';
@@ -35,6 +36,7 @@ import { ThemesComponent } from '../../sections/themes/themes.component';
     RouterLink,
     ToastContainerComponent,
     HttpInterceptorDocComponent,
+    RouterIntegrationComponent,
     PopoverComponent,
     ThemesComponent,
     // JumpToDialogComponent,

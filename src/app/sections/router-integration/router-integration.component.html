@@ -1,0 +1,115 @@
+<div class="my-14" id="router-integration">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#router-integration"> 🔗 </a></small>
+    Router integration
+  </h2>
+
+  <section class="grid grid-cols-1 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="ml-5 mr-5">
+      <p class="mb-3 text-toast-800">
+        Call <code class="bg-toast-200 px-1 py-0.5 rounded">toast.onRouteChange(messages)</code> once (typically in a
+        component constructor or a root service) to automatically show a toast on every Angular Router event. Keys in
+        <code class="bg-toast-200 px-1 py-0.5 rounded">messages</code> are Router event class names — use
+        <code class="bg-toast-200 px-1 py-0.5 rounded">NavigationStart.name</code> etc. for type safety. Values are
+        either a plain string / template / component (displayed as a <code class="bg-toast-200 px-1 py-0.5 rounded">blank</code> toast)
+        or a full options object with <code class="bg-toast-200 px-1 py-0.5 rounded">message</code> and any
+        <code class="bg-toast-200 px-1 py-0.5 rounded">ToastOptions</code> fields including an optional
+        <code class="bg-toast-200 px-1 py-0.5 rounded">type</code>.
+      </p>
+      <p class="text-sm text-toast-700">
+        While the previous toast is still visible, subsequent router events update it in place rather than stacking new
+        ones. The subscription is automatically torn down when the calling component is destroyed if
+        <code class="bg-toast-200 px-1 py-0.5 rounded">onRouteChange</code> is called from an injection context (e.g.
+        a constructor). Otherwise the returned
+        <code class="bg-toast-200 px-1 py-0.5 rounded">Subscription</code> can be managed manually.
+      </p>
+    </div>
+  </section>
+
+  <!-- Basic usage -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">Basic usage</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        Pass plain strings for the events you care about. The subscription is tied to the component's lifetime
+        automatically when called from the constructor.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              type="button"
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="basicSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Full options -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-8">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">Full options</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        Replace any plain string with a
+        <code class="bg-toast-200 px-1 py-0.5 rounded">RouteChangeToastOptions</code> object to control the toast
+        type, duration, style and every other <code class="bg-toast-200 px-1 py-0.5 rounded">ToastOptions</code> field
+        per-event. All Angular Router events are supported as keys.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              type="button"
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="fullSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manual cleanup -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-3">
+    <div class="sm:col-span-1 md:col-span-1">
+      <h3 class="text-md font-bold mb-3 ml-5">Manual cleanup</h3>
+      <p class="ml-5 mr-5 text-toast-800 text-sm">
+        When calling outside a constructor (e.g. <code class="bg-toast-200 px-1 py-0.5 rounded">ngOnInit</code>), pass
+        a <code class="bg-toast-200 px-1 py-0.5 rounded">DestroyRef</code> as the second argument or unsubscribe from
+        the returned <code class="bg-toast-200 px-1 py-0.5 rounded">Subscription</code> yourself.
+      </p>
+    </div>
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border sm:rounded-md">
+        <div class="bg-white">
+          <nav class="flex flex-row">
+            <button
+              type="button"
+              class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 bg-gray-50 font-medium border-toast-700"
+            >
+              TypeScript
+            </button>
+          </nav>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="manualSnippet" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
