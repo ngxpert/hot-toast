@@ -101,6 +101,7 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
 - 💬 **Popover API**
 - 🎨 **Built-in Themes** — Material, Minimal, Glassmorphism, iOS (with manual dark mode)
 - 🌐 **Optional HTTP error interceptor** — show error toasts on failed `HttpClient` calls with ignore rules
+- 🗒️ **Form Integration** — reactively show validation toasts from any `AbstractControl` or `FormGroup`
 
 ## Installation
 
@@ -319,14 +320,14 @@ export const appConfig: ApplicationConfig = {
 
 Hot Toast ships with **6 themes**. The `toast` and `snackbar` themes are included in the base styles — no extra import needed. The four new themes each have a dedicated stylesheet so your bundle only includes what you use.
 
-| Theme | Value | Extra stylesheet needed? | Visual character |
-|---|---|---|---|
-| Default | `toast` | No | Clean white card, subtle shadow |
-| Snackbar | `snackbar` | No | Dark surface, bottom-center friendly |
-| Material | `material` | Yes | Material elevation-2 shadow, 4 px radius |
-| Minimal | `minimal` | Yes | No shadow, 1 px border, understated |
-| Glassmorphism | `glassmorphism` | Yes | `backdrop-filter: blur(12px)`, semi-transparent |
-| iOS | `ios` | Yes | `backdrop-filter: blur(20px)`, pill shape |
+| Theme         | Value           | Extra stylesheet needed? | Visual character                                |
+| ------------- | --------------- | ------------------------ | ----------------------------------------------- |
+| Default       | `toast`         | No                       | Clean white card, subtle shadow                 |
+| Snackbar      | `snackbar`      | No                       | Dark surface, bottom-center friendly            |
+| Material      | `material`      | Yes                      | Material elevation-2 shadow, 4 px radius        |
+| Minimal       | `minimal`       | Yes                      | No shadow, 1 px border, understated             |
+| Glassmorphism | `glassmorphism` | Yes                      | `backdrop-filter: blur(12px)`, semi-transparent |
+| iOS           | `ios`           | Yes                      | `backdrop-filter: blur(20px)`, pill shape       |
 
 ### Importing a theme
 
@@ -364,9 +365,7 @@ toast.success('Done', { theme: 'ios' });
 import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 export const appConfig = {
-  providers: [
-    provideHotToastConfig({ theme: 'material' }),
-  ],
+  providers: [provideHotToastConfig({ theme: 'material' })],
 };
 ```
 
@@ -403,11 +402,7 @@ The schematic injects both the base stylesheet and the chosen theme import into 
 Register the functional interceptor on `HttpClient` so failed requests open an error toast and are still rethrown to your `subscribe` / `catchError` handlers. Use `provideHotToastHttpInterceptor()` for optional rules such as skipping specific status codes (for example `401`).
 
 ```typescript
-import {
-  hotToastHttpInterceptor,
-  provideHotToastHttpInterceptor,
-  provideHotToastConfig,
-} from '@ngxpert/hot-toast';
+import { hotToastHttpInterceptor, provideHotToastHttpInterceptor, provideHotToastConfig } from '@ngxpert/hot-toast';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 bootstrapApplication(AppComponent, {
@@ -440,6 +435,149 @@ Docs on the demo site: <https://ngxpert.github.io/hot-toast#http-interceptor>.
 
 End-to-end coverage lives in `cypress/e2e/toast_http_interceptor.cy.ts`. More detail: `samples/express-http-test-server/README.md`.
 
+## Form Integration (optional)
+
+`fromForm` subscribes to an `AbstractControl`'s `statusChanges` stream and shows a single, in-place toast that updates as the control transitions through Angular's four statuses: `VALID`, `INVALID`, `PENDING`, and `DISABLED`.
+
+> **Peer dependency** — `@angular/forms` must be installed (it is an optional peer dependency of `@ngxpert/hot-toast`).
+
+### Basic usage
+
+```typescript
+import { FormControl, Validators } from '@angular/forms';
+import { HotToastService } from '@ngxpert/hot-toast';
+
+@Component({ ... })
+export class SignUpComponent implements OnDestroy {
+  private toast = inject(HotToastService);
+
+  email = new FormControl('', [Validators.required, Validators.email]);
+
+  private formRef = this.toast.fromForm(this.email, {
+    INVALID: { message: 'Enter a valid email address.' },
+    VALID:   { message: 'Email looks good!', duration: 2000 },
+  });
+
+  ngOnDestroy() {
+    this.formRef.close(); // unsubscribes and dismisses any active toast
+  }
+}
+```
+
+### Async validators + PENDING state
+
+```typescript
+email = new FormControl('', {
+  validators: [Validators.required, Validators.email],
+  asyncValidators: [this.checkEmailTaken()],
+});
+
+private formRef = this.toast.fromForm(this.email, {
+  PENDING: { message: 'Checking availability…' },
+  INVALID: {
+    message: (ctrl) => {
+      if (ctrl.errors?.['required']) return 'Email is required';
+      if (ctrl.errors?.['email'])    return 'Enter a valid email';
+      if (ctrl.errors?.['taken'])    return 'That email is already taken';
+    },
+  },
+  VALID: { message: 'Email is available!', duration: 2000 },
+});
+```
+
+### Gating toasts behind form submission
+
+Use the `show` predicate to suppress toasts until the user has explicitly submitted the form:
+
+```typescript
+submitted = false;
+
+private formRef = this.toast.fromForm(this.email, {
+  PENDING: { message: 'Checking…',              show: () => this.submitted },
+  INVALID: { message: 'Please fix the errors.', show: () => this.submitted },
+  VALID:   { message: 'All good!',              show: () => this.submitted, duration: 2000 },
+});
+
+submit() {
+  this.submitted = true;
+  this.email.updateValueAndValidity();
+}
+```
+
+### `FormGroup` support
+
+`fromForm` accepts any `AbstractControl`, including `FormGroup`:
+
+```typescript
+form = new FormGroup({
+  name:     new FormControl('', [Validators.required, Validators.minLength(3)]),
+  password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+});
+
+submitted = false;
+
+private formRef = this.toast.fromForm(this.form, {
+  INVALID: {
+    message: (form) => {
+      const c = form.controls;
+      if (c.name.errors?.['required'])      return 'Name is required';
+      if (c.name.errors?.['minlength'])     return 'Name needs 3+ characters';
+      if (c.password.errors?.['required'])  return 'Password is required';
+      if (c.password.errors?.['minlength']) return 'Password needs 6+ characters';
+    },
+    show: () => this.submitted,
+  },
+  VALID: { message: 'Form is valid!', duration: 2000, show: () => this.submitted },
+});
+```
+
+### `FormToastOptions` API
+
+Each key in `FormToastOptions` corresponds to a `FormControlStatus` value. All keys are optional — omitting a key means no toast is shown for that status.
+
+| Key        | Trigger                             |
+| ---------- | ----------------------------------- |
+| `VALID`    | Control/group passes all validators |
+| `INVALID`  | One or more validators fail         |
+| `PENDING`  | Async validators are running        |
+| `DISABLED` | Control is disabled                 |
+
+Each key accepts a `FormToastStateConfig`:
+
+| Property            | Type                                       | Description                                                                                                                                            |
+| ------------------- | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `message`           | `Content \| (control) => Content`          | Static text/template or a function receiving the full `AbstractControl`.                                                                               |
+| `show`              | `(control) => boolean \| Promise<boolean>` | Optional predicate that gates display. If omitted the toast always shows for that status. Async predicates are supported.                              |
+| _...`ToastOptions`_ | —                                          | All standard `ToastOptions` (`type`, `duration`, `dismissible`, `position`, etc.) are accepted alongside `message` and `show` for per-state overrides. |
+
+### `HotToastFormRef`
+
+`fromForm` returns a `HotToastFormRef`:
+
+```typescript
+const ref = this.toast.fromForm(control, options);
+
+// Unsubscribes from statusChanges and dismisses any active toast
+ref.close();
+```
+
+Always call `ref.close()` when the component is destroyed to prevent subscription leaks.
+
+### Default toast type per status
+
+When no explicit `type` is provided in a state config, the library falls back to sensible defaults defined in `HOT_TOAST_FORM_STATUS_DEFAULTS` (in `constants.ts`):
+
+| Status     | Default `type` | Default `autoClose` |
+| ---------- | -------------- | ------------------- |
+| `VALID`    | `success`      | `true`              |
+| `INVALID`  | `error`        | `false`             |
+| `PENDING`  | `loading`      | `false`             |
+| `DISABLED` | `blank`        | `true`              |
+
+Live demo: <https://ngxpert.github.io/hot-toast#form-integration>
+
+---
+
 ## Examples
 
 You can checkout examples at: <https://ngxpert.github.io/hot-toast#examples>.
@@ -459,26 +597,26 @@ All options, which are set _Available in global config?_ from `ToastOptions` are
 
 Configuration used when opening an hot-toast.
 
-| Name        | Type                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                 | Available in global config? |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
-| id          | `string`                                                                                                                                                                                                      | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id. <br>_[Example](https://ngxpert.github.io/hot-toast/#only-one-at-a-time)_                                                                                                     | No                          |
-| duration    | `number`                                                                                                                                                                                                      | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_                                                                                                              | Yes                         |
-| autoClose   | `boolean`                                                                                                                                                                                                     | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                                                                                                                                    | Yes                         |
-| position    | [`ToastPosition`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastPosition)              | The position to place the hot-toast.<br>_Default: `top-center`_<br>_[Example](https://ngxpert.github.io/hot-toast/#positions)_                                                                                                                                              | Yes                         |
-| dismissible | `boolean`                                                                                                                                                                                                     | Show close button in hot-toast<br>_Default: `false`_<br>_[Example](https://ngxpert.github.io/hot-toast/#dismissible)_                                                                                                                                                       | Yes                         |
-| role        | [`ToastRole`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastRole)                      | Role of the live region.<br>_Default: `status`_                                                                                                                                                                                                                             | Yes                         |
-| ariaLive    | [`ToastAriaLive`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastAriaLive)              | aria-live value for the live region.<br>_Default: `polite`_                                                                                                                                                                                                                 | Yes                         |
-| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme) — `'toast' \| 'snackbar' \| 'material' \| 'minimal' \| 'glassmorphism' \| 'ios'` | Visual theme of the toast. The `toast` and `snackbar` values are included in the base styles; the others each require their own stylesheet import.<br>_Default: `toast`_<br>_[Example](https://ngxpert.github.io/hot-toast/#themes)_ | Yes                         |
-| persist     | [`{ToastPersistConfig}`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20class%20ToastPersistConfig) | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>_[Example](https://ngxpert.github.io/hot-toast/#persistent)_                                                                                                                         | No                          |
-| icon        | [`Content`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/overview/blob/main/projects/ngxpert/overview/src/lib/views/types.ts&q=export%20type%20Content)                                | Icon to show in the hot-toast<br>_[Example](https://ngxpert.github.io/hot-toast/#emoji)_                                                                                                                                                                                    | Yes                         |
-| iconTheme   | [`IconTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20IconTheme)                      | Use this to change icon color<br>_[Example](https://ngxpert.github.io/hot-toast/#themed)_                                                                                                                                                                                   | Yes                         |
-| className   | `string`                                                                                                                                                                                                      | Extra CSS classes to be added to the hot toast container.                                                                                                                                                                                                                   | Yes                         |
-| attributes  | [`Record<string, string>`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype)                                                                                                    | Extra attributes to be added to the hot toast container. Can be used for e2e tests.                                                                                                                                                                                         | Yes                         |
-| style       | `style object`                                                                                                                                                                                                | Extra styles to apply for hot-toast.<br>_[Example](https://ngxpert.github.io/hot-toast/#themed)_                                                                                                                                                                            | Yes                         |
-| closeStyle  | `style object`                                                                                                                                                                                                | Extra styles to apply for close button                                                                                                                                                                                                                                      | Yes                         |
-| data        | [`DataType`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20interface%20Toast%3CDataType%3E)        | Allows you to pass data for your template and component. You can access the data using `toastRef.data`.<br>_Examples: [Template with Data](https://ngxpert.github.io/hot-toast/#template-data), [Component with Data](https://ngxpert.github.io/hot-toast/#component-data)_ | No                          |
-| injector    | `Injector`                                                                                                                                                                                                    | Allows you to pass injector for your component.<br>_[Example](https://ngxpert.github.io/hot-toast/#injector)_                                                                                                                                                               | No                          |
-| group       | [`group`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=group%3F)                                           | Allows you to set group options. <br>Examples: [Pre-Grouping](https://ngxpert.github.io/hot-toast/#pre-grouping), [Post-Grouping](https://ngxpert.github.io/hot-toast/#post-grouping)                                                                                       | No                          |
+| Name        | Type                                                                                                                                                                                                                                                                        | Description                                                                                                                                                                                                                                                                 | Available in global config? |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| id          | `string`                                                                                                                                                                                                                                                                    | Unique id to associate with hot-toast. There can't be multiple hot-toasts opened with same id. <br>_[Example](https://ngxpert.github.io/hot-toast/#only-one-at-a-time)_                                                                                                     | No                          |
+| duration    | `number`                                                                                                                                                                                                                                                                    | Duration in milliseconds after which hot-toast will be auto closed. Can be disabled via `autoClose: false`<br>_Default: `3000, error = 4000, loading = 30000`_                                                                                                              | Yes                         |
+| autoClose   | `boolean`                                                                                                                                                                                                                                                                   | Auto close hot-toast after duration<br>_Default: `true`_                                                                                                                                                                                                                    | Yes                         |
+| position    | [`ToastPosition`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastPosition)                                                                            | The position to place the hot-toast.<br>_Default: `top-center`_<br>_[Example](https://ngxpert.github.io/hot-toast/#positions)_                                                                                                                                              | Yes                         |
+| dismissible | `boolean`                                                                                                                                                                                                                                                                   | Show close button in hot-toast<br>_Default: `false`_<br>_[Example](https://ngxpert.github.io/hot-toast/#dismissible)_                                                                                                                                                       | Yes                         |
+| role        | [`ToastRole`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastRole)                                                                                    | Role of the live region.<br>_Default: `status`_                                                                                                                                                                                                                             | Yes                         |
+| ariaLive    | [`ToastAriaLive`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastAriaLive)                                                                            | aria-live value for the live region.<br>_Default: `polite`_                                                                                                                                                                                                                 | Yes                         |
+| theme       | [`ToastTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20ToastTheme) — `'toast' \| 'snackbar' \| 'material' \| 'minimal' \| 'glassmorphism' \| 'ios'` | Visual theme of the toast. The `toast` and `snackbar` values are included in the base styles; the others each require their own stylesheet import.<br>_Default: `toast`_<br>_[Example](https://ngxpert.github.io/hot-toast/#themes)_                                        | Yes                         |
+| persist     | [`{ToastPersistConfig}`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20class%20ToastPersistConfig)                                                               | Useful when you want to keep a persistance for toast based on ids, across sessions.<br>_[Example](https://ngxpert.github.io/hot-toast/#persistent)_                                                                                                                         | No                          |
+| icon        | [`Content`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/overview/blob/main/projects/ngxpert/overview/src/lib/views/types.ts&q=export%20type%20Content)                                                                                              | Icon to show in the hot-toast<br>_[Example](https://ngxpert.github.io/hot-toast/#emoji)_                                                                                                                                                                                    | Yes                         |
+| iconTheme   | [`IconTheme`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20type%20IconTheme)                                                                                    | Use this to change icon color<br>_[Example](https://ngxpert.github.io/hot-toast/#themed)_                                                                                                                                                                                   | Yes                         |
+| className   | `string`                                                                                                                                                                                                                                                                    | Extra CSS classes to be added to the hot toast container.                                                                                                                                                                                                                   | Yes                         |
+| attributes  | [`Record<string, string>`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype)                                                                                                                                                                  | Extra attributes to be added to the hot toast container. Can be used for e2e tests.                                                                                                                                                                                         | Yes                         |
+| style       | `style object`                                                                                                                                                                                                                                                              | Extra styles to apply for hot-toast.<br>_[Example](https://ngxpert.github.io/hot-toast/#themed)_                                                                                                                                                                            | Yes                         |
+| closeStyle  | `style object`                                                                                                                                                                                                                                                              | Extra styles to apply for close button                                                                                                                                                                                                                                      | Yes                         |
+| data        | [`DataType`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=export%20interface%20Toast%3CDataType%3E)                                                                      | Allows you to pass data for your template and component. You can access the data using `toastRef.data`.<br>_Examples: [Template with Data](https://ngxpert.github.io/hot-toast/#template-data), [Component with Data](https://ngxpert.github.io/hot-toast/#component-data)_ | No                          |
+| injector    | `Injector`                                                                                                                                                                                                                                                                  | Allows you to pass injector for your component.<br>_[Example](https://ngxpert.github.io/hot-toast/#injector)_                                                                                                                                                               | No                          |
+| group       | [`group`](https://github-link.vercel.app/api?ghUrl=https://github.com/ngxpert/hot-toast/blob/main/projects/ngxpert/hot-toast/src/lib/hot-toast.model.ts&q=group%3F)                                                                                                         | Allows you to set group options. <br>Examples: [Pre-Grouping](https://ngxpert.github.io/hot-toast/#pre-grouping), [Post-Grouping](https://ngxpert.github.io/hot-toast/#post-grouping)                                                                                       | No                          |
 
 ## Injection Tokens
 

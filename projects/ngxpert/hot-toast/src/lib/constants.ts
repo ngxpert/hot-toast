@@ -1,3 +1,4 @@
+import { FormControlStatus } from '@angular/forms';
 import { ToastType } from './hot-toast.model';
 
 export const HOT_TOAST_DEFAULT_TIMEOUTS: {
@@ -18,3 +19,14 @@ export const HOT_TOAST_MARGIN = 8;
 
 export const HOT_TOAST_DEPTH_SCALE = 0.05;
 export const HOT_TOAST_DEPTH_SCALE_ADD = 1;
+
+/**
+ * Per-status defaults applied when using `fromForm`.
+ * Centralised here so future tweaks only need one change.
+ */
+export const HOT_TOAST_FORM_STATUS_DEFAULTS: Record<FormControlStatus, { type: ToastType }> = {
+  VALID: { type: 'success' },
+  INVALID: { type: 'error' },
+  PENDING: { type: 'loading' },
+  DISABLED: { type: 'blank' },
+};

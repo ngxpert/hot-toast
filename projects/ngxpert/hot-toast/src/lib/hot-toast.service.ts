@@ -1,15 +1,18 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { AbstractControl, FormControl, FormControlStatus, FormGroup } from '@angular/forms';
 import { CompRef, Content, isComponent, isTemplateRef, ViewService } from '@ngneat/overview';
-import { defer, Observable } from 'rxjs';
+import { defer, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { HotToastContainerComponent } from './components/hot-toast-container/hot-toast-container.component';
-import { HOT_TOAST_DEFAULT_TIMEOUTS } from './constants';
+import { HOT_TOAST_DEFAULT_TIMEOUTS, HOT_TOAST_FORM_STATUS_DEFAULTS } from './constants';
 import { HotToastRef } from './hot-toast-ref';
 import {
   CreateHotToastRef,
   DefaultToastOptions,
+  FormToastOptions,
+  HotToastFormRef,
   HotToastServiceMethods,
   ObservableLoading,
   ObservableMessages,
@@ -252,6 +255,102 @@ export class HotToastService implements HotToastServiceMethods {
           }),
         );
       });
+    };
+  }
+
+  /**
+   * Reactively shows a hot-toast based on the status of a `FormControl` or `FormGroup`.
+   *
+   * A single toast is kept alive and updated in-place as the control transitions
+   * between statuses. Omitting a status key means no toast is shown for that status.
+   *
+   * @param control - The `FormControl` or `FormGroup` to observe.
+   * @param options - Per-status configuration keyed by `FormControlStatus`.
+   * @returns A `HotToastFormRef` whose `close()` tears down the subscription and
+   *          dismisses any active toast.
+   *
+   * @example
+   * const ref = this.toast.fromForm(this.form, {
+   *   INVALID: {
+   *     message: (ctrl) => Object.keys(ctrl.errors ?? {})[0],
+   *     show: (ctrl) => ctrl.dirty,
+   *     type: 'error',
+   *   },
+   *   PENDING: { message: 'Validating…', type: 'loading' },
+   *   VALID:   { message: 'All good!',   type: 'success', duration: 2000 },
+   * });
+   *
+   * // Tear down on component destroy:
+   * ref.close();
+   */
+  fromForm<T>(control: FormControl<T>, options: FormToastOptions<FormControl<T>>): HotToastFormRef;
+  fromForm<TControl extends { [K in keyof TControl]: AbstractControl }>(
+    control: FormGroup<TControl>,
+    options: FormToastOptions<FormGroup<TControl>>,
+  ): HotToastFormRef;
+  fromForm(control: AbstractControl, options: FormToastOptions<AbstractControl>): HotToastFormRef {
+    let toastRef: CreateHotToastRef<unknown> | undefined;
+
+    const handleStatus = async (status: FormControlStatus): Promise<void> => {
+      const stateConfig = options[status];
+
+      if (!stateConfig) {
+        toastRef?.close();
+        toastRef = undefined;
+        return;
+      }
+
+      const { message, show, ...toastOptions } = stateConfig;
+
+      const resolvedMessage =
+        typeof message === 'function' ? (message as (c: AbstractControl) => Content)(control) : message;
+
+      const statusDefaults = HOT_TOAST_FORM_STATUS_DEFAULTS[status];
+      const mergedOptions = { ...statusDefaults, ...toastOptions };
+
+      if (show) {
+        const shouldShow = await show(control);
+        if (!shouldShow) {
+          toastRef?.close();
+          toastRef = undefined;
+          return;
+        } else {
+          if (toastRef) {
+            toastRef.updateMessage(resolvedMessage);
+            toastRef.updateToast(mergedOptions);
+          } else {
+            toastRef = this.show(resolvedMessage, mergedOptions);
+            toastRef.afterClosed.subscribe(() => {
+              toastRef = undefined;
+            });
+          }
+        }
+      }
+      // If show is not provided, proceed when form is dirty & touched
+      else if (control.dirty && control.touched) {
+        if (toastRef) {
+          toastRef.updateMessage(resolvedMessage);
+          toastRef.updateToast(mergedOptions);
+        } else {
+          toastRef = this.show(resolvedMessage, mergedOptions);
+          toastRef.afterClosed.subscribe(() => {
+            toastRef = undefined;
+          });
+        }
+      }
+    };
+
+    handleStatus(control.status as FormControlStatus);
+
+    const subscription = new Subscription();
+    subscription.add(control.statusChanges.subscribe((status: FormControlStatus) => handleStatus(status)));
+
+    return {
+      close: () => {
+        subscription.unsubscribe();
+        toastRef?.close();
+        toastRef = undefined;
+      },
     };
   }
 

@@ -1,4 +1,5 @@
 import { Injector } from '@angular/core';
+import { AbstractControl, FormControl, FormControlStatus, FormGroup } from '@angular/forms';
 import { Content } from '@ngneat/overview';
 import { Observable } from 'rxjs';
 
@@ -310,12 +311,26 @@ export interface HotToastServiceMethods {
   warning<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
   observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T>;
   close(id?: string): void;
+  fromForm<T>(control: FormControl<T>, options: FormToastOptions<FormControl<T>>): HotToastFormRef;
+  fromForm<TControl extends { [K in keyof TControl]: AbstractControl }>(
+    control: FormGroup<TControl>,
+    options: FormToastOptions<FormGroup<TControl>>,
+  ): HotToastFormRef;
 }
 
 export type UpdateToastOptions<DataType> = Partial<
   Pick<
     Toast<DataType>,
-    'icon' | 'duration' | 'dismissible' | 'className' | 'style' | 'iconTheme' | 'type' | 'theme' | 'closeStyle'
+    | 'icon'
+    | 'duration'
+    | 'dismissible'
+    | 'autoClose'
+    | 'className'
+    | 'style'
+    | 'iconTheme'
+    | 'type'
+    | 'theme'
+    | 'closeStyle'
   >
 >;
 
@@ -414,3 +429,30 @@ export type AddToastRef<DataType> = Pick<
 export type CreateHotToastRef<DataType> = Omit<Omit<HotToastRefProps<DataType>, 'appendTo'>, 'dispose'>;
 
 export type DefaultDataType = Record<string, unknown>;
+
+/**
+ * Per-state configuration for `fromForm`.
+ * `message` — static content or a function receiving the full control.
+ * `show`    — optional predicate (sync or async) that gates toast display.
+ * All standard `ToastOptions` are also accepted for per-state overrides.
+ */
+export type FormToastStateConfig<TControl extends AbstractControl> = {
+  message?: Content | ((control: TControl) => Content);
+  show?: (control: TControl) => boolean | Promise<boolean>;
+} & ToastOptions<unknown>;
+
+/**
+ * Options map for `fromForm`, keyed by Angular's `FormControlStatus`.
+ * Omitting a status key means no toast is shown for that status.
+ */
+export type FormToastOptions<TControl extends AbstractControl> = {
+  [K in FormControlStatus]?: FormToastStateConfig<TControl>;
+};
+
+/**
+ * Ref returned by `fromForm`.
+ * Call `close()` to unsubscribe from status changes and dismiss any active toast.
+ */
+export type HotToastFormRef = {
+  close: () => void;
+};
