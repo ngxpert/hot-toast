@@ -312,7 +312,7 @@ export interface HotToastServiceMethods {
   observe<T, DataType>(messages: ObservableMessages<T, DataType>): (source: Observable<T>) => Observable<T>;
   close(id?: string): void;
   fromForm<T>(control: FormControl<T>, options: FormToastOptions<FormControl<T>>): HotToastFormRef;
-  fromForm<TControl extends { [K in keyof TControl]: AbstractControl<any> }>(
+  fromForm<TControl extends { [K in keyof TControl]: AbstractControl }>(
     control: FormGroup<TControl>,
     options: FormToastOptions<FormGroup<TControl>>,
   ): HotToastFormRef;

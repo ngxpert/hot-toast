@@ -284,7 +284,7 @@ export class HotToastService implements HotToastServiceMethods {
    * ref.close();
    */
   fromForm<T>(control: FormControl<T>, options: FormToastOptions<FormControl<T>>): HotToastFormRef;
-  fromForm<TControl extends { [K in keyof TControl]: AbstractControl<any> }>(
+  fromForm<TControl extends { [K in keyof TControl]: AbstractControl }>(
     control: FormGroup<TControl>,
     options: FormToastOptions<FormGroup<TControl>>,
   ): HotToastFormRef;
