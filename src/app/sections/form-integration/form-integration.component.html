@@ -1,0 +1,200 @@
+<div class="my-14" id="form-integration">
+  <h2 class="ml-5 mr-5 mb-4 text-2xl font-bold">
+    <small class="text-sm opacity-25 hover:opacity-100"><a href="#form-integration"> 🔗 </a></small>
+    Form Integration
+  </h2>
+
+  <!-- Tab switcher -->
+  <nav class="flex gap-2 ml-5 mr-5 mb-6">
+    <button
+      id="tab-control"
+      class="py-2 px-4 rounded-lg font-medium text-sm border-2 transition-colors"
+      [class.bg-toast-700]="activeTab === 'control'"
+      [class.text-white]="activeTab === 'control'"
+      [class.border-toast-700]="activeTab === 'control'"
+      [class.border-transparent]="activeTab !== 'control'"
+      [class.bg-white]="activeTab !== 'control'"
+      [class.text-toast-700]="activeTab !== 'control'"
+      (click)="activeTab = 'control'"
+    >
+      FormControl
+    </button>
+    <button
+      id="tab-group"
+      class="py-2 px-4 rounded-lg font-medium text-sm border-2 transition-colors"
+      [class.bg-toast-700]="activeTab === 'group'"
+      [class.text-white]="activeTab === 'group'"
+      [class.border-toast-700]="activeTab === 'group'"
+      [class.border-transparent]="activeTab !== 'group'"
+      [class.bg-white]="activeTab !== 'group'"
+      [class.text-toast-700]="activeTab !== 'group'"
+      (click)="activeTab = 'group'"
+    >
+      FormGroup
+    </button>
+  </nav>
+
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+
+    <!-- ── FormControl demo ── -->
+    @if (activeTab === 'control') {
+    <div class="col-span-1 flex flex-col gap-3">
+      <div>
+        <p class="font-semibold text-toast-900">Live Email Control</p>
+        <p class="text-sm text-toast-600 mt-1">
+          Sync validators (<code>required</code>, <code>email</code>) plus an async "taken" check.
+          Toasts appear only after you click <strong>Submit</strong>.
+          <br />
+          <span class="text-xs opacity-70 mt-1 block">
+            Try: <code>test&#64;taken.com</code> or <code>user&#64;taken.com</code>
+          </span>
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium text-toast-700" for="email-demo">Email</label>
+        <input
+          id="email-demo"
+          type="email"
+          [formControl]="emailControl"
+          placeholder="you@example.com"
+          class="w-full rounded-lg border border-toast-300 px-3 py-2 text-sm shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-toast-500 focus:border-toast-500
+                 placeholder:text-gray-400"
+        />
+        <div class="flex items-center gap-2 mt-1">
+          <span
+            class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
+            [class.bg-yellow-100]="emailControl.status === 'PENDING'"
+            [class.text-yellow-700]="emailControl.status === 'PENDING'"
+            [class.bg-red-100]="emailControl.status === 'INVALID'"
+            [class.text-red-700]="emailControl.status === 'INVALID'"
+            [class.bg-green-100]="emailControl.status === 'VALID'"
+            [class.text-green-700]="emailControl.status === 'VALID'"
+            [class.bg-gray-100]="emailControl.status === 'DISABLED'"
+            [class.text-gray-500]="emailControl.status === 'DISABLED'"
+          >
+            {{ emailControl.status }}
+          </span>
+        </div>
+      </div>
+
+      <button
+        id="submit-email-demo"
+        type="button"
+        class="w-full rounded-lg bg-toast-700 text-white text-sm font-semibold py-2 px-4
+               hover:bg-toast-800 active:translate-y-px transition-colors"
+        (click)="submitEmailDemo()"
+      >
+        Submit
+      </button>
+
+      <button
+        class="self-start text-xs text-toast-500 hover:text-toast-700 underline"
+        (click)="resetEmailDemo()"
+      >
+        Reset demo
+      </button>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border rounded-md">
+        <div class="bg-white">
+          <div class="py-2 px-4 border-b text-xs font-medium text-toast-600 bg-gray-50 rounded-t-md">
+            TypeScript
+          </div>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="controlSnippet" language="typescript" />
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+    <!-- ── FormGroup demo ── -->
+    @if (activeTab === 'group') {
+    <div class="col-span-1 flex flex-col gap-3">
+      <div>
+        <p class="font-semibold text-toast-900">Live Registration Form</p>
+        <p class="text-sm text-toast-600 mt-1">
+          A <code>FormGroup</code> with name and password controls.
+          Toasts appear only after you click <strong>Register</strong>.
+        </p>
+      </div>
+
+      <form [formGroup]="registrationForm" class="flex flex-col gap-3">
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-toast-700" for="name-demo">Name</label>
+          <input
+            id="name-demo"
+            type="text"
+            formControlName="name"
+            placeholder="Ada Lovelace"
+            class="w-full rounded-lg border border-toast-300 px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-toast-500 focus:border-toast-500
+                   placeholder:text-gray-400"
+          />
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-toast-700" for="password-demo">Password</label>
+          <input
+            id="password-demo"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            class="w-full rounded-lg border border-toast-300 px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-toast-500 focus:border-toast-500
+                   placeholder:text-gray-400"
+          />
+        </div>
+      </form>
+
+      <div class="flex items-center gap-2">
+        <span
+          class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
+          [class.bg-red-100]="registrationForm.status === 'INVALID'"
+          [class.text-red-700]="registrationForm.status === 'INVALID'"
+          [class.bg-green-100]="registrationForm.status === 'VALID'"
+          [class.text-green-700]="registrationForm.status === 'VALID'"
+          [class.bg-gray-100]="registrationForm.status === 'DISABLED'"
+          [class.text-gray-500]="registrationForm.status === 'DISABLED'"
+        >
+          {{ registrationForm.status }}
+        </span>
+      </div>
+
+      <button
+        id="submit-registration-demo"
+        type="button"
+        class="w-full rounded-lg bg-toast-700 text-white text-sm font-semibold py-2 px-4
+               hover:bg-toast-800 active:translate-y-px transition-colors"
+        (click)="submitRegistrationDemo()"
+      >
+        Register
+      </button>
+
+      <button
+        class="self-start text-xs text-toast-500 hover:text-toast-700 underline"
+        (click)="resetRegistrationDemo()"
+      >
+        Reset demo
+      </button>
+    </div>
+
+    <div class="sm:col-span-1 md:col-span-2">
+      <div class="shadow border rounded-md">
+        <div class="bg-white">
+          <div class="py-2 px-4 border-b text-xs font-medium text-toast-600 bg-gray-50 rounded-t-md">
+            TypeScript
+          </div>
+          <div class="mb-4 px-4 max-w-full">
+            <app-code [snippet]="groupSnippet" language="typescript" />
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+  </section>
+</div>

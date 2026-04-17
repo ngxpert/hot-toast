@@ -18,6 +18,7 @@ import { HttpInterceptorDocComponent } from '../../sections/http-interceptor-doc
 import { ToastContainerComponent } from '../../sections/toast-container/toast-container.component';
 import { PopoverComponent } from '../../sections/popover/popover.component';
 import { ThemesComponent } from '../../sections/themes/themes.component';
+import { FormIntegrationComponent } from '../../sections/form-integration/form-integration.component';
 // import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-home',
@@ -37,6 +38,7 @@ import { ThemesComponent } from '../../sections/themes/themes.component';
     HttpInterceptorDocComponent,
     PopoverComponent,
     ThemesComponent,
+    FormIntegrationComponent,
     // JumpToDialogComponent,
   ],
 })
