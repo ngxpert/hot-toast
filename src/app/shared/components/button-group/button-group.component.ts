@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass } from '@angular/common';
 
 export type ButtonGroupItem = {
@@ -13,6 +13,7 @@ export type ButtonGroupItem = {
   selector: 'app-button-group',
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass],
 })
 export class ButtonGroupComponent {

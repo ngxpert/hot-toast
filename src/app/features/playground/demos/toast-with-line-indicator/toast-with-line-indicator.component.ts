@@ -1,9 +1,10 @@
-import { Component, inject, TemplateRef, viewChild } from '@angular/core';
+import { Component, inject, TemplateRef, viewChild, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-toast-with-line-indicator',
   templateUrl: './toast-with-line-indicator.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./toast-with-line-indicator.component.scss'],
 })
 export class ToastWithLineIndicatorComponent {

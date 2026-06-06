@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -23,6 +23,7 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     NgClass,
     NgStyle,
@@ -114,12 +115,14 @@ export class HomeComponent {
 @Component({
   selector: 'app-icon',
   template: '✋',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class IconComponent {}
 @Component({
   selector: 'app-msg',
   template: 'Hey, how are you?',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class MessageComponent {}

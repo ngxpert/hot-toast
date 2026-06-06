@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
 @Component({
   selector: 'app-steps',
   templateUrl: './steps.component.html',
   styleUrls: ['./steps.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CodeComponent],
 })
 export class StepsComponent {

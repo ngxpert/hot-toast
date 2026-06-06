@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService, ToastStacking } from '@ngxpert/hot-toast';
 import { ButtonGroupItem } from 'src/app/shared/components/button-group/button-group.component';
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -6,13 +6,10 @@ import { FormsModule } from '@angular/forms';
 import { ButtonGroupComponent } from '../../shared/components/button-group/button-group.component';
 
 @Component({
-    selector: 'app-stacking',
-    templateUrl: './stacking.component.html',
-    imports: [
-        ButtonGroupComponent,
-        FormsModule,
-        CodeComponent,
-    ]
+  selector: 'app-stacking',
+  templateUrl: './stacking.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [ButtonGroupComponent, FormsModule, CodeComponent],
 })
 export class StackingComponent {
   stacking: ToastStacking;

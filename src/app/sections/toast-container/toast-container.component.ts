@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
 @Component({
   selector: 'app-toast-container',
   imports: [CodeComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './toast-container.component.html',
 })
 export class ToastContainerComponent {

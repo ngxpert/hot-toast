@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -6,6 +6,7 @@ import { CodeComponent } from '../../shared/components/code/code.component';
 @Component({
   selector: 'app-http-interceptor-doc',
   imports: [CodeComponent, RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './http-interceptor-doc.component.html',
 })
 export class HttpInterceptorDocComponent {

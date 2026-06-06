@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { HighlightCodePipe } from '../../pipes/highlight-code.pipe';
 import { HtmlPipe } from '../../pipes/html.pipe';
@@ -7,6 +7,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
   selector: 'app-code',
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgClass, HighlightCodePipe, HtmlPipe, ClipboardModule],
 })
 export class CodeComponent {

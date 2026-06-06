@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-angular-logo',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 223 236" width="24" class="angular-logo">
     <g clip-path="url(#a)">
       <path
@@ -37,6 +38,7 @@ export class AngularLogoComponent {}
 
 @Component({
   selector: 'app-toast-with-custom-style',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <button
       (click)="showToast()"

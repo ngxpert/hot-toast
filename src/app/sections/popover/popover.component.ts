@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
@@ -14,6 +14,7 @@ type PopoverDemo = {
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [CodeComponent],
 })
 export class PopoverComponent {

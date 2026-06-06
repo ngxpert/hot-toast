@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService, ToastPosition } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -12,10 +12,11 @@ interface Position {
 }
 
 @Component({
-    selector: 'app-position',
-    templateUrl: './position.component.html',
-    styleUrls: ['./position.component.scss'],
-    imports: [EmojiButtonComponent, CodeComponent]
+  selector: 'app-position',
+  templateUrl: './position.component.html',
+  styleUrls: ['./position.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [EmojiButtonComponent, CodeComponent],
 })
 export class PositionComponent implements OnInit {
   positionExamples: Position[] = [

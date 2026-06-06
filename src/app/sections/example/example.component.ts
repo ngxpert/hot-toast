@@ -1,4 +1,13 @@
-import { Component, Inject, Injector, OnInit, Optional, ViewChild, signal } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Injector,
+  OnInit,
+  Optional,
+  ViewChild,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -24,6 +33,7 @@ export interface Example {
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
 })
 export class ExampleComponent implements OnInit {
@@ -41,7 +51,10 @@ export class ExampleComponent implements OnInit {
     { label: 'HTML', value: 'html' },
   ];
 
-  constructor(private toast: HotToastService, private parent: Injector) {}
+  constructor(
+    private toast: HotToastService,
+    private parent: Injector,
+  ) {}
 
   ngOnInit(): void {
     const examples: Example[] = [
@@ -159,7 +172,7 @@ export class ExampleComponent implements OnInit {
           from(
             new Promise((res, rej) => {
               setTimeout(Math.random() > 0.5 ? res : rej, 1000);
-            })
+            }),
           )
             .pipe(
               this.toast.observe({
@@ -167,7 +180,7 @@ export class ExampleComponent implements OnInit {
                 success: this.successTemplate,
                 error: this.errorTemplate,
               }),
-              catchError((error) => of(error))
+              catchError((error) => of(error)),
             )
             .subscribe();
         },
@@ -195,7 +208,7 @@ export class ExampleComponent implements OnInit {
             {
               autoClose: false,
               dismissible: true,
-            }
+            },
           );
         },
       },
@@ -368,7 +381,7 @@ export class ExampleComponent implements OnInit {
           });
           setTimeout(() => {
             ref.updateMessage(
-              `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+              `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
             );
           }, 3000);
         },
@@ -433,7 +446,7 @@ export class ExampleComponent implements OnInit {
         action: () => {
           const supportType = 'ground support';
           this.toast.show(
-            `I don't know why I am <i>tilted</i>! Maybe I need some <u class="bg-toast-100">${supportType}</u>.`
+            `I don't know why I am <i>tilted</i>! Maybe I need some <u class="bg-toast-100">${supportType}</u>.`,
           );
         },
       },
@@ -616,6 +629,7 @@ export class ExampleComponent implements OnInit {
 @Component({
   selector: 'app-dummy',
   template: 'Hi 👋 from the component!',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class DummyComponent {}
@@ -623,6 +637,7 @@ export class DummyComponent {}
 @Component({
   selector: 'app-injector',
   template: '{{ message }}',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class InjectorComponent {
@@ -636,6 +651,7 @@ interface DataType {
 @Component({
   selector: 'app-data',
   template: '{{ toastRef.data.fact }}',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class DataComponent {

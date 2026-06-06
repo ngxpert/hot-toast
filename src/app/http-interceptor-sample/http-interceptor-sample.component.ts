@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { environment } from '../../environments/environment';
@@ -69,6 +69,7 @@ const SAMPLE_API_ENDPOINTS: readonly SampleApiEndpoint[] = [
 @Component({
   selector: 'app-http-interceptor-sample',
   imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './http-interceptor-sample.component.html',
 })
 export class HttpInterceptorSampleComponent {

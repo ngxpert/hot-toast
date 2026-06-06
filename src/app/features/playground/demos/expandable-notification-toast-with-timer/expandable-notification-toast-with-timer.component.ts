@@ -8,6 +8,7 @@ import {
   DestroyRef,
   computed,
   effect,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CreateHotToastRef, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
@@ -24,6 +25,7 @@ type ToastData = {
 @Component({
   selector: 'app-expandable-notification-toast-with-timer',
   templateUrl: './expandable-notification-toast-with-timer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./expandable-notification-toast-with-timer.component.scss'],
 })
 export class ExpandableNotificationToastWithTimerComponent implements OnDestroy {

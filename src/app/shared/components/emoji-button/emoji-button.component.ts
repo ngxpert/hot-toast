@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
 import { NgStyle } from '@angular/common';
 
 @Component({
@@ -6,6 +6,7 @@ import { NgStyle } from '@angular/common';
   templateUrl: './emoji-button.component.html',
   styleUrls: ['./emoji-button.component.scss'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgStyle],
 })
 export class EmojiButtonComponent {

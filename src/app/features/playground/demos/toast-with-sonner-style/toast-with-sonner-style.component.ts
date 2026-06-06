@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-playground-sonner-success-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" height="20" width="20">
       <path
@@ -17,6 +18,7 @@ export class SuccessIconComponent {}
 
 @Component({
   selector: 'app-playground-sonner-error-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" height="20" width="20">
       <path
@@ -31,6 +33,7 @@ export class ErrorIconComponent {}
 
 @Component({
   selector: 'app-playground-sonner-info-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" height="20" width="20">
       <path
@@ -45,6 +48,7 @@ export class InfoIconComponent {}
 
 @Component({
   selector: 'app-playground-sonner-warning-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" height="20" width="20">
       <path
@@ -59,6 +63,7 @@ export class WarningIconComponent {}
 
 @Component({
   selector: 'app-playground-sonner-close-icon',
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -83,11 +88,12 @@ type ToastType = 'default' | 'success' | 'error' | 'info' | 'warning';
 @Component({
   selector: 'app-toast-with-sonner-style',
   templateUrl: './toast-with-sonner-style.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     button {
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
-    
+
     button:active {
       transform: translateY(1px);
     }

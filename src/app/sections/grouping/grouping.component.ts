@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../example/example.component';
 import { CreateHotToastRef, HotToastGroupChild, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { Content } from '@ngneat/overview';
@@ -10,10 +10,11 @@ import { preGroupingTS, preGroupingHTML, preGroupingCSS, postGroupingTS } from '
 import { HotToastBuilder } from '@ngxpert/hot-toast';
 
 @Component({
-    selector: 'app-grouping',
-    templateUrl: 'grouping.component.html',
-    imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass, NgStyle],
-    styleUrls: ['./grouping.component.scss']
+  selector: 'app-grouping',
+  templateUrl: 'grouping.component.html',
+  imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass, NgStyle],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./grouping.component.scss'],
 })
 export class GroupingComponent implements OnInit {
   toast = inject(HotToastService);

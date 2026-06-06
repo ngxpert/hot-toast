@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { NgClass, NgComponentOutlet, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PLAYGROUND_ITEMS } from './playground';
@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [NgClass, NgStyle, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./playground.component.scss'],
 })
 export class PlaygroundComponent {
@@ -30,7 +31,7 @@ export class PlaygroundComponent {
     return this.allDemos.filter(
       (demo) =>
         demo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        demo.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        demo.description?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   });
 }
