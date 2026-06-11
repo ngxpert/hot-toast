@@ -156,7 +156,7 @@ npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@4
 npm install @ngneat/overview@6.1.1 @ngxpert/hot-toast@5
 
 # For Angular version >= 21
-npm install @ngneat/overview@7.0.0 @ngxpert/hot-toast@6
+npm install @ngneat/overview@8.0.0 @ngxpert/hot-toast@6
 ```
 
 </details>

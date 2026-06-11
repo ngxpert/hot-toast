@@ -12,7 +12,7 @@
     "@angular/common": ">= 21.0.0",
     "@angular/core": ">= 21.0.0",
     "@angular/forms": ">= 21.0.0",
-    "@ngneat/overview": ">= 7.0.0"
+    "@ngneat/overview": ">= 8.0.0"
   },
   "peerDependenciesMeta": {
     "@angular/forms": {
