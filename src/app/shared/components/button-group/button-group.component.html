@@ -10,7 +10,7 @@
         'bg-toast-100 border border-toast-300': button.value === selectedValue(),
         'bg-white': button.value !== selectedValue(),
       }"
-      (click)="button.onClick()"
+      (click)="button.onClick?.()"
     >
       @if (button.icon) {
         <img alt="Button icon" [src]="button.icon" class="w-5 h-5 mr-2" aria-hidden="true" />

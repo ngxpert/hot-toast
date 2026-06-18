@@ -14,15 +14,15 @@ import {
 } from './hot-toast.model';
 
 export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps<DataType> {
-  updateMessage: (message: Content) => void;
-  updateToast: (options: UpdateToastOptions<DataType>) => void;
-  afterClosed: Observable<HotToastClose>;
-  afterGroupToggled: Observable<HotToastGroupEvent>;
-  afterGroupRefsAttached: Observable<CreateHotToastRef<unknown>[]>;
+  updateMessage!: (message: Content) => void;
+  updateToast!: (options: UpdateToastOptions<DataType>) => void;
+  afterClosed!: Observable<HotToastClose>;
+  afterGroupToggled!: Observable<HotToastGroupEvent>;
+  afterGroupRefsAttached!: Observable<CreateHotToastRef<unknown>[]>;
   groupRefs: CreateHotToastRef<unknown>[] = [];
   groupExpanded = false;
 
-  private _dispose: () => void;
+  private _dispose!: () => void;
 
   /** Subject for notifying the user that the toast has been closed. */
   private _onClosed = new Subject<HotToastClose>();
@@ -37,7 +37,7 @@ export class HotToastRef<DataType = DefaultDataType> implements HotToastRefProps
   }
 
   get data() {
-    return this.toast.data;
+    return this.toast.data as DataType;
   }
 
   set dispose(value: () => void) {

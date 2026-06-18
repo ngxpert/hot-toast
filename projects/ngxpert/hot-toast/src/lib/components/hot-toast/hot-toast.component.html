@@ -35,7 +35,7 @@
       </div>
 
       <div class="hot-toast-message">
-        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector" />
+        <ng-container *dynamicView="toast.message!; context: context; injector: toastComponentInjector" />
       </div>
 
       @if (toast.group?.expandAndCollapsible && toast.group?.children && visibleToasts.length > 0) {
@@ -68,7 +68,7 @@
       @for (item of groupChildrenToasts; track item.id) {
       <hot-toast-group-item [toast]="item"
         [offset]="calculateOffset(item.id)"
-        [toastRef]="toastRef().groupRefs[$index]"
+        [toastRef]="toastRef()?.groupRefs?.[$index]!"
         [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
         [defaultConfig]="defaultConfig()"
         [isShowingAllToasts]="isShowingAllToasts()"

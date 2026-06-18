@@ -1,9 +1,7 @@
 import { FormControlStatus } from '@angular/forms';
 import { ToastType } from './hot-toast.model';
 
-export const HOT_TOAST_DEFAULT_TIMEOUTS: {
-  [key in ToastType]: number;
-} = {
+export const HOT_TOAST_DEFAULT_TIMEOUTS: Record<ToastType, number> = {
   blank: 4000,
   error: 4000,
   success: 4000,

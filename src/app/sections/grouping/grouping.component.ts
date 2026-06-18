@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Example } from '../example/example.component';
 import { CreateHotToastRef, HotToastGroupChild, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { Content } from '@ngneat/overview';
@@ -19,10 +19,10 @@ import { HotToastBuilder } from '@ngxpert/hot-toast';
 export class GroupingComponent implements OnInit {
   toast = inject(HotToastService);
   examples: Example[] = [];
-  @ViewChild('groupTemplate') ngTemplateGroup;
-  @ViewChild('groupItemTemplate') ngTemplateGroupItem;
+  @ViewChild('groupTemplate') ngTemplateGroup!: TemplateRef<any>;
+  @ViewChild('groupItemTemplate') ngTemplateGroupItem!: TemplateRef<any>;
 
-  parentRef: CreateHotToastRef<unknown>;
+  parentRef!: CreateHotToastRef<unknown>;
 
   private notificationCounter = 0;
 

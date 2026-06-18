@@ -36,14 +36,14 @@ import { HotToastService } from '../../hot-toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HotToastComponent],
   host: {
-    '[attr.popover]': 'defaultConfig().usePopover ? "manual" : undefined',
-    '[class.hot-toast-container-overlay-popover]': 'defaultConfig().usePopover',
+    '[attr.popover]': 'defaultConfig()?.usePopover ? "manual" : undefined',
+    '[class.hot-toast-container-overlay-popover]': 'defaultConfig()?.usePopover',
   },
 })
 export class HotToastContainerComponent implements OnDestroy {
   readonly defaultConfig = input<ToastConfig>();
 
-  @ViewChildren(HotToastComponent) hotToastComponentList: QueryList<HotToastComponent>;
+  @ViewChildren(HotToastComponent) hotToastComponentList!: QueryList<HotToastComponent>;
 
   toasts: Toast<unknown>[] = [];
   toastRefs: CreateHotToastRef<unknown>[] = [];
@@ -68,7 +68,7 @@ export class HotToastContainerComponent implements OnDestroy {
 
   constructor() {
     afterNextRender(() => {
-      if (this.defaultConfig().usePopover) {
+      if (this.defaultConfig()?.usePopover) {
         // We need the try/catch because the browser will throw if the
         // host or any of the parents are outside the DOM. Also note
         // the string access which is there for compatibility with Closure.
@@ -103,13 +103,14 @@ export class HotToastContainerComponent implements OnDestroy {
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig().reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+        ? visibleToasts.slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
+            const defaultConfig = this.defaultConfig();
             const toastsAfter = visibleToasts.length - 1 - i;
-            return this.defaultConfig().visibleToasts !== 0 &&
-              i < visibleToasts.length - this.defaultConfig().visibleToasts
+            return defaultConfig?.visibleToasts !== 0 &&
+              i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
               ? 0
               : acc +
-                  (this.defaultConfig().stacking === 'vertical' || this.isShowingAllToasts
+                  (defaultConfig?.stacking === 'vertical' || this.isShowingAllToasts
                     ? t.height || 0
                     : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
                   HOT_TOAST_MARGIN;
@@ -130,8 +131,8 @@ export class HotToastContainerComponent implements OnDestroy {
 
     this.toasts.push(ref.getToast());
 
-    if (this.defaultConfig().visibleToasts !== 0 && this.unGroupedToasts.length > this.defaultConfig().visibleToasts) {
-      const closeToasts = this.toasts.slice(0, this.toasts.length - this.defaultConfig().visibleToasts);
+    if (this.defaultConfig()?.visibleToasts !== 0 && this.unGroupedToasts.length > (this.defaultConfig()?.visibleToasts ?? 0)) {
+      const closeToasts = this.toasts.slice(0, this.toasts.length - (this.defaultConfig()?.visibleToasts ?? 0));
       closeToasts.forEach((t) => {
         if (t.autoClose) {
           this.closeToast(t.id);
@@ -194,7 +195,7 @@ export class HotToastContainerComponent implements OnDestroy {
           const existingGroup = this.toasts[parentToastRefIndex].group ?? {};
           const existingChildren = this.toasts[parentToastRefIndex].group?.children ?? [];
 
-          existingChildren.push({ options: { ...toast, type: toast.type, message: toast.message } });
+          existingChildren.push({ options: { ...toast, type: toast.type, message: toast.message! } });
           existingGroup.children = existingChildren;
 
           this.toasts[parentToastRefIndex].group = { ...existingGroup };
@@ -210,8 +211,8 @@ export class HotToastContainerComponent implements OnDestroy {
   private createGroupRefs<DataType>(toast: Toast<DataType>, ref: HotToastRef<DataType>) {
     const skipAttachToParent = true;
     return new Promise<CreateHotToastRef<unknown>[]>((resolve) => {
-      const items = toast.group.children;
-      const allPromises: Promise<CreateHotToastRef<unknown>>[] = items.map((item) => {
+      const items = toast.group?.children;
+      const allPromises: Promise<CreateHotToastRef<unknown>>[] = (items || []).map((item) => {
         return new Promise((innerResolve) => {
           item.options.group = { parent: ref };
           // We need to give a tick's delay so that IDs are generated properly
@@ -221,7 +222,7 @@ export class HotToastContainerComponent implements OnDestroy {
               innerResolve(itemRef);
             } catch (error) {
               console.error('Error creating toast', error);
-              innerResolve(null);
+              innerResolve(null as unknown as CreateHotToastRef<unknown>);
             }
           });
         });
@@ -276,7 +277,7 @@ export class HotToastContainerComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.defaultConfig().usePopover) {
+    if (this.defaultConfig()?.usePopover) {
       // We need the try/catch because the browser will throw if the
       // host or any of the parents are outside the DOM. Also note
       // the string access which is there for compatibility with Closure.

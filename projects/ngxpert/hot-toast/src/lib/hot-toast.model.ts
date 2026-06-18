@@ -31,14 +31,14 @@ export class ToastConfig implements DefaultToastOptions {
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';
-  className: string;
-  closeStyle: Record<string, string>;
-  dismissible: boolean;
+  className?: string;
+  closeStyle?: Record<string, string>;
+  dismissible?: boolean;
   autoClose = true;
-  duration: number;
-  icon: Content;
-  iconTheme: IconTheme;
-  style: Record<string, string>;
+  duration?: number;
+  icon?: Content;
+  iconTheme?: IconTheme;
+  style?: Record<string, string>;
   theme: ToastTheme = 'toast';
   attributes: Record<string, string> = {};
 
@@ -285,9 +285,7 @@ export type ToastOptions<DataType> = Partial<
   >
 >;
 
-export type DefaultToastOptions = ToastOptions<unknown> & {
-  [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
-};
+export type DefaultToastOptions = ToastOptions<unknown> & Partial<Record<ToastType, ToastOptions<unknown> & { content?: Content }>>;
 
 export type ObservableLoading<DataType> = {
   content: Content;
@@ -445,9 +443,7 @@ export type FormToastStateConfig<TControl extends AbstractControl> = {
  * Options map for `fromForm`, keyed by Angular's `FormControlStatus`.
  * Omitting a status key means no toast is shown for that status.
  */
-export type FormToastOptions<TControl extends AbstractControl> = {
-  [K in FormControlStatus]?: FormToastStateConfig<TControl>;
-};
+export type FormToastOptions<TControl extends AbstractControl> = Partial<Record<FormControlStatus, FormToastStateConfig<TControl>>>;
 
 /**
  * Ref returned by `fromForm`.

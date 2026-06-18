@@ -13,6 +13,7 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
+      "@typescript-eslint/consistent-type-definitions": "off",
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -42,6 +43,7 @@ module.exports = tseslint.config(
   {
     files: ["projects/ngxpert/hot-toast/**/*.ts"],
     rules: {
+      "@typescript-eslint/consistent-type-definitions": "off",
       "@angular-eslint/directive-selector": [
         "error",
         {

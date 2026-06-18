@@ -6,9 +6,9 @@
         } @else {
           <hot-toast-component
             [toast]="toast"
-            [offset]="calculateOffset(toast.id, toast.position)"
+            [offset]="calculateOffset(toast.id, toast.position!)"
             [toastRef]="toastRefs[$index]"
-            [toastsAfter]="(toast.autoClose ? toasts.length : getVisibleToasts(toast.position).length) - 1 - $index"
+            [toastsAfter]="(toast.autoClose ? toasts.length : getVisibleToasts(toast.position!).length) - 1 - $index"
             [defaultConfig]="defaultConfig()"
             [isShowingAllToasts]="isShowingAllToasts"
             (showAllToasts)="showAllToasts($event)"

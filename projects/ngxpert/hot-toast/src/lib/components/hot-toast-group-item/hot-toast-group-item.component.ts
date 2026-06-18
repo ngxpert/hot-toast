@@ -33,18 +33,18 @@ import { animate } from '../../utils';
   imports: [AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
 export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
-  private _toast: Toast<unknown>;
+  private _toast!: Toast<unknown>;
   @Input()
   set toast(value: Toast<unknown>) {
     this._toast = value;
     const ogStyle = this.toastBarBaseStylesSignal();
     const newStyle: Record<string, string> = { ...value.style };
 
-    if (ogStyle['animation']?.includes('hotToastExitAnimation')) {
+    if ((ogStyle as Record<string, string>)['animation']?.includes('hotToastExitAnimation')) {
       // if toast is set for exit, we don't need want set the enter animation
-      newStyle['animation'] = ogStyle['animation'];
+      (newStyle as Record<string, string>)['animation'] = (ogStyle as Record<string, string>)['animation'];
     } else {
-      const top = value.position.includes('top');
+      const top = value.position?.includes('top');
       const enterAnimation = `hotToastEnterAnimation${
         top ? 'Negative' : 'Positive'
       } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
@@ -77,11 +77,11 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   readonly showAllToasts = output<boolean>();
   readonly toggleGroup = output<HotToastGroupEvent>();
 
-  @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase: ElementRef<HTMLElement>;
+  @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase!: ElementRef<HTMLElement>;
 
   isManualClose = false;
-  context: Record<string, unknown>;
-  toastComponentInjector: Injector;
+  context!: Record<string, unknown>;
+  toastComponentInjector!: Injector;
   toastBarBaseStylesSignal = signal({});
 
   private unlisteners: VoidFunction[] = [];
@@ -97,7 +97,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get scale() {
-    return this.defaultConfig().stacking !== 'vertical' && !this.isShowingAllToasts()
+    return this.defaultConfig()?.stacking !== 'vertical' && !this.isShowingAllToasts()
       ? this.toastsAfter * -HOT_TOAST_DEPTH_SCALE + 1
       : 1;
   }
@@ -111,18 +111,18 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get top() {
-    return this.toast.position.includes('top');
+    return this.toast.position?.includes('top');
   }
 
   get containerPositionStyle() {
     const verticalStyle = this.top ? { top: 0 } : { bottom: 0 };
     const transform = `translateY(var(--hot-toast-translate-y)) scale(var(--hot-toast-scale))`;
 
-    const horizontalStyle = this.toast.position.includes('left')
+    const horizontalStyle = this.toast.position?.includes('left')
       ? {
           left: 0,
         }
-      : this.toast.position.includes('right')
+      : this.toast.position?.includes('right')
         ? {
             right: 0,
           }
@@ -143,7 +143,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get groupChildrenToastRefs() {
-    return this.toastRef().groupRefs.filter((ref) => !!ref);
+    return this.toastRef()?.groupRefs?.filter((ref) => !!ref) || [];
   }
   set groupChildrenToastRefs(value: CreateHotToastRef<unknown>[]) {
     (this.toastRef() as { groupRefs: CreateHotToastRef<unknown>[] }).groupRefs = value;
@@ -154,11 +154,11 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   get groupHeight() {
-    return this.visibleToasts.map((t) => t.height).reduce((prev, curr) => prev + curr, 0);
+    return this.visibleToasts.map((t) => t.height).reduce((prev, curr) => (prev || 0) + (curr || 0), 0);
   }
 
   get isExpanded() {
-    return this.toastRef().groupExpanded;
+    return this.toastRef()?.groupExpanded ?? false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -271,7 +271,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   ngOnDestroy() {
     this.close();
     while (this.unlisteners.length) {
-      this.unlisteners.pop()();
+      this.unlisteners.pop()?.();
     }
   }
 
@@ -284,7 +284,7 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   private setToastAttributes() {
-    const toastAttributes: Record<string, string> = this.toast.attributes;
+    const toastAttributes: Record<string, string> = this.toast.attributes || {};
     for (const [key, value] of Object.entries(toastAttributes)) {
       this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
     }

@@ -26,7 +26,7 @@ function addHotToastConfig(options: Schema): Rule {
 
     // The `addRootProvider` rule can throw in some custom scenarios (see #28640).
     // Add some error handling around it so the setup isn't interrupted.
-    return callRule(hotToastConfigRule, host, context).pipe(
+    return callRule(hotToastConfigRule as unknown as Rule, host, context).pipe(
       // @ts-expect-error ignore the error
       catchError(() => {
         context.logger.error(

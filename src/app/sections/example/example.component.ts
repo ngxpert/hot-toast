@@ -5,6 +5,7 @@ import {
   OnInit,
   Optional,
   ViewChild,
+  TemplateRef,
   signal,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -37,10 +38,10 @@ export interface Example {
   imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
 })
 export class ExampleComponent implements OnInit {
-  @ViewChild('success') successTemplate;
-  @ViewChild('error') errorTemplate;
-  @ViewChild('template') ngTemplate;
-  @ViewChild('templateContext') ngTemplateContext;
+  @ViewChild('success') successTemplate!: TemplateRef<any>;
+  @ViewChild('error') errorTemplate!: TemplateRef<any>;
+  @ViewChild('template') ngTemplate!: TemplateRef<any>;
+  @ViewChild('templateContext') ngTemplateContext!: TemplateRef<any>;
 
   examples: Example[] = [];
 

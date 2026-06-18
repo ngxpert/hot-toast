@@ -83,7 +83,8 @@ function addThemeStyleToTarget(
   assetPath: string,
   logger: logging.LoggerApi,
 ): Rule {
-  return updateWorkspace((workspace) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return updateWorkspace((workspace: any) => {
     const project = getProjectFromWorkspace(workspace, projectName);
 
     // Do not update the builder options in case the target does not use the default CLI builder.
@@ -99,7 +100,8 @@ function addThemeStyleToTarget(
     } else {
       styles.unshift(assetPath);
     }
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }) as any;
 }
 
 /**
