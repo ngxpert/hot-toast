@@ -103,6 +103,8 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   toastBarBaseStylesSignal = signal<Record<string, string>>({});
 
   private unlisteners: VoidFunction[] = [];
+  private rafIds: number[] = [];
+  private destroyed = false;
   private softClosed = false;
   private groupRefs: CreateHotToastRef<unknown>[] = [];
 
@@ -261,9 +263,12 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     const nativeElement = this.toastBarBase.nativeElement;
     // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
     // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
+      this.rafIds = this.rafIds.filter((id) => id !== rafId);
+      if (this.destroyed) return;
       this.height.emit(nativeElement.offsetHeight);
     });
+    this.rafIds.push(rafId);
 
     this.setToastAttributes();
   }
@@ -313,6 +318,10 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   }
 
   ngOnDestroy() {
+    this.destroyed = true;
+    while (this.rafIds.length) {
+      cancelAnimationFrame(this.rafIds.pop());
+    }
     this.close();
     while (this.unlisteners.length) {
       this.unlisteners.pop()();
@@ -384,13 +393,19 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
   private emiHeightWithGroup(isExpanded: boolean) {
     if (isExpanded) {
-      requestAnimationFrame(() => {
+      const rafId = requestAnimationFrame(() => {
+        this.rafIds = this.rafIds.filter((id) => id !== rafId);
+        if (this.destroyed) return;
         this.height.emit(this.toastBarBase.nativeElement.offsetHeight + this.groupHeight);
       });
+      this.rafIds.push(rafId);
     } else {
-      requestAnimationFrame(() => {
+      const rafId = requestAnimationFrame(() => {
+        this.rafIds = this.rafIds.filter((id) => id !== rafId);
+        if (this.destroyed) return;
         this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
       });
+      this.rafIds.push(rafId);
     }
   }
 }
