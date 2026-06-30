@@ -41,7 +41,7 @@ import { HotToastService } from '../../hot-toast.service';
   },
 })
 export class HotToastContainerComponent implements OnDestroy {
-  readonly defaultConfig = input<ToastConfig>();
+  readonly defaultConfig = input.required<ToastConfig>();
 
   @ViewChildren(HotToastComponent) hotToastComponentList!: QueryList<HotToastComponent>;
 
@@ -98,23 +98,25 @@ export class HotToastContainerComponent implements OnDestroy {
     );
   }
 
-  calculateOffset(toastId: string, position: ToastPosition) {
-    const visibleToasts = this.getVisibleToasts(position);
+  calculateOffset(toastId: string, position: ToastPosition | undefined) {
+    const visibleToasts = this.getVisibleToasts(position ?? 'top-center');
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-            const defaultConfig = this.defaultConfig();
-            const toastsAfter = visibleToasts.length - 1 - i;
-            return defaultConfig?.visibleToasts !== 0 &&
-              i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
-              ? 0
-              : acc +
-                  (defaultConfig?.stacking === 'vertical' || this.isShowingAllToasts
-                    ? t.height || 0
-                    : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
-                  HOT_TOAST_MARGIN;
-          }, 0)
+        ? visibleToasts
+            .slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index]))
+            .reduce((acc, t, i) => {
+              const defaultConfig = this.defaultConfig();
+              const toastsAfter = visibleToasts.length - 1 - i;
+              return defaultConfig?.visibleToasts !== 0 &&
+                i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
+                ? 0
+                : acc +
+                    (defaultConfig?.stacking === 'vertical' || this.isShowingAllToasts
+                      ? t.height || 0
+                      : toastsAfter * HOT_TOAST_DEPTH_SCALE + HOT_TOAST_DEPTH_SCALE_ADD) +
+                    HOT_TOAST_MARGIN;
+            }, 0)
         : 0;
     return offset;
   }
@@ -131,7 +133,10 @@ export class HotToastContainerComponent implements OnDestroy {
 
     this.toasts.push(ref.getToast());
 
-    if (this.defaultConfig()?.visibleToasts !== 0 && this.unGroupedToasts.length > (this.defaultConfig()?.visibleToasts ?? 0)) {
+    if (
+      this.defaultConfig()?.visibleToasts !== 0 &&
+      this.unGroupedToasts.length > (this.defaultConfig()?.visibleToasts ?? 0)
+    ) {
       const closeToasts = this.toasts.slice(0, this.toasts.length - (this.defaultConfig()?.visibleToasts ?? 0));
       closeToasts.forEach((t) => {
         if (t.autoClose) {

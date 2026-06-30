@@ -11,5 +11,5 @@ import { Content, DynamicViewDirective } from '@ngneat/overview';
 })
 export class AnimatedIconComponent {
   readonly iconTheme = input<IconTheme>();
-  readonly icon = input<Content>();
+  readonly icon = input<Content>('');
 }
