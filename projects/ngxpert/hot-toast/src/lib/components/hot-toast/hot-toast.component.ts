@@ -14,9 +14,9 @@ import {
   Renderer2,
   signal,
   untracked,
-  ViewChild,
   input,
   output,
+  viewChild,
 } from '@angular/core';
 import { DynamicViewDirective, isComponent, isTemplateRef } from '@ngneat/overview';
 
@@ -49,7 +49,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   readonly showAllToasts = output<boolean>();
   readonly toggleGroup = output<HotToastGroupEvent>();
 
-  @ViewChild('hotToastBarBase', { static: true }) private toastBarBase!: ElementRef<HTMLElement>;
+  private readonly toastBarBase = viewChild.required<ElementRef<HTMLElement>>('hotToastBarBase');
 
   isManualClose = false;
   context!: Record<string, unknown>;
@@ -126,7 +126,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   }
 
   get toastBarBaseHeight() {
-    return this.toastBarBase.nativeElement.offsetHeight;
+    return this.toastBarBase().nativeElement.offsetHeight;
   }
 
   get scale() {
@@ -231,7 +231,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
       });
     }
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
     // Caretaker note: `animationstart` and `animationend` events are event tasks that trigger change detection.
     // We'd want to trigger the change detection only if it's an exit animation.
     this.ngZone.runOutsideAngular(() => {
@@ -258,7 +258,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
             });
           }
           if (this.isExitAnimation(event)) {
-            this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast().id }));
+            this.ngZone.run(() =>
+              this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast().id }),
+            );
           }
         }),
       );
@@ -266,7 +268,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   }
 
   ngAfterViewInit() {
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
     // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
     // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
     requestAnimationFrame(() => {
@@ -281,7 +283,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
       this.top ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
 
     animate(this.renderer, nativeElement, exitAnimation);
     this.softClosed = true;
@@ -296,7 +298,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
       top ? 'Negative' : 'Positive'
     } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
 
     animate(this.renderer, nativeElement, softEnterAnimation);
     this.softClosed = false;
@@ -338,7 +340,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   private setToastAttributes() {
     const toastAttributes: Record<string, string> = this.toast().attributes || {};
     for (const [key, value] of Object.entries(toastAttributes)) {
-      this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
+      this.renderer.setAttribute(this.toastBarBase().nativeElement, key, value);
     }
   }
 
@@ -347,12 +349,15 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
     const index = visibleToasts.findIndex((toast) => toast.id === toastId);
     const offset =
       index !== -1
-        ? visibleToasts.slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index])).reduce((acc, t, i) => {
-            const defaultConfig = this.defaultConfig();
-            return defaultConfig?.visibleToasts !== 0 && i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
-              ? 0
-              : acc + (t.height || 0);
-          }, 0)
+        ? visibleToasts
+            .slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index]))
+            .reduce((acc, t, i) => {
+              const defaultConfig = this.defaultConfig();
+              return defaultConfig?.visibleToasts !== 0 &&
+                i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
+                ? 0
+                : acc + (t.height || 0);
+            }, 0)
         : 0;
     return offset;
   }
@@ -393,11 +398,11 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   private emiHeightWithGroup(isExpanded: boolean) {
     if (isExpanded) {
       requestAnimationFrame(() => {
-        this.height.emit((this.toastBarBase?.nativeElement?.offsetHeight || 0) + (this.groupHeight || 0));
+        this.height.emit((this.toastBarBase()?.nativeElement?.offsetHeight || 0) + (this.groupHeight || 0));
       });
     } else {
       requestAnimationFrame(() => {
-        this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
+        this.height.emit(this.toastBarBase().nativeElement.offsetHeight);
       });
     }
   }

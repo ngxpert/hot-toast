@@ -2,14 +2,13 @@ import {
   Component,
   ChangeDetectionStrategy,
   inject,
-  QueryList,
-  ViewChildren,
   ChangeDetectorRef,
   input,
   afterNextRender,
   ElementRef,
   OnDestroy,
   isDevMode,
+  viewChildren,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -43,7 +42,7 @@ import { HotToastService } from '../../hot-toast.service';
 export class HotToastContainerComponent implements OnDestroy {
   readonly defaultConfig = input.required<ToastConfig>();
 
-  @ViewChildren(HotToastComponent) hotToastComponentList!: QueryList<HotToastComponent>;
+  readonly hotToastComponentList = viewChildren(HotToastComponent);
 
   toasts: Toast<unknown>[] = [];
   toastRefs: CreateHotToastRef<unknown>[] = [];
@@ -238,13 +237,13 @@ export class HotToastContainerComponent implements OnDestroy {
 
   closeToast(id?: string) {
     if (id) {
-      const comp = this.hotToastComponentList.find((item) => item.toast().id === id);
+      const comp = this.hotToastComponentList().find((item) => item.toast().id === id);
       if (comp) {
         comp.close();
         this.cdr.markForCheck();
       }
     } else {
-      this.hotToastComponentList.forEach((comp) => comp.close());
+      this.hotToastComponentList().forEach((comp) => comp.close());
       this.cdr.markForCheck();
     }
   }

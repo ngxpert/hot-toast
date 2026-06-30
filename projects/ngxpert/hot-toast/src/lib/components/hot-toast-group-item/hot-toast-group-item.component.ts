@@ -6,7 +6,6 @@ import {
   Injector,
   NgZone,
   Renderer2,
-  ViewChild,
   OnInit,
   AfterViewInit,
   OnDestroy,
@@ -15,7 +14,8 @@ import {
   inject,
   untracked,
   input,
-  output
+  output,
+  viewChild,
 } from '@angular/core';
 import { AnimatedIconComponent } from '../animated-icon/animated-icon.component';
 import { IndicatorComponent } from '../indicator/indicator.component';
@@ -46,7 +46,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   readonly showAllToasts = output<boolean>();
   readonly toggleGroup = output<HotToastGroupEvent>();
 
-  @ViewChild('hotToastBarBase', { static: true }) protected toastBarBase!: ElementRef<HTMLElement>;
+  protected readonly toastBarBase = viewChild.required<ElementRef<HTMLElement>>('hotToastBarBase');
 
   isManualClose = false;
   context!: Record<string, unknown>;
@@ -96,7 +96,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
       if (value?.message) {
         untracked(() => {
           requestAnimationFrame(() => {
-            this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
+            this.height.emit(this.toastBarBase().nativeElement.offsetHeight);
           });
         });
       }
@@ -104,7 +104,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   }
 
   get toastBarBaseHeight() {
-    return this.toastBarBase.nativeElement.offsetHeight;
+    return this.toastBarBase().nativeElement.offsetHeight;
   }
 
   get scale() {
@@ -188,7 +188,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
       });
     }
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
     // Caretaker note: `animationstart` and `animationend` events are event tasks that trigger change detection.
     // We'd want to trigger the change detection only if it's an exit animation.
     this.ngZone.runOutsideAngular(() => {
@@ -215,7 +215,9 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
             });
           }
           if (this.isExitAnimation(event)) {
-            this.ngZone.run(() => this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast().id }));
+            this.ngZone.run(() =>
+              this.afterClosed.emit({ dismissedByAction: this.isManualClose, id: this.toast().id }),
+            );
           }
         }),
       );
@@ -223,7 +225,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   }
 
   ngAfterViewInit() {
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
     // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
     // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
     requestAnimationFrame(() => {
@@ -238,7 +240,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
       this.top ? 'Negative' : 'Positive'
     } ${EXIT_ANIMATION_DURATION}ms forwards cubic-bezier(0.06, 0.71, 0.55, 1)`;
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
 
     animate(this.renderer, nativeElement, exitAnimation);
     this.softClosed = true;
@@ -248,7 +250,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
       top ? 'Negative' : 'Positive'
     } ${ENTER_ANIMATION_DURATION}ms cubic-bezier(0.21, 1.02, 0.73, 1) forwards`;
 
-    const nativeElement = this.toastBarBase.nativeElement;
+    const nativeElement = this.toastBarBase().nativeElement;
 
     animate(this.renderer, nativeElement, softEnterAnimation);
     this.softClosed = false;
@@ -289,7 +291,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   private setToastAttributes() {
     const toastAttributes: Record<string, string> = this.toast().attributes || {};
     for (const [key, value] of Object.entries(toastAttributes)) {
-      this.renderer.setAttribute(this.toastBarBase.nativeElement, key, value);
+      this.renderer.setAttribute(this.toastBarBase().nativeElement, key, value);
     }
   }
 

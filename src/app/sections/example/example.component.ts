@@ -4,10 +4,10 @@ import {
   Injector,
   OnInit,
   Optional,
-  ViewChild,
   TemplateRef,
   signal,
   ChangeDetectionStrategy,
+  viewChild,
 } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
@@ -38,10 +38,10 @@ export interface Example {
   imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
 })
 export class ExampleComponent implements OnInit {
-  @ViewChild('success') successTemplate!: TemplateRef<any>;
-  @ViewChild('error') errorTemplate!: TemplateRef<any>;
-  @ViewChild('template') ngTemplate!: TemplateRef<any>;
-  @ViewChild('templateContext') ngTemplateContext!: TemplateRef<any>;
+  readonly successTemplate = viewChild.required<TemplateRef<any>>('success');
+  readonly errorTemplate = viewChild.required<TemplateRef<any>>('error');
+  readonly ngTemplate = viewChild.required<TemplateRef<any>>('template');
+  readonly ngTemplateContext = viewChild.required<TemplateRef<any>>('templateContext');
 
   examples: Example[] = [];
 
@@ -178,8 +178,8 @@ export class ExampleComponent implements OnInit {
             .pipe(
               this.toast.observe({
                 loading: 'Saving...',
-                success: this.successTemplate,
-                error: this.errorTemplate,
+                success: this.successTemplate(),
+                error: this.errorTemplate(),
               }),
               catchError((error) => of(error)),
             )
@@ -468,7 +468,7 @@ export class ExampleComponent implements OnInit {
   </ng-template>`,
         },
         action: () => {
-          this.toast.show(this.ngTemplate, { autoClose: false });
+          this.toast.show(this.ngTemplate(), { autoClose: false });
         },
       },
       {
@@ -493,7 +493,7 @@ export class ExampleComponent implements OnInit {
   </ng-template>`,
         },
         action: () => {
-          this.toast.show(this.ngTemplateContext, {
+          this.toast.show(this.ngTemplateContext(), {
             autoClose: false,
             data: { fact: '1+1 = 2' },
           });
