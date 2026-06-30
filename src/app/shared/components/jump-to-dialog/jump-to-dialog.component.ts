@@ -1,5 +1,5 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { NgFor, NgStyle } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Content } from '@ngneat/overview';
@@ -25,7 +25,6 @@ import {
     ItemDirective,
     EmptyDirective,
     SeparatorComponent,
-    NgStyle,
     NgFor
   ],
 })

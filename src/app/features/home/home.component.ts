@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { NgStyle } from '@angular/common';
+
 // import { Dialog } from '@angular/cdk/dialog';
 
 import { REPO_URL } from '../../core/constants';
@@ -25,7 +25,6 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
-    NgStyle,
     FeaturesComponent,
     StepsComponent,
     ExampleComponent,
@@ -39,7 +38,6 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
     PopoverComponent,
     ThemesComponent,
     FormIntegrationComponent,
-    // JumpToDialogComponent,
   ],
 })
 export class HomeComponent {
