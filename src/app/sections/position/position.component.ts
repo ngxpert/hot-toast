@@ -15,7 +15,7 @@ interface Position {
   selector: 'app-position',
   templateUrl: './position.component.html',
   styleUrls: ['./position.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [EmojiButtonComponent, CodeComponent],
 })
 export class PositionComponent {

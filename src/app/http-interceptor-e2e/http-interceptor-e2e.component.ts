@@ -7,7 +7,7 @@ const E2E_HTTP_PREFIX = '/__hot-toast-e2e__/http';
 
 @Component({
   selector: 'app-http-interceptor-e2e',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="p-8 max-w-xl space-y-4">
       <h1 class="text-2xl font-bold">HTTP interceptor E2E</h1>

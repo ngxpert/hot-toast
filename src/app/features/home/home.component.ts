@@ -19,7 +19,7 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FeaturesComponent,
     StepsComponent,
@@ -66,14 +66,14 @@ export class HomeComponent {
 @Component({
   selector: 'app-icon',
   template: '✋',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class IconComponent {}
 @Component({
   selector: 'app-msg',
   template: 'Hey, how are you?',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class MessageComponent {}

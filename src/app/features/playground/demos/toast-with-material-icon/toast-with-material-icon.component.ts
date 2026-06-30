@@ -3,7 +3,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 @Component({
   selector: 'app-material-icon',
   template: `<span class="material-symbols-outlined icon-filled">favorite</span>`,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       .icon-filled {
@@ -29,7 +29,7 @@ export class MaterialIconComponent {
 
 @Component({
   selector: 'app-toast-with-material-icon',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<button
     (click)="showToast()"
     class="rounded-lg font-bold gap-4 flex bg-gradient-to-b from-toast-50 to-toast-200 shadow-button text-center py-4 px-6 active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform focus:outline-none focus:ring-4"

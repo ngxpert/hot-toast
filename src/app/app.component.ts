@@ -5,7 +5,7 @@ import { FooterComponent } from './sections/footer/footer.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     // JumpToDialogComponent,
     RouterOutlet,

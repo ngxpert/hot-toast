@@ -5,7 +5,7 @@ import { Component, input, output, ChangeDetectionStrategy } from '@angular/core
   templateUrl: './emoji-button.component.html',
   styleUrls: ['./emoji-button.component.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmojiButtonComponent {
   readonly emoji = input<string>();

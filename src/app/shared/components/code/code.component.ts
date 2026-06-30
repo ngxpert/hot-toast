@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, signal } from '@angular/core';
 import { HighlightCodePipe } from '../../pipes/highlight-code.pipe';
 import { HtmlPipe } from '../../pipes/html.pipe';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -6,7 +6,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
   selector: 'app-code',
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HighlightCodePipe, HtmlPipe, ClipboardModule],
 })
 export class CodeComponent {
@@ -16,12 +16,12 @@ export class CodeComponent {
   readonly hideCopyButton = input(false);
   readonly selectOnFocus = input(false);
 
-  isCopied = false;
+  readonly isCopied = signal(false);
 
   codeCopied() {
-    this.isCopied = true;
+    this.isCopied.set(true);
     setTimeout(() => {
-      this.isCopied = false;
+      this.isCopied.set(false);
     }, 3000);
   }
 }

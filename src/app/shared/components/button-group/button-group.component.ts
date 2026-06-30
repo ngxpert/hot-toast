@@ -12,7 +12,7 @@ export interface ButtonGroupItem {
   selector: 'app-button-group',
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonGroupComponent {
   readonly buttons = input<ButtonGroupItem[]>([]);

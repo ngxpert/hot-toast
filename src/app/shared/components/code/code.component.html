@@ -1,7 +1,7 @@
 <div class="relative">
   @if (!hideCopyButton()) {
   <button class="copy-btn" [cdkCopyToClipboard]="code.textContent ?? ''" (cdkCopyToClipboardCopied)="codeCopied()">
-    <img [src]="isCopied ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
+    <img [src]="isCopied() ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
   </button>
   }
   <div [class]="containerClass()">

@@ -17,7 +17,7 @@ interface DataType {
 
 @Component({
   selector: 'app-toast-with-confetti',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<button
     (click)="showToast()"
     class="rounded-lg font-bold gap-4 flex bg-gradient-to-b from-toast-50 to-toast-200 shadow-button text-center py-4 px-6 active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform focus:outline-none focus:ring-4"
@@ -52,7 +52,7 @@ export class ToastWithConfettiComponent {
 
 @Component({
   selector: 'app-toast-with-confetti-template',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: '{{ toastRef.data.starCount }} Stars on GitHub!',
 })
 export class ToastWithConfettiTemplateComponent implements AfterViewInit {

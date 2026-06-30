@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./playground.component.scss'],
 })
 export class PlaygroundComponent {

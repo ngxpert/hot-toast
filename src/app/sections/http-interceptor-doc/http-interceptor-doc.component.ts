@@ -6,7 +6,7 @@ import { CodeComponent } from '../../shared/components/code/code.component';
 @Component({
   selector: 'app-http-interceptor-doc',
   imports: [CodeComponent, RouterLink],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './http-interceptor-doc.component.html',
 })
 export class HttpInterceptorDocComponent {

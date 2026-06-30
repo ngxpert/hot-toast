@@ -25,7 +25,7 @@ interface ToastData {
 @Component({
   selector: 'app-expandable-notification-toast-with-timer',
   templateUrl: './expandable-notification-toast-with-timer.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./expandable-notification-toast-with-timer.component.scss'],
 })
 export class ExpandableNotificationToastWithTimerComponent implements OnDestroy {

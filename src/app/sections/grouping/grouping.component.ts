@@ -13,7 +13,7 @@ import { HotToastBuilder } from '@ngxpert/hot-toast';
   selector: 'app-grouping',
   templateUrl: 'grouping.component.html',
   imports: [EmojiButtonComponent, CodeComponent, HtmlPipe],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./grouping.component.scss'],
 })
 export class GroupingComponent implements OnInit {

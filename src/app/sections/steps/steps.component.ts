@@ -5,7 +5,7 @@ import { CodeComponent } from '../../shared/components/code/code.component';
   selector: 'app-steps',
   templateUrl: './steps.component.html',
   styleUrls: ['./steps.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CodeComponent],
 })
 export class StepsComponent {
@@ -53,7 +53,8 @@ ng add @ngxpert/hot-toast`;
       code: `
   import { HotToastService } from '@ngxpert/hot-toast';
 
-  @Component({})
+  @Component({
+    changeDetection: ChangeDetectionStrategy.OnPush,})
   export class AppComponent {
   private toastService = inject(HotToastService);
 

@@ -14,7 +14,7 @@ interface PopoverDemo {
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CodeComponent],
 })
 export class PopoverComponent {

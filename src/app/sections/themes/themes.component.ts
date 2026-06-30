@@ -19,7 +19,7 @@ interface ThemeDemo {
 @Component({
   selector: 'app-themes',
   templateUrl: './themes.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CodeComponent, EmojiButtonComponent, HtmlPipe],
 })
 export class ThemesComponent {

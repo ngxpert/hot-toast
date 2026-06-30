@@ -18,7 +18,7 @@ type DemoTab = 'control' | 'group';
 @Component({
   selector: 'app-form-integration',
   templateUrl: './form-integration.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, CodeComponent],
 })
 export class FormIntegrationComponent implements OnDestroy {

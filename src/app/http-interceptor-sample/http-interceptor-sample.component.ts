@@ -69,7 +69,7 @@ const SAMPLE_API_ENDPOINTS: readonly SampleApiEndpoint[] = [
 @Component({
   selector: 'app-http-interceptor-sample',
   imports: [RouterLink],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './http-interceptor-sample.component.html',
 })
 export class HttpInterceptorSampleComponent {

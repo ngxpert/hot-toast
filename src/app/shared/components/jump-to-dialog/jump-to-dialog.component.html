@@ -1,5 +1,5 @@
 <div class="vercel">
-  <cmdk-command (keydown)="onKeyDown($event)" [style]="{ transform: styleTransform }" [loop]="true">
+  <cmdk-command (keydown)="onKeyDown($event)" [style]="{ transform: styleTransform() }" [loop]="true">
     <input cmdkInput placeholder="What do you need?" (change)="setInputValue($event)" />
     <cmdk-list>
       <div *cmdkEmpty>No results found.</div>

@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { NgFor } from '@angular/common';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Content } from '@ngneat/overview';
 import {
@@ -27,6 +27,7 @@ import {
     SeparatorComponent,
     NgFor
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JumpToDialogComponent {
   readonly jumpSections: { href: string; emoji: string; label: string }[] = [
@@ -195,7 +196,7 @@ export class JumpToDialogComponent {
     },
   ];
   readonly projectItems = new Array(6);
-  styleTransform = '';
+  readonly styleTransform = signal('');
   setInputValue(ev: Event) {
     this.inputValue = (ev.target as HTMLInputElement).value;
   }
@@ -205,9 +206,9 @@ export class JumpToDialogComponent {
     }
   }
   bounce() {
-    this.styleTransform = 'scale(0.96)';
+    this.styleTransform.set('scale(0.96)');
     setTimeout(() => {
-      this.styleTransform = '';
+      this.styleTransform.set('');
     }, 100);
   }
 }

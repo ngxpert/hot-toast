@@ -5,7 +5,7 @@ import { REPO_URL } from 'src/app/core/constants';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class FooterComponent {
