@@ -3,7 +3,6 @@ import { HotToastService, ToastTheme } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
-import { NgClass } from '@angular/common';
 
 type ThemeDemo = {
   id: ToastTheme;
@@ -21,7 +20,7 @@ type ThemeDemo = {
   selector: 'app-themes',
   templateUrl: './themes.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [CodeComponent, EmojiButtonComponent, HtmlPipe, NgClass],
+  imports: [CodeComponent, EmojiButtonComponent, HtmlPipe],
 })
 export class ThemesComponent {
   private toast = inject(HotToastService);

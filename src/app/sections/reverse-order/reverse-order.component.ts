@@ -1,14 +1,13 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
-import { NgClass } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 @Component({
   selector: 'app-reverse-order',
   templateUrl: './reverse-order.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [EmojiButtonComponent, NgClass, CodeComponent],
+  imports: [EmojiButtonComponent, CodeComponent],
 })
 export class ReverseOrderComponent {
   reversOrder: boolean;

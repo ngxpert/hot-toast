@@ -1,5 +1,4 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { NgClass } from '@angular/common';
 
 export type ButtonGroupItem = {
   label: string;
@@ -14,7 +13,6 @@ export type ButtonGroupItem = {
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgClass],
 })
 export class ButtonGroupComponent {
   readonly buttons = input<ButtonGroupItem[]>([]);

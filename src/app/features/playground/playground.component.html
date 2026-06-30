@@ -47,7 +47,7 @@
     </svg>
   </div>
   <a
-    [ngClass]="[
+    [class]="[
       'rounded-lg flex font-bold bg-white py-2 px-6 shadow-button text-toast-800',
       'active:translate-y-0.5 active:shadow-button-active transform'
     ]"
@@ -82,7 +82,7 @@
             <nav class="flex flex-row">
               <button
                 class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-                [ngClass]="[
+                [class]="[
                   demo.activeSnippet === 'preview' || !demo.activeSnippet ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
                 ]"
                 (click)="demo.activeSnippet = 'preview'"
@@ -93,7 +93,7 @@
               @for (language of snippetLanguages; track language) { @if (demo.code[language.value]) {
               <button
                 class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-                [ngClass]="[
+                [class]="[
                   demo.activeSnippet === language.value ? 'bg-gray-50 text-toast-700 font-medium border-toast-700' : ''
                 ]"
                 (click)="demo.activeSnippet = language.value"

@@ -1,5 +1,4 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { NgClass } from '@angular/common';
 import { HighlightCodePipe } from '../../pipes/highlight-code.pipe';
 import { HtmlPipe } from '../../pipes/html.pipe';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -8,7 +7,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
   templateUrl: './code.component.html',
   styleUrls: ['./code.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgClass, HighlightCodePipe, HtmlPipe, ClipboardModule],
+  imports: [HighlightCodePipe, HtmlPipe, ClipboardModule],
 })
 export class CodeComponent {
   readonly language = input('typescript');

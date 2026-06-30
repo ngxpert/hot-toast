@@ -4,7 +4,7 @@
     <img [src]="isCopied ? 'assets/check.svg' : 'assets/copy.svg'" alt="Copy" />
   </button>
   }
-  <div [ngClass]="containerClass()">
+  <div [class]="containerClass()">
     <pre class="language-{{ language() }}">
       <code class="language-{{ language() }}" #code [innerHTML]="snippet() | highlightCode : language() | html" [class.select-all]="selectOnFocus()"> </code>
     </pre>

@@ -1,5 +1,5 @@
 import { Component, computed, signal, ChangeDetectionStrategy } from '@angular/core';
-import { NgClass, NgComponentOutlet, NgStyle } from '@angular/common';
+import { NgComponentOutlet, NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PLAYGROUND_ITEMS } from './playground';
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-playground',
   standalone: true,
-  imports: [NgClass, NgStyle, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
+  imports: [NgStyle, FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./playground.component.scss'],

@@ -38,21 +38,21 @@
           <nav class="flex flex-row">
             <button
               class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'scss' }"
+              [class]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'scss' }"
               (click)="theme.activeTab = 'scss'"
             >
               SCSS
             </button>
             <button
               class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'css' }"
+              [class]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'css' }"
               (click)="theme.activeTab = 'css'"
             >
               CSS
             </button>
             <button
               class="text-gray-600 py-3 px-4 block hover:text-toast-700 border-b-2 border-transparent"
-              [ngClass]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'ts' }"
+              [class]="{ 'bg-gray-50 text-toast-700 font-medium border-toast-700': theme.activeTab === 'ts' }"
               (click)="theme.activeTab = 'ts'"
             >
               TypeScript

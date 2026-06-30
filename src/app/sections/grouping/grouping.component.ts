@@ -5,14 +5,14 @@ import { Content } from '@ngneat/overview';
 import { EmojiButtonComponent } from 'src/app/shared/components/emoji-button/emoji-button.component';
 import { CodeComponent } from 'src/app/shared/components/code/code.component';
 import { HtmlPipe } from 'src/app/shared/pipes/html.pipe';
-import { NgClass, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { preGroupingTS, preGroupingHTML, preGroupingCSS, postGroupingTS } from './snippets';
 import { HotToastBuilder } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-grouping',
   templateUrl: 'grouping.component.html',
-  imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass, NgStyle],
+  imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgStyle],
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./grouping.component.scss'],
 })

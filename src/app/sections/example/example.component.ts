@@ -15,7 +15,7 @@ import { catchError } from 'rxjs/operators';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
-import { NgClass, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 export const EXAMPLE_EVENTS_DURATION = 5000;
@@ -35,7 +35,7 @@ export interface Example {
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
+  imports: [EmojiButtonComponent, CodeComponent, JsonPipe, HtmlPipe],
 })
 export class ExampleComponent implements OnInit {
   readonly successTemplate = viewChild.required<TemplateRef<any>>('success');

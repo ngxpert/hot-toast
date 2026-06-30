@@ -29,7 +29,7 @@
   <!-- #region quick buttons -->
   <div class="grid md:grid-cols-3 gap-4 rounded-2xl bg-toast-200 p-4 w-full max-w-4xl">
     <button
-      [ngClass]="[
+      [class]="[
         'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center',
         'py-4 px-6',
         'active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform',
@@ -45,7 +45,7 @@
       [href]="repoUrl"
       target="_blank"
       rel="noopener noreferrer"
-      [ngClass]="[
+      [class]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
         'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
@@ -58,7 +58,7 @@
     >
     <a
       routerLink="/playground"
-      [ngClass]="[
+      [class]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
         'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
