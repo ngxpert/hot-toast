@@ -15,7 +15,6 @@ import {
   provideHotToastHttpInterceptor,
 } from '@ngxpert/hot-toast';
 import { FormsModule } from '@angular/forms';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app/app.routes';
@@ -28,7 +27,6 @@ if (environment.production) {
 // Conditionally provide the container token for testing
 const providers: (Provider | EnvironmentProviders)[] = [
   importProvidersFrom(BrowserModule, FormsModule),
-  provideAnimations(),
   provideHotToastConfig(),
   provideHotToastHttpInterceptor({ ignoreStatuses: [401] }),
   provideRouter(routes, withInMemoryScrolling()),

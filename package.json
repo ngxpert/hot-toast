@@ -41,7 +41,6 @@
     "sample:http-test-server": "npm run start --prefix samples/express-http-test-server"
   },
   "dependencies": {
-    "@angular/animations": "^22.0.0",
     "@angular/cdk": "^22.0.0",
     "@angular/common": "^22.0.0",
     "@angular/compiler": "^22.0.0",
