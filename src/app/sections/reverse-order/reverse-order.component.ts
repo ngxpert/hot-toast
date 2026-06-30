@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -10,8 +10,10 @@ import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji
   imports: [EmojiButtonComponent, CodeComponent],
 })
 export class ReverseOrderComponent {
+  private toast = inject(HotToastService);
+
   reversOrder: boolean;
-  constructor(private toast: HotToastService) {
+  constructor() {
     this.reversOrder = this.toast.defaultConfig.reverseOrder;
   }
 

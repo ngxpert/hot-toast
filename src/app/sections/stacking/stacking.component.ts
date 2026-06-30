@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { HotToastService, ToastStacking } from '@ngxpert/hot-toast';
 import { ButtonGroupItem } from 'src/app/shared/components/button-group/button-group.component';
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -12,6 +12,8 @@ import { ButtonGroupComponent } from '../../shared/components/button-group/butto
   imports: [ButtonGroupComponent, FormsModule, CodeComponent],
 })
 export class StackingComponent {
+  private toast = inject(HotToastService);
+
   stacking: ToastStacking;
   visibleToasts = 5;
   readonly stackingButtons: ButtonGroupItem[] = [
@@ -32,7 +34,7 @@ export class StackingComponent {
       },
     },
   ];
-  constructor(private toast: HotToastService) {
+  constructor() {
     this.stacking = this.toast.defaultConfig.stacking;
   }
 

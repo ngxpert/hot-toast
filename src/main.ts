@@ -1,4 +1,10 @@
-import { enableProdMode, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import {
+  enableProdMode,
+  importProvidersFrom,
+  provideZonelessChangeDetection,
+  type EnvironmentProviders,
+  type Provider,
+} from '@angular/core';
 
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
@@ -20,7 +26,7 @@ if (environment.production) {
 }
 
 // Conditionally provide the container token for testing
-const providers = [
+const providers: (Provider | EnvironmentProviders)[] = [
   importProvidersFrom(BrowserModule, FormsModule),
   provideAnimations(),
   provideHotToastConfig(),
@@ -34,7 +40,7 @@ if (!environment.production || window.location.href.includes('test-container')) 
   providers.push({
     provide: HOT_TOAST_CONTAINER_TOKEN,
     useValue: '#custom-toast-container',
-  } as any);
+  });
 }
 
 bootstrapApplication(AppComponent, {

@@ -19,8 +19,8 @@ import { HotToastBuilder } from '@ngxpert/hot-toast';
 export class GroupingComponent implements OnInit {
   toast = inject(HotToastService);
   examples: Example[] = [];
-  readonly ngTemplateGroup = viewChild.required<TemplateRef<any>>('groupTemplate');
-  readonly ngTemplateGroupItem = viewChild.required<TemplateRef<any>>('groupItemTemplate');
+  readonly ngTemplateGroup = viewChild.required<TemplateRef<unknown>>('groupTemplate');
+  readonly ngTemplateGroupItem = viewChild.required<TemplateRef<unknown>>('groupItemTemplate');
 
   parentRef!: CreateHotToastRef<unknown>;
 

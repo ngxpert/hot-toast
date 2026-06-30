@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { HotToastService, ToastPosition } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -18,7 +18,9 @@ interface Position {
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [EmojiButtonComponent, CodeComponent],
 })
-export class PositionComponent implements OnInit {
+export class PositionComponent {
+  private toast = inject(HotToastService);
+
   positionExamples: Position[] = [
     {
       id: 'top-left',
@@ -115,8 +117,6 @@ export class PositionComponent implements OnInit {
   snippet = this.positionExamples[0].snippet;
   position: ToastPosition = 'top-left';
 
-  constructor(private toast: HotToastService) {}
-
   get globalSnippet() {
     return `
   import { provideHotToastConfig } from '@ngxpert/hot-toast';
@@ -133,8 +133,6 @@ export class PositionComponent implements OnInit {
 
   export class AppModule {}`;
   }
-
-  ngOnInit(): void {}
 
   setSnippet(pos: Position) {
     if (pos.snippet) {

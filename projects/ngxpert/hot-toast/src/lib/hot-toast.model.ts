@@ -61,10 +61,10 @@ export class ToastConfig implements DefaultToastOptions {
 export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning' | 'info';
 export type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
-export type IconTheme = {
+export interface IconTheme {
   primary: string;
   secondary?: string;
-};
+}
 
 /**
  * Visual theme for a hot-toast.
@@ -295,11 +295,11 @@ export type ObservableSuccessOrError<T, DataType> = {
   content: ValueOrFunction<Content, T>;
 } & ToastOptions<DataType>;
 
-export type ObservableMessages<T, DataType> = {
+export interface ObservableMessages<T, DataType> {
   loading?: Content | ObservableLoading<DataType>;
   success?: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
   error?: ValueOrFunction<Content, unknown> | ObservableSuccessOrError<unknown, DataType>;
-};
+}
 
 export interface HotToastServiceMethods {
   show<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
@@ -449,6 +449,6 @@ export type FormToastOptions<TControl extends AbstractControl> = Partial<Record<
  * Ref returned by `fromForm`.
  * Call `close()` to unsubscribe from status changes and dismiss any active toast.
  */
-export type HotToastFormRef = {
+export interface HotToastFormRef {
   close: () => void;
-};
+}

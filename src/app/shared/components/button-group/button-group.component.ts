@@ -1,12 +1,12 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
-export type ButtonGroupItem = {
+export interface ButtonGroupItem {
   label: string;
   value: string;
   icon?: string;
   selected?: boolean;
   onClick?: () => void;
-};
+}
 
 @Component({
   selector: 'app-button-group',

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { REPO_URL } from 'src/app/core/constants';
 
 @Component({
@@ -8,10 +8,6 @@ import { REPO_URL } from 'src/app/core/constants';
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
   repoUrl = REPO_URL;
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

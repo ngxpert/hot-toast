@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { NgFor } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Content } from '@ngneat/overview';
 import {
@@ -171,15 +171,15 @@ export class JumpToDialogComponent {
   private router = inject(Router);
   public dialogRef: DialogRef;
   inputValue = '';
-  readonly groups: Array<{
+  readonly groups: {
     group: string;
-    items: Array<{
+    items: {
       label: string;
       itemSelected?: () => void;
       icon: Content;
       separatorOnTop?: boolean;
-    }>;
-  }> = [
+    }[];
+  }[] = [
     {
       group: 'Variants',
       items: [

@@ -14,13 +14,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CreateHotToastRef, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { DOCUMENT } from '@angular/common';
 
-type ToastData = {
+interface ToastData {
   title: string;
   message?: string;
   duration: number;
   isExpandable: boolean;
   showConfirmation?: boolean;
-};
+}
 
 @Component({
   selector: 'app-expandable-notification-toast-with-timer',

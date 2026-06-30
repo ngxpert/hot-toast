@@ -2,13 +2,13 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
-type PopoverDemo = {
+interface PopoverDemo {
   id: string;
   title: string;
   description: string;
   emoji: string;
   snippet: string;
-};
+}
 
 @Component({
   selector: 'app-popover',

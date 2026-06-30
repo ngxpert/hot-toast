@@ -4,7 +4,7 @@ import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
 
-type ThemeDemo = {
+interface ThemeDemo {
   id: ToastTheme;
   label: string;
   emoji: string;
@@ -14,7 +14,7 @@ type ThemeDemo = {
   tsSnippet: string;
   activeTab: 'scss' | 'css' | 'ts';
   action: () => void;
-};
+}
 
 @Component({
   selector: 'app-themes',

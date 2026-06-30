@@ -1,13 +1,13 @@
 import {
   Component,
-  Inject,
+  InjectionToken,
   Injector,
   OnInit,
-  Optional,
   TemplateRef,
   signal,
   ChangeDetectionStrategy,
   viewChild,
+  inject,
 } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
@@ -19,6 +19,8 @@ import { JsonPipe } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 export const EXAMPLE_EVENTS_DURATION = 5000;
+
+const MESSAGE = new InjectionToken<string>('MESSAGE');
 
 export interface Example {
   id: string;
@@ -38,10 +40,13 @@ export interface Example {
   imports: [EmojiButtonComponent, CodeComponent, JsonPipe, HtmlPipe],
 })
 export class ExampleComponent implements OnInit {
-  readonly successTemplate = viewChild.required<TemplateRef<any>>('success');
-  readonly errorTemplate = viewChild.required<TemplateRef<any>>('error');
-  readonly ngTemplate = viewChild.required<TemplateRef<any>>('template');
-  readonly ngTemplateContext = viewChild.required<TemplateRef<any>>('templateContext');
+  private toast = inject(HotToastService);
+  private parent = inject(Injector);
+
+  readonly successTemplate = viewChild.required<TemplateRef<unknown>>('success');
+  readonly errorTemplate = viewChild.required<TemplateRef<unknown>>('error');
+  readonly ngTemplate = viewChild.required<TemplateRef<unknown>>('template');
+  readonly ngTemplateContext = viewChild.required<TemplateRef<unknown>>('templateContext');
 
   examples: Example[] = [];
 
@@ -51,11 +56,6 @@ export class ExampleComponent implements OnInit {
     { label: 'TypeScript', value: 'typescript' },
     { label: 'HTML', value: 'html' },
   ];
-
-  constructor(
-    private toast: HotToastService,
-    private parent: Injector,
-  ) {}
 
   ngOnInit(): void {
     const examples: Example[] = [
@@ -204,7 +204,6 @@ export class ExampleComponent implements OnInit {
         },
         action: () => {
           this.toast.show(
-            // eslint-disable-next-line max-len
             `This toast is super big.I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.`,
             {
               autoClose: false,
@@ -561,7 +560,7 @@ export class ExampleComponent implements OnInit {
           const injector = Injector.create({
             providers: [
               {
-                provide: 'MESSAGE',
+                provide: MESSAGE,
                 useValue: 'I love Angular 🔥 Hot Toasts!',
               },
             ],
@@ -642,7 +641,7 @@ export class DummyComponent {}
   standalone: true,
 })
 export class InjectorComponent {
-  constructor(@Optional() @Inject('MESSAGE') public message: string) {}
+  message = inject(MESSAGE, { optional: true });
 }
 
 interface DataType {
@@ -651,10 +650,10 @@ interface DataType {
 
 @Component({
   selector: 'app-data',
-  template: '{{ toastRef.data.fact }}',
+  template: '{{ toastRef?.data?.fact }}',
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
 })
 export class DataComponent {
-  constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
+  toastRef = inject<HotToastRef<DataType>>(HotToastRef, { optional: true });
 }
