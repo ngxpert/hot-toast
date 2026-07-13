@@ -85,6 +85,8 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   toastBarBaseStylesSignal = signal({});
 
   private unlisteners: VoidFunction[] = [];
+  private rafIds: number[] = [];
+  private destroyed = false;
   protected softClosed = false;
 
   private injector = inject(Injector);
@@ -163,9 +165,12 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.toast && !changes.toast.firstChange && changes.toast.currentValue?.message) {
-      requestAnimationFrame(() => {
+      const rafId = requestAnimationFrame(() => {
+        this.rafIds = this.rafIds.filter((id) => id !== rafId);
+        if (this.destroyed) return;
         this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
       });
+      this.rafIds.push(rafId);
     }
   }
 
@@ -223,9 +228,12 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
     const nativeElement = this.toastBarBase.nativeElement;
     // Caretaker note: accessing `offsetHeight` triggers the whole layout update.
     // Macro tasks (like `setTimeout`) might be executed within the current rendering frame and cause a frame drop.
-    requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
+      this.rafIds = this.rafIds.filter((id) => id !== rafId);
+      if (this.destroyed) return;
       this.height.emit(nativeElement.offsetHeight);
     });
+    this.rafIds.push(rafId);
 
     this.setToastAttributes();
   }
@@ -269,6 +277,10 @@ export class HotToastGroupItemComponent implements OnChanges, OnInit, AfterViewI
   }
 
   ngOnDestroy() {
+    this.destroyed = true;
+    while (this.rafIds.length) {
+      cancelAnimationFrame(this.rafIds.pop());
+    }
     this.close();
     while (this.unlisteners.length) {
       this.unlisteners.pop()();
