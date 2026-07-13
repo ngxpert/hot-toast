@@ -1,3 +1,10 @@
+## [6.3.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.3.0...v6.3.1-beta.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* track rAF to cancel them after hosting component gets destroyed ([073fd00](https://github.com/ngxpert/hot-toast/commit/073fd006eefc8dcbb7e91ec416ddc21c0277ef50)), closes [#194](https://github.com/ngxpert/hot-toast/issues/194)
+
 # [6.3.0](https://github.com/ngxpert/hot-toast/compare/v6.2.0...v6.3.0) (2026-06-11)
 
 
