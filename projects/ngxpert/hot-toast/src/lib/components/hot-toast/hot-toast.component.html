@@ -52,7 +52,7 @@
         (click)="close()"
         type="button"
         class="hot-toast-close-btn"
-        aria-label="Close"
+        [attr.aria-label]="toast.closeLabel"
         [style]="toast.closeStyle"
       ></button>
       }
