@@ -33,6 +33,7 @@ export class ToastConfig implements DefaultToastOptions {
   position: ToastPosition = 'top-center';
   className: string;
   closeStyle: Record<string, string>;
+  closeLabel = 'Close';
   dismissible: boolean;
   autoClose = true;
   duration: number;
@@ -194,6 +195,13 @@ export interface Toast<DataType> {
   /**Extra styles to apply for close button */
   closeStyle?: Record<string, string>;
 
+  /**
+   * Accessible label (`aria-label`) for the close button.
+   *
+   * @default 'Close'
+   */
+  closeLabel?: string;
+
   createdAt: number;
   visible: boolean;
   height?: number;
@@ -277,6 +285,7 @@ export type ToastOptions<DataType> = Partial<
     | 'theme'
     | 'position'
     | 'closeStyle'
+    | 'closeLabel'
     | 'persist'
     | 'injector'
     | 'data'
@@ -331,6 +340,7 @@ export type UpdateToastOptions<DataType> = Partial<
     | 'type'
     | 'theme'
     | 'closeStyle'
+    | 'closeLabel'
   >
 >;
 
