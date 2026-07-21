@@ -1,3 +1,10 @@
+# [6.4.0](https://github.com/ngxpert/hot-toast/compare/v6.3.1...v6.4.0) (2026-07-21)
+
+
+### Features
+
+* **hot-toast:** make close button aria-label configurable ([31f704d](https://github.com/ngxpert/hot-toast/commit/31f704d199b2103fcb0052e88a45deca0830eb4a)), closes [#200](https://github.com/ngxpert/hot-toast/issues/200)
+
 ## [6.3.1](https://github.com/ngxpert/hot-toast/compare/v6.3.0...v6.3.1) (2026-07-13)
 
 
