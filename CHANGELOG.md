@@ -1,3 +1,11 @@
+## [6.4.1](https://github.com/ngxpert/hot-toast/compare/v6.4.0...v6.4.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* **hot-toast:** keep :focus alongside :focus-within ([3284068](https://github.com/ngxpert/hot-toast/commit/32840680400dc7a6a5b2820fe04e19bcaea812c0))
+* **hot-toast:** pause dismiss timer on focus-within, not just focus ([373b6f6](https://github.com/ngxpert/hot-toast/commit/373b6f6d5008eb062d967b1e64356ce9b67786b3)), closes [#199](https://github.com/ngxpert/hot-toast/issues/199)
+
 # [6.4.0](https://github.com/ngxpert/hot-toast/compare/v6.3.1...v6.4.0) (2026-07-21)
 
 
