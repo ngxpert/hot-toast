@@ -35,8 +35,8 @@ import { HotToastService } from '../../hot-toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HotToastComponent],
   host: {
-    '[attr.popover]': 'defaultConfig()?.usePopover ? "manual" : undefined',
-    '[class.hot-toast-container-overlay-popover]': 'defaultConfig()?.usePopover',
+    '[attr.popover]': 'defaultConfig().usePopover ? "manual" : undefined',
+    '[class.hot-toast-container-overlay-popover]': 'defaultConfig().usePopover',
   },
 })
 export class HotToastContainerComponent implements OnDestroy {

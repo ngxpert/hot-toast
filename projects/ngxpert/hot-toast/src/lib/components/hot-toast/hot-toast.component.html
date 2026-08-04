@@ -56,7 +56,7 @@
           (click)="close()"
           type="button"
           class="hot-toast-close-btn"
-          [attr.aria-label]="toast.closeLabel"
+          [attr.aria-label]="toast().closeLabel"
           [style]="toastData.closeStyle"
         ></button>
       }

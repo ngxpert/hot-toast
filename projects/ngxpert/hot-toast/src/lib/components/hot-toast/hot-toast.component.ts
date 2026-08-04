@@ -330,7 +330,7 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
   ngOnDestroy() {
     this.destroyed = true;
     while (this.rafIds.length) {
-      cancelAnimationFrame(this.rafIds.pop());
+      cancelAnimationFrame(this.rafIds.pop() || 0);
     }
     this.close();
     while (this.unlisteners.length) {

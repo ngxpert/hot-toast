@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  afterRenderEffect,
   ElementRef,
   Injector,
   NgZone,
@@ -87,21 +88,19 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
       untracked(() => this.toastBarBaseStylesSignal.set(newStyle));
     });
 
-    // Replaces the former `ngOnChanges` handler: signal inputs do not trigger `ngOnChanges`,
-    // so re-emit the height on every toast change after the first one.
-    effect(() => {
-      const value = this.toast();
-      if (this.isFirstToastChange) {
-        this.isFirstToastChange = false;
-        return;
-      }
-      if (value?.message) {
-        untracked(() => {
-          requestAnimationFrame(() => {
-            this.height.emit(this.toastBarBase().nativeElement.offsetHeight);
-          });
-        });
-      }
+    // Replaces the former `ngOnChanges` handler. Uses `afterRenderEffect`'s `read` phase since this
+    // only reads the DOM (offsetHeight) and must run after Angular commits, not mid-change-detection.
+    afterRenderEffect({
+      read: () => {
+        const value = this.toast();
+        if (this.isFirstToastChange) {
+          this.isFirstToastChange = false;
+          return;
+        }
+        if (value?.message) {
+          this.height.emit(this.toastBarBase().nativeElement.offsetHeight);
+        }
+      },
     });
   }
 
@@ -171,18 +170,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   }
 
   get isExpanded() {
-    return this.toastRef().groupExpanded;
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.toast && !changes.toast.firstChange && changes.toast.currentValue?.message) {
-      const rafId = requestAnimationFrame(() => {
-        this.rafIds = this.rafIds.filter((id) => id !== rafId);
-        if (this.destroyed) return;
-        this.height.emit(this.toastBarBase.nativeElement.offsetHeight);
-      });
-      this.rafIds.push(rafId);
-    }
+    return this.toastRef()?.groupExpanded;
   }
 
   ngOnInit() {
@@ -292,7 +280,7 @@ export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDest
   ngOnDestroy() {
     this.destroyed = true;
     while (this.rafIds.length) {
-      cancelAnimationFrame(this.rafIds.pop());
+      cancelAnimationFrame(this.rafIds.pop() || 0);
     }
     this.close();
     while (this.unlisteners.length) {
