@@ -1,3 +1,32 @@
+## [6.4.1](https://github.com/ngxpert/hot-toast/compare/v6.4.0...v6.4.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* **hot-toast:** keep :focus alongside :focus-within ([3284068](https://github.com/ngxpert/hot-toast/commit/32840680400dc7a6a5b2820fe04e19bcaea812c0))
+* **hot-toast:** pause dismiss timer on focus-within, not just focus ([373b6f6](https://github.com/ngxpert/hot-toast/commit/373b6f6d5008eb062d967b1e64356ce9b67786b3)), closes [#199](https://github.com/ngxpert/hot-toast/issues/199)
+
+# [6.4.0](https://github.com/ngxpert/hot-toast/compare/v6.3.1...v6.4.0) (2026-07-21)
+
+
+### Features
+
+* **hot-toast:** make close button aria-label configurable ([31f704d](https://github.com/ngxpert/hot-toast/commit/31f704d199b2103fcb0052e88a45deca0830eb4a)), closes [#200](https://github.com/ngxpert/hot-toast/issues/200)
+
+## [6.3.1](https://github.com/ngxpert/hot-toast/compare/v6.3.0...v6.3.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* track rAF to cancel them after hosting component gets destroyed ([073fd00](https://github.com/ngxpert/hot-toast/commit/073fd006eefc8dcbb7e91ec416ddc21c0277ef50)), closes [#194](https://github.com/ngxpert/hot-toast/issues/194)
+
+## [6.3.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.3.0...v6.3.1-beta.1) (2026-07-13)
+
+
+### Bug Fixes
+
+* track rAF to cancel them after hosting component gets destroyed ([073fd00](https://github.com/ngxpert/hot-toast/commit/073fd006eefc8dcbb7e91ec416ddc21c0277ef50)), closes [#194](https://github.com/ngxpert/hot-toast/issues/194)
+
 # [6.3.0](https://github.com/ngxpert/hot-toast/compare/v6.2.0...v6.3.0) (2026-06-11)
 
 

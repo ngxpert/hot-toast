@@ -17,7 +17,8 @@
   // will-change: var(--hot-toast-will-change, transform);
 
   &:hover,
-  &:focus {
+  &:focus,
+  &:focus-within {
     animation-play-state: var(--hot-toast-animation-state, paused) !important;
   }
 

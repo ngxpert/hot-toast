@@ -33,6 +33,7 @@ export class ToastConfig implements DefaultToastOptions {
   position: ToastPosition = 'top-center';
   className?: string;
   closeStyle?: Record<string, string>;
+  closeLabel = 'Close';
   dismissible?: boolean;
   autoClose = true;
   duration?: number;
@@ -194,6 +195,13 @@ export interface Toast<DataType> {
   /**Extra styles to apply for close button */
   closeStyle?: Record<string, string>;
 
+  /**
+   * Accessible label (`aria-label`) for the close button.
+   *
+   * @default 'Close'
+   */
+  closeLabel?: string;
+
   createdAt: number;
   visible: boolean;
   height?: number;
@@ -277,6 +285,7 @@ export type ToastOptions<DataType> = Partial<
     | 'theme'
     | 'position'
     | 'closeStyle'
+    | 'closeLabel'
     | 'persist'
     | 'injector'
     | 'data'
@@ -285,7 +294,8 @@ export type ToastOptions<DataType> = Partial<
   >
 >;
 
-export type DefaultToastOptions = ToastOptions<unknown> & Partial<Record<ToastType, ToastOptions<unknown> & { content?: Content }>>;
+export type DefaultToastOptions = ToastOptions<unknown> &
+  Partial<Record<ToastType, ToastOptions<unknown> & { content?: Content }>>;
 
 export type ObservableLoading<DataType> = {
   content: Content;
@@ -329,6 +339,7 @@ export type UpdateToastOptions<DataType> = Partial<
     | 'type'
     | 'theme'
     | 'closeStyle'
+    | 'closeLabel'
   >
 >;
 
@@ -443,7 +454,9 @@ export type FormToastStateConfig<TControl extends AbstractControl> = {
  * Options map for `fromForm`, keyed by Angular's `FormControlStatus`.
  * Omitting a status key means no toast is shown for that status.
  */
-export type FormToastOptions<TControl extends AbstractControl> = Partial<Record<FormControlStatus, FormToastStateConfig<TControl>>>;
+export type FormToastOptions<TControl extends AbstractControl> = Partial<
+  Record<FormControlStatus, FormToastStateConfig<TControl>>
+>;
 
 /**
  * Ref returned by `fromForm`.

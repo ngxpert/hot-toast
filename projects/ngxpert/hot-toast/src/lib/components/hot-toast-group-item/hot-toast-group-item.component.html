@@ -19,27 +19,29 @@
       [attr.role]="toastData.role"
     >
       <div class="hot-toast-icon" aria-hidden="true">
-        @if (toastData.icon !== undefined) { @if (isIconString) {
-        <hot-toast-animated-icon [iconTheme]="toastData.iconTheme">{{ toastData.icon }}</hot-toast-animated-icon>
+        @if (toastData.icon !== undefined) {
+          @if (isIconString) {
+            <hot-toast-animated-icon [iconTheme]="toastData.iconTheme">{{ toastData.icon }}</hot-toast-animated-icon>
+          } @else {
+            <div>
+              <ng-container *dynamicView="toastData.icon" />
+            </div>
+          }
         } @else {
-        <div>
-          <ng-container *dynamicView="toastData.icon" />
-        </div>
-        } } @else {
-        <hot-toast-indicator [theme]="toastData.iconTheme" [type]="toastData.type" />
+          <hot-toast-indicator [theme]="toastData.iconTheme" [type]="toastData.type" />
         }
       </div>
       <div class="hot-toast-message">
         <ng-container *dynamicView="toastData.message!; context: context; injector: toastComponentInjector" />
       </div>
       @if (toastData.dismissible) {
-      <button
-        (click)="close()"
-        type="button"
-        class="hot-toast-close-btn"
-        aria-label="Close"
-        [style]="toastData.closeStyle"
-      ></button>
+        <button
+          (click)="close()"
+          type="button"
+          class="hot-toast-close-btn"
+          [attr.aria-label]="toast.closeLabel"
+          [style]="toastData.closeStyle"
+        ></button>
       }
     </div>
   </div>
