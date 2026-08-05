@@ -199,7 +199,7 @@ export class HotToastContainerComponent implements OnDestroy {
           const existingGroup = this.toasts[parentToastRefIndex].group ?? {};
           const existingChildren = this.toasts[parentToastRefIndex].group?.children ?? [];
 
-          existingChildren.push({ options: { ...toast, type: toast.type, message: toast.message! } });
+          existingChildren.push({ options: { ...toast, type: toast.type, message: toast.message } });
           existingGroup.children = existingChildren;
 
           this.toasts[parentToastRefIndex].group = { ...existingGroup };
@@ -216,8 +216,8 @@ export class HotToastContainerComponent implements OnDestroy {
     const skipAttachToParent = true;
     return new Promise<CreateHotToastRef<unknown>[]>((resolve) => {
       const items = toast.group?.children;
-      const allPromises: Promise<CreateHotToastRef<unknown>>[] = (items || []).map((item) => {
-        return new Promise((innerResolve) => {
+      const allPromises: Promise<CreateHotToastRef<unknown> | null>[] = (items || []).map((item) => {
+        return new Promise<CreateHotToastRef<unknown> | null>((innerResolve) => {
           item.options.group = { parent: ref };
           // We need to give a tick's delay so that IDs are generated properly
           setTimeout(() => {
@@ -226,12 +226,14 @@ export class HotToastContainerComponent implements OnDestroy {
               innerResolve(itemRef);
             } catch (error) {
               console.error('Error creating toast', error);
-              innerResolve(null as unknown as CreateHotToastRef<unknown>);
+              innerResolve(null);
             }
           });
         });
       });
-      Promise.all(allPromises).then((refs) => resolve(refs));
+      Promise.all(allPromises).then((refs) =>
+        resolve(refs.filter((ref): ref is CreateHotToastRef<unknown> => ref !== null)),
+      );
     });
   }
 

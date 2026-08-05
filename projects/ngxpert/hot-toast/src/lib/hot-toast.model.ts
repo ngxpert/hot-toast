@@ -110,7 +110,7 @@ export type ToastAriaLive = 'assertive' | 'off' | 'polite';
 export interface HotToastGroupChild {
   options: ToastOptions<unknown> & {
     type?: ToastType;
-    message: Content;
+    message: Content | undefined;
   };
 }
 

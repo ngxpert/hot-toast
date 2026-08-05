@@ -10,7 +10,10 @@ export class HotToastBuilder<DataType = unknown> {
   private groupChildren: HotToastBuilder<unknown>[] = [];
   private toastRef!: CreateHotToastRef<DataType>;
 
-  constructor(private message: Content, private service: HotToastService) {}
+  constructor(
+    private message: Content | undefined,
+    private service: HotToastService,
+  ) {}
 
   setOptions(options: ToastOptions<DataType>): this {
     this.options = { ...this.options, ...options };

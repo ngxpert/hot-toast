@@ -55,7 +55,7 @@
 <ng-template #templateContext let-toastRef>
   <div>
     Custom and&nbsp;<b>bold</b> with data:
-    <code class="bg-toast-200">{{ $safeNavigationMigration(toastRef?.data) | json }}</code
+    <code class="bg-toast-200">{{ toastRef?.data | json }}</code
     ><br /><button (click)="toastRef.close({ dismissedByAction: true })" class="toast-dismiss">Dismiss</button>
   </div>
 </ng-template>
