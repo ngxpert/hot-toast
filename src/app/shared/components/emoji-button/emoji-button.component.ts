@@ -4,7 +4,6 @@ import { Component, input, output } from '@angular/core';
   selector: 'app-emoji-button',
   templateUrl: './emoji-button.component.html',
   styleUrls: ['./emoji-button.component.scss'],
-  standalone: true,
 })
 export class EmojiButtonComponent {
   readonly emoji = input<string>();

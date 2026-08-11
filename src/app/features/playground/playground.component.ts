@@ -7,7 +7,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-playground',
-  standalone: true,
+
   imports: [FormsModule, RouterLink, CodeComponent, NgComponentOutlet],
   templateUrl: './playground.component.html',
 

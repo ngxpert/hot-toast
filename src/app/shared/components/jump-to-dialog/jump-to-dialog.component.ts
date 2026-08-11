@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'app-jump-to-dialog',
   templateUrl: 'jump-to-dialog.component.html',
-  standalone: true,
+
   imports: [
     CommandComponent,
     InputDirective,

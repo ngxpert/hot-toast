@@ -66,14 +66,10 @@ export class HomeComponent {
 @Component({
   selector: 'app-icon',
   template: '✋',
-
-  standalone: true,
 })
 export class IconComponent {}
 @Component({
   selector: 'app-msg',
   template: 'Hey, how are you?',
-
-  standalone: true,
 })
 export class MessageComponent {}

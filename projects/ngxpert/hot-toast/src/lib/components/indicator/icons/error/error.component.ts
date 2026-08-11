@@ -4,8 +4,6 @@ import { IconTheme } from '../../../../hot-toast.model';
 @Component({
   selector: 'hot-toast-error',
   templateUrl: './error.component.html',
-
-  standalone: true,
 })
 export class ErrorComponent {
   readonly theme = input<IconTheme>();

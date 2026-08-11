@@ -4,8 +4,6 @@ import { IconTheme } from '../../../../hot-toast.model';
 @Component({
   selector: 'hot-toast-info',
   templateUrl: './info.component.html',
-
-  standalone: true,
 })
 export class InfoComponent {
   readonly theme = input<IconTheme>();

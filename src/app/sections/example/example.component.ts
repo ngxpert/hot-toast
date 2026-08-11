@@ -624,16 +624,12 @@ export class ExampleComponent implements OnInit {
 @Component({
   selector: 'app-dummy',
   template: 'Hi 👋 from the component!',
-
-  standalone: true,
 })
 export class DummyComponent {}
 
 @Component({
   selector: 'app-injector',
   template: '{{ message }}',
-
-  standalone: true,
 })
 export class InjectorComponent {
   message = inject(MESSAGE, { optional: true });
@@ -646,8 +642,6 @@ interface DataType {
 @Component({
   selector: 'app-data',
   template: '{{ toastRef?.data?.fact }}',
-
-  standalone: true,
 })
 export class DataComponent {
   toastRef = inject<HotToastRef<DataType>>(HotToastRef, { optional: true });

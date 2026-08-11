@@ -6,7 +6,6 @@ import { Content, DynamicViewDirective } from '@ngneat/overview';
   selector: 'hot-toast-animated-icon',
   templateUrl: './animated-icon.component.html',
 
-  standalone: true,
   imports: [DynamicViewDirective],
 })
 export class AnimatedIconComponent {
