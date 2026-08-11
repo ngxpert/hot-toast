@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   effect,
   afterRenderEffect,
@@ -29,7 +28,7 @@ import { animate } from '../../utils';
 @Component({
   selector: 'hot-toast-group-item',
   templateUrl: 'hot-toast-group-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [AnimatedIconComponent, IndicatorComponent, DynamicViewDirective],
 })
 export class HotToastGroupItemComponent implements OnInit, AfterViewInit, OnDestroy {

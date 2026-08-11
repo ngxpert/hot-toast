@@ -1,6 +1,5 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   inject,
   ChangeDetectorRef,
   input,
@@ -32,7 +31,7 @@ import { HotToastService } from '../../hot-toast.service';
   selector: 'hot-toast-container',
   templateUrl: './hot-toast-container.component.html',
   styleUrl: './hot-toast-container.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [HotToastComponent],
   host: {
     '[attr.popover]': 'defaultConfig().usePopover ? "manual" : undefined',

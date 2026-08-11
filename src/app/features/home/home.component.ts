@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [
     FeaturesComponent,
     StepsComponent,
@@ -66,14 +66,14 @@ export class HomeComponent {
 @Component({
   selector: 'app-icon',
   template: '✋',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   standalone: true,
 })
 export class IconComponent {}
 @Component({
   selector: 'app-msg',
   template: 'Hey, how are you?',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   standalone: true,
 })
 export class MessageComponent {}

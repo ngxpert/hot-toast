@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, inject, ChangeDetectionStrategy, viewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { Example } from '../example/example.component';
 import { CreateHotToastRef, HotToastGroupChild, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { Content } from '@ngneat/overview';
@@ -13,7 +13,7 @@ import { HotToastBuilder } from '@ngxpert/hot-toast';
   selector: 'app-grouping',
   templateUrl: 'grouping.component.html',
   imports: [EmojiButtonComponent, CodeComponent, HtmlPipe],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   styleUrls: ['./grouping.component.scss'],
 })
 export class GroupingComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export interface ButtonGroupItem {
   label: string;
@@ -12,7 +12,6 @@ export interface ButtonGroupItem {
   selector: 'app-button-group',
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonGroupComponent {
   readonly buttons = input<ButtonGroupItem[]>([]);

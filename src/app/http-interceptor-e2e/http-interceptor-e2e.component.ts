@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 /** Path prefix stubbed by Cypress `cy.intercept`; must match patterns in `toast_http_interceptor.cy.ts`. */
@@ -7,7 +7,7 @@ const E2E_HTTP_PREFIX = '/__hot-toast-e2e__/http';
 
 @Component({
   selector: 'app-http-interceptor-e2e',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   template: `
     <div class="p-8 max-w-xl space-y-4">
       <h1 class="text-2xl font-bold">HTTP interceptor E2E</h1>

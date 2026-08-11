@@ -1,11 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
 @Component({
   selector: 'app-steps',
   templateUrl: './steps.component.html',
   styleUrls: ['./steps.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [CodeComponent],
 })
 export class StepsComponent {
@@ -54,7 +54,7 @@ ng add @ngxpert/hot-toast`;
   import { HotToastService } from '@ngxpert/hot-toast';
 
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,})
+    })
   export class AppComponent {
   private toastService = inject(HotToastService);
 

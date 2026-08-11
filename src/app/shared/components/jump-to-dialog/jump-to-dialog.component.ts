@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Content } from '@ngneat/overview';
 import {
@@ -25,9 +25,8 @@ import {
     ItemDirective,
     EmptyDirective,
     SeparatorComponent,
-    NgFor
+    NgFor,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class JumpToDialogComponent {
   readonly jumpSections: { href: string; emoji: string; label: string }[] = [

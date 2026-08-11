@@ -1,4 +1,4 @@
-import { Component, OnDestroy, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -18,7 +18,7 @@ type DemoTab = 'control' | 'group';
 @Component({
   selector: 'app-form-integration',
   templateUrl: './form-integration.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [ReactiveFormsModule, CodeComponent],
 })
 export class FormIntegrationComponent implements OnDestroy {

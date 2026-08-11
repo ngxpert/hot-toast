@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   DoCheck,
@@ -31,7 +30,7 @@ import { HotToastGroupItemComponent } from '../hot-toast-group-item/hot-toast-gr
 @Component({
   selector: 'hot-toast-component',
   templateUrl: 'hot-toast.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [DynamicViewDirective, IndicatorComponent, AnimatedIconComponent, HotToastGroupItemComponent],
 })
 export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCheck {

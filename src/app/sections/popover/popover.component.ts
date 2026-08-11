@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
@@ -14,7 +14,7 @@ interface PopoverDemo {
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [CodeComponent],
 })
 export class PopoverComponent {
@@ -56,9 +56,9 @@ toast.info('Traditional overlay', {
   selectedDemo: PopoverDemo = this.popoverDemos[0];
 
   globalConfigSnippet = `
-import { 
-  provideHotToastConfig, 
-  HOT_TOAST_USE_POPOVER_TOKEN 
+import {
+  provideHotToastConfig,
+  HOT_TOAST_USE_POPOVER_TOKEN
 } from '@ngxpert/hot-toast';
 import { bootstrapApplication } from '@angular/platform-browser';
 

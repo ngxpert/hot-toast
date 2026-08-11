@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService, ToastTheme } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -19,7 +19,7 @@ interface ThemeDemo {
 @Component({
   selector: 'app-themes',
   templateUrl: './themes.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [CodeComponent, EmojiButtonComponent, HtmlPipe],
 })
 export class ThemesComponent {

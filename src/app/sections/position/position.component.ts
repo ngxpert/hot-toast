@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService, ToastPosition } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -15,7 +15,7 @@ interface Position {
   selector: 'app-position',
   templateUrl: './position.component.html',
   styleUrls: ['./position.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [EmojiButtonComponent, CodeComponent],
 })
 export class PositionComponent {

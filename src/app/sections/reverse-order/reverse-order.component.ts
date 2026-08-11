@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
@@ -6,7 +6,7 @@ import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji
 @Component({
   selector: 'app-reverse-order',
   templateUrl: './reverse-order.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [EmojiButtonComponent, CodeComponent],
 })
 export class ReverseOrderComponent {
@@ -39,7 +39,7 @@ export class ReverseOrderComponent {
   import { Component } from '@angular/core';
   import { HotToastService } from '@ngxpert/hot-toast';
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-root'
   })
   export class AppComponent {

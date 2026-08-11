@@ -1,14 +1,4 @@
-import {
-  Component,
-  InjectionToken,
-  Injector,
-  OnInit,
-  TemplateRef,
-  signal,
-  ChangeDetectionStrategy,
-  viewChild,
-  inject,
-} from '@angular/core';
+import { Component, InjectionToken, Injector, OnInit, TemplateRef, signal, viewChild, inject } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -36,7 +26,7 @@ export interface Example {
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   imports: [EmojiButtonComponent, CodeComponent, JsonPipe, HtmlPipe],
 })
 export class ExampleComponent implements OnInit {
@@ -507,7 +497,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-dummy',
     template: 'Hi 👋 from the component!',
   })
@@ -528,7 +518,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-root',
     template: '...',
   })
@@ -551,7 +541,7 @@ export class ExampleComponent implements OnInit {
   }
 
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-injector',
     template: '{{ message }}',
   })
@@ -582,7 +572,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-root',
     template: '...',
   })
@@ -604,7 +594,7 @@ export class ExampleComponent implements OnInit {
   }
 
   @Component({
-    changeDetection: ChangeDetectionStrategy.OnPush,
+
     selector: 'app-data',
     template: '{{ toastRef.data.fact }}',
   })
@@ -634,7 +624,7 @@ export class ExampleComponent implements OnInit {
 @Component({
   selector: 'app-dummy',
   template: 'Hi 👋 from the component!',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   standalone: true,
 })
 export class DummyComponent {}
@@ -642,7 +632,7 @@ export class DummyComponent {}
 @Component({
   selector: 'app-injector',
   template: '{{ message }}',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   standalone: true,
 })
 export class InjectorComponent {
@@ -656,7 +646,7 @@ interface DataType {
 @Component({
   selector: 'app-data',
   template: '{{ toastRef?.data?.fact }}',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   standalone: true,
 })
 export class DataComponent {
