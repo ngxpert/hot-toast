@@ -1,10 +1,10 @@
 @let toastData = toast();
 <div
   class="hot-toast-bar-base-container"
-  [style]="containerPositionStyle"
+  [style]="containerPositionStyle()"
   [class]="'hot-toast-theme-' + toastData.theme"
-  [style.--hot-toast-scale]="scale"
-  [style.--hot-toast-translate-y]="translateY"
+  [style.--hot-toast-scale]="scale()"
+  [style.--hot-toast-translate-y]="translateY()"
 >
   <div
     class="hot-toast-bar-base-wrapper"
@@ -19,13 +19,13 @@
       [class]="toastData.className"
       [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts() ? 'paused' : 'running'"
-      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay"
+      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay()"
       [attr.aria-live]="toastData.ariaLive"
       [attr.role]="toastData.role"
     >
       <div class="hot-toast-icon" aria-hidden="true">
         @if (toastData.icon !== undefined) {
-          @if (isIconString) {
+          @if (isIconString()) {
             <hot-toast-animated-icon [iconTheme]="toastData.iconTheme" [icon]="toastData.icon" />
           } @else {
             <div>
