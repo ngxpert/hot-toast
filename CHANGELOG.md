@@ -1,3 +1,35 @@
+# [7.0.0](https://github.com/ngxpert/hot-toast/compare/v6.4.1...v7.0.0) (2026-09-01)
+
+
+* Merge pull request [#205](https://github.com/ngxpert/hot-toast/issues/205) from ngxpert/beta ([22c451d](https://github.com/ngxpert/hot-toast/commit/22c451dc1abda50c576d367bdeacbfbc8dff3f87))
+* refactor!: adopt OnPush change detection across all demo components ([2c7d4b7](https://github.com/ngxpert/hot-toast/commit/2c7d4b7408ca87f3404e1fc51b2e2ace0e91e79b))
+
+
+### Bug Fixes
+
+* enable strict null checks by updating type definitions and applying definite assignment assertions throughout the codebase. ([c87beed](https://github.com/ngxpert/hot-toast/commit/c87beed92f5baa19b49491a0332fd6b91eec6a0c))
+* **hot-toast:** update aria-label bindings to use toast() method and improve animation frame handling ([92bcc5a](https://github.com/ngxpert/hot-toast/commit/92bcc5addf8c910977a2a50e4f6ce4fa206ba66f))
+* **hot-toast:** update message handling to allow undefined values and improve type safety ([4feb97e](https://github.com/ngxpert/hot-toast/commit/4feb97ec3367ba298704eae5d267c8cf3fc07625))
+* update type handling and improve error handling in schematics and components ([93220df](https://github.com/ngxpert/hot-toast/commit/93220df2620e1cd24b49f54d32eca5513ce72315))
+
+
+### Documentation
+
+* clarify Angular v22 minimum peer dependency ([44d8cca](https://github.com/ngxpert/hot-toast/commit/44d8cca5af2d38954c36e98d8e53557e1bed2e8f))
+
+
+### BREAKING CHANGES
+
+* hot-toast now requires Angular >= 22.0.0. Projects on
+Angular 21 or earlier must upgrade Angular before installing this version.
+* hot-toast now requires Angular >= 22.0.0. Projects on
+Angular 21 or earlier must upgrade Angular before installing this version.
+* components now use OnPush change detection and
+require Angular 22. State mutated outside signals, @Input changes,
+template events, or the async pipe will no longer trigger a view
+refresh — consumers relying on Zone.js-driven detection must migrate
+to signals or call ChangeDetectorRef.markForCheck() manually.
+
 # [7.0.0-beta.1](https://github.com/ngxpert/hot-toast/compare/v6.4.1...v7.0.0-beta.1) (2026-09-01)
 
 
