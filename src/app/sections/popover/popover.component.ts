@@ -2,18 +2,19 @@ import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
-type PopoverDemo = {
+interface PopoverDemo {
   id: string;
   title: string;
   description: string;
   emoji: string;
   snippet: string;
-};
+}
 
 @Component({
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
+
   imports: [CodeComponent],
 })
 export class PopoverComponent {
@@ -55,9 +56,9 @@ toast.info('Traditional overlay', {
   selectedDemo: PopoverDemo = this.popoverDemos[0];
 
   globalConfigSnippet = `
-import { 
-  provideHotToastConfig, 
-  HOT_TOAST_USE_POPOVER_TOKEN 
+import {
+  provideHotToastConfig,
+  HOT_TOAST_USE_POPOVER_TOKEN
 } from '@ngxpert/hot-toast';
 import { bootstrapApplication } from '@angular/platform-browser';
 

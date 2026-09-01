@@ -55,11 +55,7 @@ export function addThemeToAppStyles(options: Schema): Rule {
 }
 
 /** Insert pre-built CSS file(s) into the angular.json file. */
-function insertPrebuiltStyles(
-  project: string,
-  theme: HotToastThemeOption,
-  logger: logging.LoggerApi,
-): Rule {
+function insertPrebuiltStyles(project: string, theme: HotToastThemeOption, logger: logging.LoggerApi): Rule {
   const rules: Rule[] = [
     addThemeStyleToTarget(project, 'build', BASE_CSS_FILEPATH, logger),
     addThemeStyleToTarget(project, 'test', BASE_CSS_FILEPATH, logger),
@@ -84,7 +80,10 @@ function addThemeStyleToTarget(
   logger: logging.LoggerApi,
 ): Rule {
   return updateWorkspace((workspace) => {
-    const project = getProjectFromWorkspace(workspace, projectName);
+    // `updateWorkspace` types its workspace via the `@angular-devkit/core` copy nested under
+    // `@schematics/angular`, which is nominally distinct from this package's copy. Bridge to our
+    // copy's types at this single boundary.
+    const project = getProjectFromWorkspace(workspace as unknown as workspaces.WorkspaceDefinition, projectName);
 
     // Do not update the builder options in case the target does not use the default CLI builder.
     if (!validateDefaultTargetBuilder(project, targetName, logger)) {
@@ -99,7 +98,9 @@ function addThemeStyleToTarget(
     } else {
       styles.unshift(assetPath);
     }
-  });
+    // `updateWorkspace` returns a `Rule` from the `@angular-devkit/schematics` copy nested under
+    // `@schematics/angular`, which is nominally distinct from this package's copy.
+  }) as unknown as Rule;
 }
 
 /**

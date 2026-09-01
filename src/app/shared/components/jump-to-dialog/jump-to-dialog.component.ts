@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { NgFor, NgStyle } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { NgFor } from '@angular/common';
+import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Content } from '@ngneat/overview';
 import {
@@ -16,7 +16,7 @@ import {
 @Component({
   selector: 'app-jump-to-dialog',
   templateUrl: 'jump-to-dialog.component.html',
-  standalone: true,
+
   imports: [
     CommandComponent,
     InputDirective,
@@ -25,8 +25,7 @@ import {
     ItemDirective,
     EmptyDirective,
     SeparatorComponent,
-    NgStyle,
-    NgFor
+    NgFor,
   ],
 })
 export class JumpToDialogComponent {
@@ -172,15 +171,15 @@ export class JumpToDialogComponent {
   private router = inject(Router);
   public dialogRef: DialogRef;
   inputValue = '';
-  readonly groups: Array<{
+  readonly groups: {
     group: string;
-    items: Array<{
+    items: {
       label: string;
       itemSelected?: () => void;
       icon: Content;
       separatorOnTop?: boolean;
-    }>;
-  }> = [
+    }[];
+  }[] = [
     {
       group: 'Variants',
       items: [
@@ -196,7 +195,7 @@ export class JumpToDialogComponent {
     },
   ];
   readonly projectItems = new Array(6);
-  styleTransform = '';
+  readonly styleTransform = signal('');
   setInputValue(ev: Event) {
     this.inputValue = (ev.target as HTMLInputElement).value;
   }
@@ -206,9 +205,9 @@ export class JumpToDialogComponent {
     }
   }
   bounce() {
-    this.styleTransform = 'scale(0.96)';
+    this.styleTransform.set('scale(0.96)');
     setTimeout(() => {
-      this.styleTransform = '';
+      this.styleTransform.set('');
     }, 100);
   }
 }

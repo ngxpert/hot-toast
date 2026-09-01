@@ -3,9 +3,8 @@ import { HotToastService, ToastTheme } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
-import { NgClass } from '@angular/common';
 
-type ThemeDemo = {
+interface ThemeDemo {
   id: ToastTheme;
   label: string;
   emoji: string;
@@ -15,12 +14,13 @@ type ThemeDemo = {
   tsSnippet: string;
   activeTab: 'scss' | 'css' | 'ts';
   action: () => void;
-};
+}
 
 @Component({
   selector: 'app-themes',
   templateUrl: './themes.component.html',
-  imports: [CodeComponent, EmojiButtonComponent, HtmlPipe, NgClass],
+
+  imports: [CodeComponent, EmojiButtonComponent, HtmlPipe],
 })
 export class ThemesComponent {
   private toast = inject(HotToastService);

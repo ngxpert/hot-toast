@@ -19,7 +19,7 @@
         href="https://react-hot-toast.com/"
         target="_blank"
         rel="noopener noreferrer"
-        [ngStyle]="{ 'transition-property': 'background-color, color' }"
+        [style.transition-property]="'background-color, color'"
         >React Hot Toast</a
       >
     </h4>
@@ -29,13 +29,13 @@
   <!-- #region quick buttons -->
   <div class="grid md:grid-cols-3 gap-4 rounded-2xl bg-toast-200 p-4 w-full max-w-4xl">
     <button
-      [ngClass]="[
+      [class]="[
         'rounded-lg font-bold gap-4 flex bg-gradient-to-b from-white to-toast-200 shadow-button text-center',
         'py-4 px-6',
         'active:translate-y-0.5 active:shadow-button-active active:bg-gray-100 transform',
         'focus:outline-none focus:ring-4',
       ]"
-      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
+      [style.transition-property]="'box-shadow, transform'"
       (click)="observe()"
     >
       <div>🍞</div>
@@ -45,11 +45,11 @@
       [href]="repoUrl"
       target="_blank"
       rel="noopener noreferrer"
-      [ngClass]="[
+      [class]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
         'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
-      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
+      [style.transition-property]="'box-shadow, transform'"
     >
       <div>
         <img src="assets/github.svg" alt="GitHub" />
@@ -58,11 +58,11 @@
     >
     <a
       routerLink="/playground"
-      [ngClass]="[
+      [class]="[
         'rounded-lg flex font-bold bg-white py-4 px-6 shadow-button  text-toast-800',
         'active:translate-y-0.5 active:shadow-button-active transform',
       ]"
-      [ngStyle]="{ 'transition-property': 'box-shadow, transform' }"
+      [style.transition-property]="'box-shadow, transform'"
     >
       <div>▶️</div>
       <span class="flex-1 text-center">Playground</span></a
@@ -102,7 +102,7 @@
     href="https://github.com/ngxpert/hot-toast/tree/master/src/app/sections"
     target="_blank"
     class="text-toast-600 hover:bg-gray-100 hover:text-toast-800 transform"
-    [ngStyle]="{ 'transition-property': 'background-color, color' }"
+    [style.transition-property]="'background-color, color'"
     >GitHub</a
   >.
 </h3>

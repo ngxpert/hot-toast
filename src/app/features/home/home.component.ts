@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { NgClass, NgStyle } from '@angular/common';
-// import { Dialog } from '@angular/cdk/dialog';
-
 import { REPO_URL } from '../../core/constants';
 import { ReverseOrderComponent } from '../../sections/reverse-order/reverse-order.component';
 import { StackingComponent } from '../../sections/stacking/stacking.component';
@@ -19,13 +16,11 @@ import { ToastContainerComponent } from '../../sections/toast-container/toast-co
 import { PopoverComponent } from '../../sections/popover/popover.component';
 import { ThemesComponent } from '../../sections/themes/themes.component';
 import { FormIntegrationComponent } from '../../sections/form-integration/form-integration.component';
-// import { JumpToDialogComponent } from './shared/components/jump-to-dialog/jump-to-dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+
   imports: [
-    NgClass,
-    NgStyle,
     FeaturesComponent,
     StepsComponent,
     ExampleComponent,
@@ -39,56 +34,13 @@ import { FormIntegrationComponent } from '../../sections/form-integration/form-i
     PopoverComponent,
     ThemesComponent,
     FormIntegrationComponent,
-    // JumpToDialogComponent,
   ],
 })
 export class HomeComponent {
+  private toast = inject(HotToastService);
+
   readonly repoUrl = REPO_URL;
   isDialogOpen = false;
-
-  constructor(
-    private toast: HotToastService, // private dialog: Dialog
-  ) {}
-
-  // keyDownListener(ev: KeyboardEvent) {
-  //   const key = ev.key;
-  //   const element = document.querySelector('[data-keyboard-key="' + key.toUpperCase() + '"]');
-  //   element.classList.add('active');
-  // }
-
-  // keyUpListener(ev: KeyboardEvent) {
-  //   const key = ev.key;
-  //   const element = document.querySelector('[data-keyboard-key="' + key.toUpperCase() + '"]');
-  //   element.classList.remove('active');
-  //   if (key === '/') {
-  //     ev.preventDefault();
-  //     this.openDialog();
-  //   }
-  // }
-
-  // ngOnInit() {
-  //   document.addEventListener('keyup', this.keyUpListener);
-  //   document.addEventListener('keydown', this.keyDownListener);
-  // }
-
-  // ngOnDestroy() {
-  //   document.removeEventListener('keyup', this.keyUpListener);
-  //   document.removeEventListener('keydown', this.keyDownListener);
-  // }
-
-  // openDialog() {
-  //   if (!this.isDialogOpen) {
-  //     this.isDialogOpen = true;
-
-  //     const dialogRef = this.dialog.open<string>(JumpToDialogComponent, {
-  //       width: '350px',
-  //     });
-
-  //     dialogRef.closed.subscribe((result) => {
-  //       this.isDialogOpen = false;
-  //     });
-  //   }
-  // }
 
   observe() {
     const promise = new Promise((res, rej) => {
@@ -114,12 +66,10 @@ export class HomeComponent {
 @Component({
   selector: 'app-icon',
   template: '✋',
-  standalone: true,
 })
 export class IconComponent {}
 @Component({
   selector: 'app-msg',
   template: 'Hey, how are you?',
-  standalone: true,
 })
 export class MessageComponent {}

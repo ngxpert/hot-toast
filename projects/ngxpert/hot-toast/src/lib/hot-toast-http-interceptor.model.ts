@@ -2,14 +2,14 @@ import type { HttpRequest } from '@angular/common/http';
 
 import type { ToastOptions } from './hot-toast.model';
 
-export type HotToastHttpInterceptorIgnoreContext = {
+export interface HotToastHttpInterceptorIgnoreContext {
   error: unknown;
   status: number | undefined;
   url: string | undefined;
   request: HttpRequest<unknown>;
-};
+}
 
-export type HotToastHttpInterceptorConfig = {
+export interface HotToastHttpInterceptorConfig {
   /**
    * HTTP status codes for which no error toast is shown (for example `401` when the app handles auth globally).
    */
@@ -37,7 +37,7 @@ export type HotToastHttpInterceptorConfig = {
    * Extra options passed to `HotToastService.error` (merged after the resolved message).
    */
   toastOptions?: Partial<ToastOptions<unknown>>;
-};
+}
 
 export const DEFAULT_HOT_TOAST_HTTP_INTERCEPTOR_CONFIG: HotToastHttpInterceptorConfig = {
   ignoreStatuses: [],

@@ -73,7 +73,15 @@ https://github.com/ngxpert/hot-toast/assets/6831283/ae718568-d5ea-47bf-a41d-6aab
         6.x
       </td>
       <td>
-        >= 21
+        >= 21 < 22
+      </td>
+    </tr>
+    <tr>
+      <td>
+        7.x
+      </td>
+      <td>
+        >= 22
       </td>
     </tr>
     

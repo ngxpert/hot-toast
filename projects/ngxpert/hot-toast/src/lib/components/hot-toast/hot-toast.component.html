@@ -1,9 +1,10 @@
+@let toastData = toast();
 <div
   class="hot-toast-bar-base-container"
-  [style]="containerPositionStyle"
-  [class]="'hot-toast-theme-' + toast.theme"
-  [style.--hot-toast-scale]="scale"
-  [style.--hot-toast-translate-y]="translateY"
+  [style]="containerPositionStyle()"
+  [class]="'hot-toast-theme-' + toastData.theme"
+  [style.--hot-toast-scale]="scale()"
+  [style.--hot-toast-translate-y]="translateY()"
 >
   <div
     class="hot-toast-bar-base-wrapper"
@@ -15,69 +16,73 @@
       class="hot-toast-bar-base"
       #hotToastBarBase
       [style]="toastBarBaseStylesSignal()"
-      [class]="toast.className"
+      [class]="toastData.className"
       [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts() ? 'paused' : 'running'"
-      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay"
-      [attr.aria-live]="toast.ariaLive"
-      [attr.role]="toast.role"
+      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay()"
+      [attr.aria-live]="toastData.ariaLive"
+      [attr.role]="toastData.role"
     >
       <div class="hot-toast-icon" aria-hidden="true">
-        @if (toast.icon !== undefined) { @if (isIconString) {
-        <hot-toast-animated-icon [iconTheme]="toast.iconTheme" [icon]="toast.icon" />
+        @if (toastData.icon !== undefined) {
+          @if (isIconString()) {
+            <hot-toast-animated-icon [iconTheme]="toastData.iconTheme" [icon]="toastData.icon" />
+          } @else {
+            <div>
+              <ng-container *dynamicView="toastData.icon" />
+            </div>
+          }
         } @else {
-        <div>
-          <ng-container *dynamicView="toast.icon" />
-        </div>
-        } } @else {
-        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type" />
+          <hot-toast-indicator [theme]="toastData.iconTheme" [type]="toastData.type" />
         }
       </div>
 
       <div class="hot-toast-message">
-        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector" />
+        <ng-container *dynamicView="toastData.message!; context: context; injector: toastComponentInjector" />
       </div>
 
-      @if (toast.group?.expandAndCollapsible && toast.group?.children && visibleToasts.length > 0) {
-      <button
-        (click)="toggleToastGroup()"
-        type="button"
-        class="hot-toast-group-btn"
-        [class.expanded]="isExpanded"
-        [attr.aria-label]="isExpanded ? 'Collapse' : 'Expand'"
-        [style]="toast.group.btnStyle"
-      ></button>
-      } @if (toast.dismissible) {
-      <button
-        (click)="close()"
-        type="button"
-        class="hot-toast-close-btn"
-        [attr.aria-label]="toast.closeLabel"
-        [style]="toast.closeStyle"
-      ></button>
+      @if (toastData.group?.expandAndCollapsible && toastData.group?.children && visibleToasts.length > 0) {
+        <button
+          (click)="toggleToastGroup()"
+          type="button"
+          class="hot-toast-group-btn"
+          [class.expanded]="isExpanded"
+          [attr.aria-label]="isExpanded ? 'Collapse' : 'Expand'"
+          [style]="toastData.group.btnStyle"
+        ></button>
+      }
+      @if (toastData.dismissible) {
+        <button
+          (click)="close()"
+          type="button"
+          class="hot-toast-close-btn"
+          [attr.aria-label]="toast().closeLabel"
+          [style]="toastData.closeStyle"
+        ></button>
       }
     </div>
 
-    @if (toast.visible) {
-    <div
-      role="list"
-      class="hot-toast-bar-base-group"
-      [class]="toast.group?.className"
-      [style.--hot-toast-group-height]="groupHeight + 'px'"
-    >
-      @for (item of groupChildrenToasts; track item.id) {
-      <hot-toast-group-item [toast]="item"
-        [offset]="calculateOffset(item.id)"
-        [toastRef]="toastRef().groupRefs[$index]"
-        [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
-        [defaultConfig]="defaultConfig()"
-        [isShowingAllToasts]="isShowingAllToasts()"
-        (height)="updateHeight($event, item)"
-        (beforeClosed)="beforeClosedGroupItem(item)"
-        (afterClosed)="afterClosedGroupItem($event)"
-       />
-      }
-    </div>
+    @if (toastData.visible) {
+      <div
+        role="list"
+        class="hot-toast-bar-base-group"
+        [class]="toastData.group?.className"
+        [style.--hot-toast-group-height]="groupHeight + 'px'"
+      >
+        @for (item of groupChildrenToasts; track item.id) {
+          <hot-toast-group-item
+            [toast]="item"
+            [offset]="calculateOffset(item.id)"
+            [toastRef]="toastRef()?.groupRefs?.[$index]!"
+            [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
+            [defaultConfig]="defaultConfig()"
+            [isShowingAllToasts]="isShowingAllToasts()"
+            (height)="updateHeight($event, item)"
+            (beforeClosed)="beforeClosedGroupItem(item)"
+            (afterClosed)="afterClosedGroupItem($event)"
+          />
+        }
+      </div>
     }
   </div>
 </div>

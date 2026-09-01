@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 
-type SampleApiEndpoint = {
+interface SampleApiEndpoint {
   id: string;
   label: string;
   path: string;
@@ -12,7 +12,7 @@ type SampleApiEndpoint = {
   hint: string;
   extraHeaders?: Record<string, string>;
   body?: unknown;
-};
+}
 
 const SAMPLE_API_ENDPOINTS: readonly SampleApiEndpoint[] = [
   { id: 'health', label: 'GET /api/health', path: '/api/health', method: 'GET', hint: '200 — no error toast' },
@@ -69,6 +69,7 @@ const SAMPLE_API_ENDPOINTS: readonly SampleApiEndpoint[] = [
 @Component({
   selector: 'app-http-interceptor-sample',
   imports: [RouterLink],
+
   templateUrl: './http-interceptor-sample.component.html',
 })
 export class HttpInterceptorSampleComponent {
