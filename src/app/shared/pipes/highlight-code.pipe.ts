@@ -3,7 +3,6 @@ import highlightJs from 'highlight.js';
 
 @Pipe({
   name: 'highlightCode',
-  standalone: true,
 })
 export class HighlightCodePipe implements PipeTransform {
   transform(value: string | null | undefined, language = 'typescript'): string {

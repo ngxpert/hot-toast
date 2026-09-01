@@ -1,44 +1,47 @@
+@let toastData = toast();
 <div
   class="hot-toast-bar-base-container"
-  [style]="containerPositionStyle"
-  [class]="'hot-toast-theme-' + toast.theme"
-  [style.--hot-toast-scale]="scale"
-  [style.--hot-toast-translate-y]="translateY"
+  [style]="containerPositionStyle()"
+  [class]="'hot-toast-theme-' + toastData.theme"
+  [style.--hot-toast-scale]="scale()"
+  [style.--hot-toast-translate-y]="translateY()"
 >
   <div class="hot-toast-bar-base-wrapper" (mouseenter)="handleMouseEnter()" (mouseleave)="handleMouseLeave()">
     <div
       class="hot-toast-bar-base"
       #hotToastBarBase
       [style]="toastBarBaseStylesSignal()"
-      [class]="toast.className"
+      [class]="toastData.className"
       [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts() ? 'paused' : 'running'"
-      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay"
-      [attr.aria-live]="toast.ariaLive"
-      [attr.role]="toast.role"
+      [style.--hot-toast-exit-animation-delay]="exitAnimationDelay()"
+      [attr.aria-live]="toastData.ariaLive"
+      [attr.role]="toastData.role"
     >
       <div class="hot-toast-icon" aria-hidden="true">
-        @if (toast.icon !== undefined) { @if (isIconString) {
-        <hot-toast-animated-icon [iconTheme]="toast.iconTheme">{{ toast.icon }}</hot-toast-animated-icon>
+        @if (toastData.icon !== undefined) {
+          @if (isIconString()) {
+            <hot-toast-animated-icon [iconTheme]="toastData.iconTheme">{{ toastData.icon }}</hot-toast-animated-icon>
+          } @else {
+            <div>
+              <ng-container *dynamicView="toastData.icon" />
+            </div>
+          }
         } @else {
-        <div>
-          <ng-container *dynamicView="toast.icon" />
-        </div>
-        } } @else {
-        <hot-toast-indicator [theme]="toast.iconTheme" [type]="toast.type" />
+          <hot-toast-indicator [theme]="toastData.iconTheme" [type]="toastData.type" />
         }
       </div>
       <div class="hot-toast-message">
-        <ng-container *dynamicView="toast.message; context: context; injector: toastComponentInjector" />
+        <ng-container *dynamicView="toastData.message!; context: context; injector: toastComponentInjector" />
       </div>
-      @if (toast.dismissible) {
-      <button
-        (click)="close()"
-        type="button"
-        class="hot-toast-close-btn"
-        [attr.aria-label]="toast.closeLabel"
-        [style]="toast.closeStyle"
-      ></button>
+      @if (toastData.dismissible) {
+        <button
+          (click)="close()"
+          type="button"
+          class="hot-toast-close-btn"
+          [attr.aria-label]="toast().closeLabel"
+          [style]="toastData.closeStyle"
+        ></button>
       }
     </div>
   </div>

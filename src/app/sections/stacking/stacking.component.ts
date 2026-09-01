@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService, ToastStacking } from '@ngxpert/hot-toast';
 import { ButtonGroupItem } from 'src/app/shared/components/button-group/button-group.component';
 import { CodeComponent } from '../../shared/components/code/code.component';
@@ -6,15 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { ButtonGroupComponent } from '../../shared/components/button-group/button-group.component';
 
 @Component({
-    selector: 'app-stacking',
-    templateUrl: './stacking.component.html',
-    imports: [
-        ButtonGroupComponent,
-        FormsModule,
-        CodeComponent,
-    ]
+  selector: 'app-stacking',
+  templateUrl: './stacking.component.html',
+
+  imports: [ButtonGroupComponent, FormsModule, CodeComponent],
 })
 export class StackingComponent {
+  private toast = inject(HotToastService);
+
   stacking: ToastStacking;
   visibleToasts = 5;
   readonly stackingButtons: ButtonGroupItem[] = [
@@ -35,7 +34,7 @@ export class StackingComponent {
       },
     },
   ];
-  constructor(private toast: HotToastService) {
+  constructor() {
     this.stacking = this.toast.defaultConfig.stacking;
   }
 
@@ -62,6 +61,7 @@ export class StackingComponent {
   import { Component } from '@angular/core';
   import { HotToastService } from '@ngxpert/hot-toast';
   @Component({
+
     selector: 'app-root'
   })
   export class AppComponent {

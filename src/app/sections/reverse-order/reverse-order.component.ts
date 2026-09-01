@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { CodeComponent } from '../../shared/components/code/code.component';
-import { NgClass } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 @Component({
-    selector: 'app-reverse-order',
-    templateUrl: './reverse-order.component.html',
-    imports: [
-        EmojiButtonComponent,
-        NgClass,
-        CodeComponent,
-    ]
+  selector: 'app-reverse-order',
+  templateUrl: './reverse-order.component.html',
+
+  imports: [EmojiButtonComponent, CodeComponent],
 })
 export class ReverseOrderComponent {
+  private toast = inject(HotToastService);
+
   reversOrder: boolean;
-  constructor(private toast: HotToastService) {
+  constructor() {
     this.reversOrder = this.toast.defaultConfig.reverseOrder;
   }
 
@@ -41,6 +39,7 @@ export class ReverseOrderComponent {
   import { Component } from '@angular/core';
   import { HotToastService } from '@ngxpert/hot-toast';
   @Component({
+
     selector: 'app-root'
   })
   export class AppComponent {

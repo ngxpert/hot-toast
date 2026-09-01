@@ -4,6 +4,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 @Component({
   selector: 'app-toast-with-line-indicator',
   templateUrl: './toast-with-line-indicator.component.html',
+
   styleUrls: ['./toast-with-line-indicator.component.scss'],
 })
 export class ToastWithLineIndicatorComponent {

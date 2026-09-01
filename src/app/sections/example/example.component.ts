@@ -1,14 +1,16 @@
-import { Component, Inject, Injector, OnInit, Optional, ViewChild, signal } from '@angular/core';
+import { Component, InjectionToken, Injector, OnInit, TemplateRef, signal, viewChild, inject } from '@angular/core';
 import { HotToastClose, HotToastRef, HotToastService } from '@ngxpert/hot-toast';
 import { from, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HtmlPipe } from '../../shared/pipes/html.pipe';
 import { CodeComponent } from '../../shared/components/code/code.component';
 
-import { NgClass, JsonPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { EmojiButtonComponent } from '../../shared/components/emoji-button/emoji-button.component';
 
 export const EXAMPLE_EVENTS_DURATION = 5000;
+
+const MESSAGE = new InjectionToken<string>('MESSAGE');
 
 export interface Example {
   id: string;
@@ -24,13 +26,17 @@ export interface Example {
   selector: 'app-example',
   templateUrl: './example.component.html',
   styleUrls: ['./example.component.scss'],
-  imports: [EmojiButtonComponent, NgClass, CodeComponent, JsonPipe, HtmlPipe, NgClass],
+
+  imports: [EmojiButtonComponent, CodeComponent, JsonPipe, HtmlPipe],
 })
 export class ExampleComponent implements OnInit {
-  @ViewChild('success') successTemplate;
-  @ViewChild('error') errorTemplate;
-  @ViewChild('template') ngTemplate;
-  @ViewChild('templateContext') ngTemplateContext;
+  private toast = inject(HotToastService);
+  private parent = inject(Injector);
+
+  readonly successTemplate = viewChild.required<TemplateRef<unknown>>('success');
+  readonly errorTemplate = viewChild.required<TemplateRef<unknown>>('error');
+  readonly ngTemplate = viewChild.required<TemplateRef<unknown>>('template');
+  readonly ngTemplateContext = viewChild.required<TemplateRef<unknown>>('templateContext');
 
   examples: Example[] = [];
 
@@ -40,8 +46,6 @@ export class ExampleComponent implements OnInit {
     { label: 'TypeScript', value: 'typescript' },
     { label: 'HTML', value: 'html' },
   ];
-
-  constructor(private toast: HotToastService, private parent: Injector) {}
 
   ngOnInit(): void {
     const examples: Example[] = [
@@ -159,15 +163,15 @@ export class ExampleComponent implements OnInit {
           from(
             new Promise((res, rej) => {
               setTimeout(Math.random() > 0.5 ? res : rej, 1000);
-            })
+            }),
           )
             .pipe(
               this.toast.observe({
                 loading: 'Saving...',
-                success: this.successTemplate,
-                error: this.errorTemplate,
+                success: this.successTemplate(),
+                error: this.errorTemplate(),
               }),
-              catchError((error) => of(error))
+              catchError((error) => of(error)),
             )
             .subscribe();
         },
@@ -190,12 +194,11 @@ export class ExampleComponent implements OnInit {
         },
         action: () => {
           this.toast.show(
-            // eslint-disable-next-line max-len
             `This toast is super big.I don't think anyone could eat it in one bite. It's larger than you expected. You eat it but it does not seem to get smaller.`,
             {
               autoClose: false,
               dismissible: true,
-            }
+            },
           );
         },
       },
@@ -368,7 +371,7 @@ export class ExampleComponent implements OnInit {
           });
           setTimeout(() => {
             ref.updateMessage(
-              `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+              `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`,
             );
           }, 3000);
         },
@@ -433,7 +436,7 @@ export class ExampleComponent implements OnInit {
         action: () => {
           const supportType = 'ground support';
           this.toast.show(
-            `I don't know why I am <i>tilted</i>! Maybe I need some <u class="bg-toast-100">${supportType}</u>.`
+            `I don't know why I am <i>tilted</i>! Maybe I need some <u class="bg-toast-100">${supportType}</u>.`,
           );
         },
       },
@@ -454,7 +457,7 @@ export class ExampleComponent implements OnInit {
   </ng-template>`,
         },
         action: () => {
-          this.toast.show(this.ngTemplate, { autoClose: false });
+          this.toast.show(this.ngTemplate(), { autoClose: false });
         },
       },
       {
@@ -479,7 +482,7 @@ export class ExampleComponent implements OnInit {
   </ng-template>`,
         },
         action: () => {
-          this.toast.show(this.ngTemplateContext, {
+          this.toast.show(this.ngTemplateContext(), {
             autoClose: false,
             data: { fact: '1+1 = 2' },
           });
@@ -494,6 +497,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
+
     selector: 'app-dummy',
     template: 'Hi 👋 from the component!',
   })
@@ -514,6 +518,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
+
     selector: 'app-root',
     template: '...',
   })
@@ -536,6 +541,7 @@ export class ExampleComponent implements OnInit {
   }
 
   @Component({
+
     selector: 'app-injector',
     template: '{{ message }}',
   })
@@ -547,7 +553,7 @@ export class ExampleComponent implements OnInit {
           const injector = Injector.create({
             providers: [
               {
-                provide: 'MESSAGE',
+                provide: MESSAGE,
                 useValue: 'I love Angular 🔥 Hot Toasts!',
               },
             ],
@@ -566,6 +572,7 @@ export class ExampleComponent implements OnInit {
         snippet: {
           typescript: `
   @Component({
+
     selector: 'app-root',
     template: '...',
   })
@@ -587,6 +594,7 @@ export class ExampleComponent implements OnInit {
   }
 
   @Component({
+
     selector: 'app-data',
     template: '{{ toastRef.data.fact }}',
   })
@@ -616,17 +624,15 @@ export class ExampleComponent implements OnInit {
 @Component({
   selector: 'app-dummy',
   template: 'Hi 👋 from the component!',
-  standalone: true,
 })
 export class DummyComponent {}
 
 @Component({
   selector: 'app-injector',
   template: '{{ message }}',
-  standalone: true,
 })
 export class InjectorComponent {
-  constructor(@Optional() @Inject('MESSAGE') public message: string) {}
+  message = inject(MESSAGE, { optional: true });
 }
 
 interface DataType {
@@ -635,9 +641,8 @@ interface DataType {
 
 @Component({
   selector: 'app-data',
-  template: '{{ toastRef.data.fact }}',
-  standalone: true,
+  template: '{{ toastRef?.data?.fact }}',
 })
 export class DataComponent {
-  constructor(@Optional() @Inject(HotToastRef) public toastRef: HotToastRef<DataType>) {}
+  toastRef = inject<HotToastRef<DataType>>(HotToastRef, { optional: true });
 }

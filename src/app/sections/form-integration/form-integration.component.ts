@@ -18,6 +18,7 @@ type DemoTab = 'control' | 'group';
 @Component({
   selector: 'app-form-integration',
   templateUrl: './form-integration.component.html',
+
   imports: [ReactiveFormsModule, CodeComponent],
 })
 export class FormIntegrationComponent implements OnDestroy {

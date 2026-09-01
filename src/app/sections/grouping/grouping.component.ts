@@ -1,27 +1,28 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { Example } from '../example/example.component';
 import { CreateHotToastRef, HotToastGroupChild, HotToastService, ToastOptions } from '@ngxpert/hot-toast';
 import { Content } from '@ngneat/overview';
 import { EmojiButtonComponent } from 'src/app/shared/components/emoji-button/emoji-button.component';
 import { CodeComponent } from 'src/app/shared/components/code/code.component';
 import { HtmlPipe } from 'src/app/shared/pipes/html.pipe';
-import { NgClass, NgStyle } from '@angular/common';
+
 import { preGroupingTS, preGroupingHTML, preGroupingCSS, postGroupingTS } from './snippets';
 import { HotToastBuilder } from '@ngxpert/hot-toast';
 
 @Component({
-    selector: 'app-grouping',
-    templateUrl: 'grouping.component.html',
-    imports: [EmojiButtonComponent, CodeComponent, HtmlPipe, NgClass, NgStyle],
-    styleUrls: ['./grouping.component.scss']
+  selector: 'app-grouping',
+  templateUrl: 'grouping.component.html',
+  imports: [EmojiButtonComponent, CodeComponent, HtmlPipe],
+
+  styleUrls: ['./grouping.component.scss'],
 })
 export class GroupingComponent implements OnInit {
   toast = inject(HotToastService);
   examples: Example[] = [];
-  @ViewChild('groupTemplate') ngTemplateGroup;
-  @ViewChild('groupItemTemplate') ngTemplateGroupItem;
+  readonly ngTemplateGroup = viewChild.required<TemplateRef<unknown>>('groupTemplate');
+  readonly ngTemplateGroupItem = viewChild.required<TemplateRef<unknown>>('groupItemTemplate');
 
-  parentRef: CreateHotToastRef<unknown>;
+  parentRef!: CreateHotToastRef<unknown>;
 
   private notificationCounter = 0;
 
@@ -128,7 +129,7 @@ export class GroupingComponent implements OnInit {
           css: preGroupingCSS,
         },
         action: () => {
-          this.parentRef = this.toast.show(this.ngTemplateGroup, {
+          this.parentRef = this.toast.show(this.ngTemplateGroup(), {
             position: 'top-right',
             autoClose: false,
             className: 'hot-toast-custom-class',
@@ -148,7 +149,7 @@ export class GroupingComponent implements OnInit {
   }
 
   addNotification() {
-    const allNotifications = this.childNotifications(this.ngTemplateGroupItem);
+    const allNotifications = this.childNotifications(this.ngTemplateGroupItem());
     const toast = allNotifications[this.notificationCounter++ % allNotifications.length].options;
     this.toast.show(toast.message, { ...toast, group: { parent: this.parentRef } });
   }
@@ -159,7 +160,7 @@ export class GroupingComponent implements OnInit {
 
   showPreGroupedNotifications() {
     // Create parent toast first but don't show it
-    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup, this.toast).setOptions({
+    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup(), this.toast).setOptions({
       position: 'top-right',
       autoClose: false,
       className: 'hot-toast-custom-class',
@@ -169,7 +170,7 @@ export class GroupingComponent implements OnInit {
     });
 
     // Create child toasts
-    const children = this.childNotifications(this.ngTemplateGroupItem).map((child) => {
+    const children = this.childNotifications(this.ngTemplateGroupItem()).map((child) => {
       return new HotToastBuilder(child.options.message, this.toast).setOptions(child.options);
     });
 
@@ -188,7 +189,7 @@ export class GroupingComponent implements OnInit {
   // Hidden method for testing dismissible toasts
   showDismissibleToasts() {
     // Create parent toast first but don't show it
-    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup, this.toast).setOptions({
+    const parentBuilder = new HotToastBuilder(this.ngTemplateGroup(), this.toast).setOptions({
       position: 'top-right',
       autoClose: false,
       dismissible: true,
@@ -199,7 +200,7 @@ export class GroupingComponent implements OnInit {
     });
 
     // Create child toasts with dismissible option
-    const childrenWithDismissible = this.childNotifications(this.ngTemplateGroupItem).map((child) => {
+    const childrenWithDismissible = this.childNotifications(this.ngTemplateGroupItem()).map((child) => {
       return new HotToastBuilder(child.options.message, this.toast).setOptions({
         ...child.options,
         dismissible: true,

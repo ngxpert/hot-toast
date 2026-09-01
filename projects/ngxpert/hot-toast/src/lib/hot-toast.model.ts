@@ -31,15 +31,15 @@ export class ToastConfig implements DefaultToastOptions {
   ariaLive: ToastAriaLive = 'polite';
   role: ToastRole = 'status';
   position: ToastPosition = 'top-center';
-  className: string;
-  closeStyle: Record<string, string>;
+  className?: string;
+  closeStyle?: Record<string, string>;
   closeLabel = 'Close';
-  dismissible: boolean;
+  dismissible?: boolean;
   autoClose = true;
-  duration: number;
-  icon: Content;
-  iconTheme: IconTheme;
-  style: Record<string, string>;
+  duration?: number;
+  icon?: Content;
+  iconTheme?: IconTheme;
+  style?: Record<string, string>;
   theme: ToastTheme = 'toast';
   attributes: Record<string, string> = {};
 
@@ -62,10 +62,10 @@ export class ToastConfig implements DefaultToastOptions {
 export type ToastType = 'success' | 'error' | 'loading' | 'blank' | 'warning' | 'info';
 export type ToastPosition = 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
-export type IconTheme = {
+export interface IconTheme {
   primary: string;
   secondary?: string;
-};
+}
 
 /**
  * Visual theme for a hot-toast.
@@ -110,7 +110,7 @@ export type ToastAriaLive = 'assertive' | 'off' | 'polite';
 export interface HotToastGroupChild {
   options: ToastOptions<unknown> & {
     type?: ToastType;
-    message: Content;
+    message: Content | undefined;
   };
 }
 
@@ -294,9 +294,8 @@ export type ToastOptions<DataType> = Partial<
   >
 >;
 
-export type DefaultToastOptions = ToastOptions<unknown> & {
-  [key in ToastType]?: ToastOptions<unknown> & { content?: Content };
-};
+export type DefaultToastOptions = ToastOptions<unknown> &
+  Partial<Record<ToastType, ToastOptions<unknown> & { content?: Content }>>;
 
 export type ObservableLoading<DataType> = {
   content: Content;
@@ -306,11 +305,11 @@ export type ObservableSuccessOrError<T, DataType> = {
   content: ValueOrFunction<Content, T>;
 } & ToastOptions<DataType>;
 
-export type ObservableMessages<T, DataType> = {
+export interface ObservableMessages<T, DataType> {
   loading?: Content | ObservableLoading<DataType>;
   success?: ValueOrFunction<Content, T> | ObservableSuccessOrError<T, DataType>;
   error?: ValueOrFunction<Content, unknown> | ObservableSuccessOrError<unknown, DataType>;
-};
+}
 
 export interface HotToastServiceMethods {
   show<DataType>(message?: Content, options?: ToastOptions<DataType>): CreateHotToastRef<DataType | unknown>;
@@ -455,14 +454,14 @@ export type FormToastStateConfig<TControl extends AbstractControl> = {
  * Options map for `fromForm`, keyed by Angular's `FormControlStatus`.
  * Omitting a status key means no toast is shown for that status.
  */
-export type FormToastOptions<TControl extends AbstractControl> = {
-  [K in FormControlStatus]?: FormToastStateConfig<TControl>;
-};
+export type FormToastOptions<TControl extends AbstractControl> = Partial<
+  Record<FormControlStatus, FormToastStateConfig<TControl>>
+>;
 
 /**
  * Ref returned by `fromForm`.
  * Call `close()` to unsubscribe from status changes and dismiss any active toast.
  */
-export type HotToastFormRef = {
+export interface HotToastFormRef {
   close: () => void;
-};
+}

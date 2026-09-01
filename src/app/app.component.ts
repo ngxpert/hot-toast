@@ -5,6 +5,7 @@ import { FooterComponent } from './sections/footer/footer.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+
   imports: [
     // JumpToDialogComponent,
     RouterOutlet,

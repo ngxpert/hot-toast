@@ -3,6 +3,7 @@ import { HotToastService } from '@ngxpert/hot-toast';
 
 @Component({
   selector: 'app-test-container',
+
   template: `
     <div class="p-8">
       <h1 class="text-2xl font-bold mb-4">Test Container Token</h1>
