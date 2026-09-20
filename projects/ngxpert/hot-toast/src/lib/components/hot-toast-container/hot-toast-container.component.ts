@@ -8,6 +8,7 @@ import {
   OnDestroy,
   isDevMode,
   viewChildren,
+  Injector,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import {
@@ -63,6 +64,7 @@ export class HotToastContainerComponent implements OnDestroy {
   private cdr = inject(ChangeDetectorRef);
   private toastService = inject(HotToastService);
   private host = inject(ElementRef);
+  private injector = inject(Injector);
 
   constructor() {
     afterNextRender(() => {
@@ -236,17 +238,32 @@ export class HotToastContainerComponent implements OnDestroy {
     });
   }
 
-  closeToast(id?: string) {
-    if (id) {
-      const comp = this.hotToastComponentList().find((item) => item.toast().id === id);
-      if (comp) {
+  closeToast(id?: string): void {
+    const components = this.hotToastComponentList();
+    const pendingIds = new Set(this.toasts.filter((toast) => !id || toast.id === id).map((toast) => toast.id));
+
+    components.forEach((comp) => {
+      if (pendingIds.delete(comp.toast().id)) {
         comp.close();
-        this.cdr.markForCheck();
       }
-    } else {
-      this.hotToastComponentList().forEach((comp) => comp.close());
-      this.cdr.markForCheck();
+    });
+
+    if (pendingIds.size > 0) {
+      // A toast can be registered before its component has rendered. Keep the
+      // requested IDs so close-all does not also close toasts added afterwards.
+      afterNextRender(
+        () => {
+          this.hotToastComponentList().forEach((comp) => {
+            if (pendingIds.has(comp.toast().id)) {
+              comp.close();
+            }
+          });
+          this.cdr.markForCheck();
+        },
+        { injector: this.injector },
+      );
     }
+    this.cdr.markForCheck();
   }
 
   beforeClosed(toast: Toast<unknown>) {
