@@ -1,3 +1,10 @@
+## [7.0.1-beta.1](https://github.com/ngxpert/hot-toast/compare/v7.0.0...v7.0.1-beta.1) (2026-09-23)
+
+
+### Bug Fixes
+
+* **hot-toast:** honor close requests before render ([3b41b80](https://github.com/ngxpert/hot-toast/commit/3b41b802ab2308d32fa788f59f8eea504c2e2b63))
+
 # [7.0.0](https://github.com/ngxpert/hot-toast/compare/v6.4.1...v7.0.0) (2026-09-01)
 
 
