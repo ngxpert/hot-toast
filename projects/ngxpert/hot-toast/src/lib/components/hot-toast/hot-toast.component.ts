@@ -356,8 +356,9 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
             .slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index]))
             .reduce((acc, t, i) => {
               const defaultConfig = this.defaultConfig();
+              const absoluteIndex = defaultConfig?.reverseOrder ? index + 1 + i : i;
               return defaultConfig?.visibleToasts !== 0 &&
-                i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
+                absoluteIndex < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
                 ? 0
                 : acc + (t.height || 0);
             }, 0)

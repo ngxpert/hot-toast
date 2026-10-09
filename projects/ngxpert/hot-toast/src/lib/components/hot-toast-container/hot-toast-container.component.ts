@@ -105,9 +105,10 @@ export class HotToastContainerComponent implements OnDestroy {
             .slice(...(this.defaultConfig()?.reverseOrder ? [index + 1] : [0, index]))
             .reduce((acc, t, i) => {
               const defaultConfig = this.defaultConfig();
-              const toastsAfter = visibleToasts.length - 1 - i;
+              const absoluteIndex = defaultConfig?.reverseOrder ? index + 1 + i : i;
+              const toastsAfter = visibleToasts.length - 1 - absoluteIndex;
               return defaultConfig?.visibleToasts !== 0 &&
-                i < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
+                absoluteIndex < visibleToasts.length - (defaultConfig?.visibleToasts ?? 0)
                 ? 0
                 : acc +
                     (defaultConfig?.stacking === 'vertical' || this.isShowingAllToasts

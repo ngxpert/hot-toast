@@ -20,6 +20,14 @@ import { DEPTH_E2E_CONFIG, DEPTH_E2E_TOAST_COUNT } from './depth-stacking-e2e.co
         >
           {{ toastCount }} persistent toasts
         </button>
+        <button
+          type="button"
+          id="depth-e2e-reverse"
+          class="rounded bg-gray-800 px-3 py-2 text-sm text-white"
+          (click)="showReverseOrderToasts()"
+        >
+          {{ toastCount }} persistent toasts, reverse order
+        </button>
       </div>
     </div>
   `,
@@ -30,6 +38,10 @@ export class DepthStackingE2eComponent {
 
   showPersistentToasts(): void {
     this.showToasts({ autoClose: false, dismissible: true });
+  }
+
+  showReverseOrderToasts(): void {
+    this.showToasts({ autoClose: false, dismissible: true }, { reverseOrder: true });
   }
 
   private showToasts(
