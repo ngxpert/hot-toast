@@ -3,7 +3,11 @@
     "ignoreDeprecations": "6.0",
     "target": "ES2022",
     "lib": ["ES2022", "dom"],
-    "types": ["cypress"]
+    "types": ["cypress"],
+    "baseUrl": "..",
+    "paths": {
+      "@ngxpert/hot-toast": ["projects/ngxpert/hot-toast/src/public-api.ts"]
+    }
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
