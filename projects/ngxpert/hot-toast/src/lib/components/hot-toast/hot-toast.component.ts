@@ -193,6 +193,13 @@ export class HotToastComponent implements OnInit, AfterViewInit, OnDestroy, DoCh
     return this.groupChildrenToasts.filter((t) => t.visible);
   }
 
+  /** Depth of a group child; see `HotToastContainerComponent.getToastsAfter` for why the index cannot be used. */
+  getToastsAfter(item: Toast<unknown>) {
+    const children = this.groupChildrenToasts;
+    const after = children.slice(children.findIndex((t) => t.id === item.id) + 1);
+    return item.autoClose ? after.length : after.filter((t) => t.visible).length;
+  }
+
   ngDoCheck() {
     const toastRef = this.toastRef();
     if (toastRef?.groupRefs.length !== this.groupRefs.length) {

@@ -10,3 +10,9 @@ export const DEPTH_E2E_CONFIG = {
 
 /** More than `visibleToasts` so the oldest toasts are soft-closed. */
 export const DEPTH_E2E_TOAST_COUNT = 4;
+
+/** Enough that `visibleToasts` toasts are still visible after two are closed one by one. */
+export const DEPTH_E2E_ONE_BY_ONE_TOAST_COUNT = 5;
+
+/** Exactly `visibleToasts`: closing the front toast leaves its slot empty, nothing slides into it. */
+export const DEPTH_E2E_WITHIN_CAP_TOAST_COUNT = DEPTH_E2E_CONFIG.visibleToasts;

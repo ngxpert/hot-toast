@@ -74,7 +74,7 @@
             [toast]="item"
             [offset]="calculateOffset(item.id)"
             [toastRef]="toastRef()?.groupRefs?.[$index]!"
-            [toastsAfter]="(item.autoClose ? groupChildrenToasts.length : visibleToasts.length) - 1 - $index"
+            [toastsAfter]="getToastsAfter(item)"
             [defaultConfig]="defaultConfig()"
             [isShowingAllToasts]="isShowingAllToasts()"
             (height)="updateHeight($event, item)"

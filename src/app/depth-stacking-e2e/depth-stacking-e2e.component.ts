@@ -1,6 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { HotToastService, ToastConfig, ToastOptions } from '@ngxpert/hot-toast';
-import { DEPTH_E2E_CONFIG, DEPTH_E2E_TOAST_COUNT } from './depth-stacking-e2e.config';
+import {
+  DEPTH_E2E_CONFIG,
+  DEPTH_E2E_ONE_BY_ONE_TOAST_COUNT,
+  DEPTH_E2E_TOAST_COUNT,
+  DEPTH_E2E_WITHIN_CAP_TOAST_COUNT,
+} from './depth-stacking-e2e.config';
 
 @Component({
   selector: 'app-depth-stacking-e2e',
@@ -9,7 +14,7 @@ import { DEPTH_E2E_CONFIG, DEPTH_E2E_TOAST_COUNT } from './depth-stacking-e2e.co
     <div class="p-8 max-w-xl space-y-4">
       <h1 class="text-2xl font-bold">Depth stacking E2E</h1>
       <p class="text-sm text-gray-600">
-        Buttons show more persistent toasts than <code>visibleToasts</code> so the oldest ones are soft-closed.
+        Most buttons show more persistent toasts than <code>visibleToasts</code> so the oldest ones are soft-closed.
       </p>
       <div class="flex flex-wrap gap-2">
         <button
@@ -28,6 +33,22 @@ import { DEPTH_E2E_CONFIG, DEPTH_E2E_TOAST_COUNT } from './depth-stacking-e2e.co
         >
           {{ toastCount }} persistent toasts, reverse order
         </button>
+        <button
+          type="button"
+          id="depth-e2e-one-by-one"
+          class="rounded bg-gray-800 px-3 py-2 text-sm text-white"
+          (click)="showOneByOneToasts()"
+        >
+          {{ oneByOneToastCount }} persistent toasts, close one by one
+        </button>
+        <button
+          type="button"
+          id="depth-e2e-within-cap"
+          class="rounded bg-gray-800 px-3 py-2 text-sm text-white"
+          (click)="showToastsWithinCap()"
+        >
+          {{ withinCapToastCount }} persistent toasts, within the cap
+        </button>
       </div>
     </div>
   `,
@@ -35,6 +56,8 @@ import { DEPTH_E2E_CONFIG, DEPTH_E2E_TOAST_COUNT } from './depth-stacking-e2e.co
 export class DepthStackingE2eComponent {
   private readonly toast = inject(HotToastService);
   protected readonly toastCount = DEPTH_E2E_TOAST_COUNT;
+  protected readonly oneByOneToastCount = DEPTH_E2E_ONE_BY_ONE_TOAST_COUNT;
+  protected readonly withinCapToastCount = DEPTH_E2E_WITHIN_CAP_TOAST_COUNT;
 
   showPersistentToasts(): void {
     this.showToasts({ autoClose: false, dismissible: true });
@@ -42,6 +65,14 @@ export class DepthStackingE2eComponent {
 
   showReverseOrderToasts(): void {
     this.showToasts({ autoClose: false, dismissible: true }, { reverseOrder: true });
+  }
+
+  showOneByOneToasts(): void {
+    this.showToasts({ autoClose: false, dismissible: true }, {}, DEPTH_E2E_ONE_BY_ONE_TOAST_COUNT);
+  }
+
+  showToastsWithinCap(): void {
+    this.showToasts({ autoClose: false, dismissible: true }, {}, DEPTH_E2E_WITHIN_CAP_TOAST_COUNT);
   }
 
   private showToasts(
