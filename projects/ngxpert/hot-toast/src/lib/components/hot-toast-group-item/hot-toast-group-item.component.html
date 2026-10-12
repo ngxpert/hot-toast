@@ -12,7 +12,7 @@
       #hotToastBarBase
       [style]="toastBarBaseStylesSignal()"
       [class]="toastData.className"
-      [style.--hot-toast-animation-state]="isManualClose ? 'running' : 'paused'"
+      [style.--hot-toast-animation-state]="isManualClose || !toastData.autoClose ? 'running' : 'paused'"
       [style.--hot-toast-exit-animation-state]="isShowingAllToasts() ? 'paused' : 'running'"
       [style.--hot-toast-exit-animation-delay]="exitAnimationDelay()"
       [attr.aria-live]="toastData.ariaLive"
